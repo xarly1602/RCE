@@ -108,6 +108,7 @@ public class IngresoProfesional {
             persona.setPersRut(rut);
             persona.setPersNacionalidad(nacionalidad);
             persona.setPersTelcontacto(telefonoContacto);
+            persona.setPersTipopersona(2);
             
             profesional.setIdCargo(new Cargo(cargoId));
             profesional.setIdGrupoprofesional(new GrupoProfesional(grupoId));
