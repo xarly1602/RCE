@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="subespecialidades">
+        <p:growl id="growl" showDetail="true" />
+        <p:dataTable id="listaSubespecialidades" value="#{listasMB.listaSubespecialidad}" var="subesp"
+                     paginator="true" rows="10"
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="5,10,20">            
+            <f:facet name="header">
+                <p:outputPanel>                    
+                    <p:inputText id="buscarSubesp" value="#{listasMB.elementoBuscado}" style="width:150px" placeholder="Buscar Subespecialidad"/>
+                    <p:commandButton value="Buscar" icon="ui-icon-search" update="listaSubespecialidades" action="#{listasMB.buscarSubespecialidad()}"/>
+                    <br/>
+                    <p:outputLabel value="Especialidad"/>
+                    <p:selectOneMenu value="#{listasMB.especialidadSeleccionadaId}">
+                        <p:ajax event="change" listener="#{listasMB.filtrarEspecialidad}" update="listaSubespecialidades"/>                        
+                        <f:selectItems value="#{listasMB.listaEspecialidades}" var="espec" itemLabel="#{espec.espeNombre}" itemValue="#{espec.idEspecialidad}"/>
+                    </p:selectOneMenu>
+                </p:outputPanel>
+            </f:facet>
+            <p:column headerText="Codigo">
+                <h:outputText value="#{subesp.idSubespecialidad}"/>
+            </p:column>
+            <p:column headerText="Nombre Subespecialidad">
+                <h:outputText value="#{subesp.subespeNombre}"/>
+            </p:column>
+            <p:column headerText="Especialidad">
+                <h:outputText value="#{subesp.idEspecialidad.espeNombre}"/>
+            </p:column>
+            <p:column style="width:15%">
+                <p:commandButton id="editButton" update=":subespecialidades:display" oncomplete="PF('editSubespec').show()" icon="ui-icon-pencil" title="Editar">
+                    <f:setPropertyActionListener value="#{subesp}" target="#{subespecialidadMB.subespecialidadSeleccionada}" />
+                </p:commandButton>
+                <p:commandButton id="deleteButton" update=":subespecialidades" action="#{subespecialidadMB.eliminar()}" icon="ui-icon-close" title="Eliminar">
+                    <f:setPropertyActionListener value="#{subesp}" target="#{subespecialidadMB.subespecialidad}" />
+                    <p:confirm header="Atención" message="¿Está seguro que desea eliminar esta subespecialidad?" icon="ui-icon-alert" />
+                </p:commandButton>
+            </p:column>
+            <f:facet name="footer">
+                <p:commandButton id="nuevaSubesp" value="Agregar Nueva" update=":subespecialidades" icon="ui-icon-plus" oncomplete="PF('addSubespec').show()"/>                   
+                <p:commandButton value="Actualizar Tabla" icon="ui-icon-refresh" update="listaSubespecialidades"/>
+            </f:facet>
+        </p:dataTable>
+
+        <p:dialog id="editarSubespecialidad" header="Editar Subespecialidad" widgetVar="editSubespec" resizable="false"
+                  showEffect="clip" hideEffect="fold">
+            <h:panelGrid id="display" columns="2" cellpadding="4">
+                <h:outputText value="Código Subespecialidad:" />
+                <h:inputText value="#{subespecialidadMB.subespecialidadSeleccionadaId}" readonly="true"/>                    
+                <h:outputText value="Nombre Subespecialidad:" />
+                <h:inputText value="#{subespecialidadMB.subespecialidadSeleccionada.subespeNombre}" />
+                <h:outputText value="Especialidad:" />
+                <h:selectOneMenu value="#{subespecialidadMB.especialidadSeleccionadaId}">
+                    <f:selectItem itemLabel="Seleccionar una" itemValue=""/>
+                    <f:selectItems value="#{listasMB.listaEspecialidades}" var="especialidad" itemLabel="#{especialidad.espeNombre}" itemValue="#{especialidad.idEspecialidad}"/> 
+                </h:selectOneMenu>
+                <p:commandButton value="Aceptar" actionListener="#{subespecialidadMB.editar(actionEvent)}" update=":subespecialidades" icon="ui-icon-check"/>
+                <p:commandButton value="Cancelar" oncomplete="PF('editSubespec').hide()" icon="ui-icon-close"/>
+            </h:panelGrid>
+        </p:dialog>
+
+        <p:dialog id="nuevaSubespecialidad" header="Nueva Subespecialidad" widgetVar="addSubespec" resizable="false"
+                  showEffect="clip" hideEffect="fold" >
+            <h:panelGrid id="display2" columns="2" cellpadding="4">
+                <h:outputText value="Código Subespecialidad:" />
+                <h:inputText value="#{subespecialidadMB.subespecialidadId}"/>
+                <h:outputText value="Nombre Subespecialidad:" />
+                <h:inputText value="#{subespecialidadMB.subespeNombre}"/>
+                <h:outputText value="Especialidad:" />
+                <h:selectOneMenu value="#{subespecialidadMB.especialidadId}">
+                    <f:selectItem itemLabel="Seleccionar una" itemValue=""/>
+                    <f:selectItems value="#{listasMB.listaEspecialidades}" var="especialidad2" itemLabel="#{especialidad2.espeNombre}" itemValue="#{especialidad2.idEspecialidad}"/> 
+                </h:selectOneMenu>
+                <p:commandButton value="Guardar" update=":subespecialidades" actionListener="#{subespecialidadMB.nuevaSubespecialidad(actionEvent)}" icon="ui-icon-check"/>
+                <p:commandButton value="Cancelar" onclick="PF('addSubespec').hide()" icon="ui-icon-close"/>
+            </h:panelGrid>
+        </p:dialog>
+    </h:form>
+</html>
+

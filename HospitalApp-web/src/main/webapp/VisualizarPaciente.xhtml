@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="formBuscar">                    
+        <h:panelGrid columns="3" id="panelCampo">
+            <p:outputLabel value="Buscar"></p:outputLabel>
+            <p:inputText value="#{buscarPaciente.buscado}"/>
+            <p:commandButton update="Personas" action="#{buscarPaciente.buscarPersona()}" value="Buscar" icon="ui-icon-search"/>
+        </h:panelGrid>
+
+        <p:selectOneRadio requiredMessage="Campo requerido" required ="true"  id="buscado" value="#{buscarPaciente.opcion}">  
+            <f:selectItem itemLabel="Rut" itemValue="1" />  
+            <f:selectItem itemLabel="Nombre" itemValue="2" />  
+            <f:selectItem itemLabel="Apellido Paterno" itemValue="3" />  
+        </p:selectOneRadio> 
+
+        <p:dataTable id="Personas" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     rowsPerPageTemplate="5,10,20"   var="paciente" value="#{buscarPaciente.personasObject}">  
+
+            <f:facet name="header">  
+                Pacientes 
+            </f:facet>  
+
+            <p:column headerText="Rut">  
+                #{paciente.persRut}  
+            </p:column>  
+
+            <p:column headerText="Nombres">  
+                #{paciente.persNombres}  
+            </p:column>                        
+
+            <p:column headerText="Apellido paterno" >  
+                #{paciente.persApepaterno}  
+            </p:column>
+
+
+            <p:column headerText="Apellido materno" >  
+                #{paciente.persApematerno}  
+            </p:column>
+
+            <p:column headerText="Estudios" >  
+                #{paciente.idEducacion.educNombre}  
+            </p:column>
+
+            <p:column headerText="Direccion" >  
+                #{paciente.persDireccion}  
+            </p:column>
+
+
+
+            <p:column headerText="Acción" style="width:20px"> 
+
+                <p:commandButton update=":actualizarPersona" onclick="PF('dialogEditarPersona').show()"  icon="ui-icon-pencil" title="Editar" >
+                    <f:setPropertyActionListener value="#{paciente}" target="#{buscarPaciente.personaSeleccionada}" />  
+                </p:commandButton>
+
+            </p:column> 
+
+        </p:dataTable>
+
+    </h:form>
+
+    <p:dialog maximizable="true" minimizable="true" id="dialogEditar" header="Editar Persona" widgetVar="dialogEditarPersona" height="600" width="950">  
+        <h:form id="actualizarPersona">
+            <p:growl id="growl" showDetail="true" sticky="true" />
+            <p:panelGrid columns="2" id="panelEditar" >
+                <p:panel header="Antecedentes Personales">
+                    <p:outputLabel value="RUT Paciente: "/>
+                    <p:inputText id="rut" readonly="true" required="true" value="#{buscarPaciente.personaSeleccionada.persRut}"/>-<p:inputText id="dv" readonly="true" style="width: 10px" required="true" value="#{buscarPaciente.personaSeleccionada.persDv}"/>
+                    <br/>
+                    <br/>
+                    <p:panelGrid columns="3">
+                        <p:outputLabel value="Nombres: " />
+                        <p:inputText id="Nombres" readonly="true" required="true" value="#{buscarPaciente.personaSeleccionada.persNombres}">
+                            <f:validateLength minimum="2"/>
+                            <f:validator validatorId="Validator.NameValidator"/>
+                        </p:inputText>
+                        <p:message for="Nombres"/>
+                        <p:outputLabel value="Apellido Paterno: "/>
+                        <p:inputText id="Paterno" readonly="true" required="true" value="#{buscarPaciente.personaSeleccionada.persApepaterno}">
+                            <f:validateLength minimum="2"/>
+                            <f:validator validatorId="Validator.NameValidator"/>
+                        </p:inputText>
+                        <p:message for="Paterno"/>
+                        <p:outputLabel value="Apellido Materno: "/>
+                        <p:inputText id="Materno" readonly="true" required="true" value="#{buscarPaciente.personaSeleccionada.persApematerno}">
+                            <f:validateLength minimum="2"/>
+                            <f:validator validatorId="Validator.NameValidator"/>
+                        </p:inputText>
+                        <p:message for="Materno"/>                          
+
+                        <p:outputLabel value="Fecha Nacimiento: "/>
+                        <p:inputText id="fecha" readonly="true" required="true" value="#{buscarPaciente.personaSeleccionada.persFnacimiento}"/>
+                        <p:message for="fecha"/>
+
+                        <p:outputLabel value="Nacionalidad: "/>
+                        <p:inputText id="Nacionalidad" required="true" readonly="true" value="#{buscarPaciente.personaSeleccionada.persNacionalidad}"/>                        
+                        <p:message for="Nacionalidad"/>
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel header="Información de Contacto">
+                    <p:panelGrid columns="3">
+                        <p:outputLabel value="Dirección: "/>
+                        <p:inputText id="Direccion" value="#{buscarPaciente.personaSeleccionada.persDireccion}"/>
+                        <p:message for="Direccion"/>
+                        <p:outputLabel value="Comuna: "/>
+                        <p:selectOneMenu id="Comuna" value="#{buscarPaciente.comunaId}" required="true">
+                            <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idComuna.comuNombre}" itemValue="#{buscarPaciente.personaSeleccionada.idComuna.idComuna}" />
+                            <f:selectItems value="#{listasMB.listaComuna}" var="comu" itemLabel="#{comu.comuNombre}" itemValue="#{comu.idComuna}" />
+                        </p:selectOneMenu>
+                        <p:message for="Comuna"/>
+                        <p:outputLabel value="Email: "/>
+                        <p:inputText id="Email" value="#{buscarPaciente.personaSeleccionada.persEmail}">
+                            <f:validator validatorId="Validator.EmailValidator"/>
+                        </p:inputText>
+                        <p:message for="Email"/>
+                        <p:outputLabel value="Teléfono: "/>
+                        <p:inputText id="Telefono" value="#{buscarPaciente.personaSeleccionada.persTelefono}">
+                            <f:validator validatorId="Validator.PhoneValidator"/>
+                        </p:inputText>
+                        <p:message for="Telefono"/>
+                        <p:outputLabel value="Celular: "/>
+                        <p:inputText id="Celular" value="#{buscarPaciente.personaSeleccionada.persCelular}">
+                            <f:validator validatorId="Validator.PhoneValidator"/>
+                        </p:inputText>
+                        <p:message for="Celular"/>
+                        <p:outputLabel value="Teléfono de contacto: "/>
+                        <p:inputText id="TelefonoContacto" required="true" value="#{buscarPaciente.personaSeleccionada.persTelcontacto}">
+                            <f:validator validatorId="Validator.PhoneValidator"/>
+                        </p:inputText>
+                        <p:message for="TelefonoContacto"/>
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel header="Información Adicional." toggleable="true" toggleSpeed="500" collapsed="true">
+
+                    <p:panelGrid columns="3" >
+                        <p:outputLabel value="Estado Conyugal: "/>
+                        <p:selectOneMenu id="Estado" value="#{buscarPaciente.estadoConyugalId}">
+                            <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idEstadoconyugal.estadNombre}" itemValue="#{buscarPaciente.personaSeleccionada.idEstadoconyugal.idEstadoconyugal}" />
+                            <f:selectItems value="#{listasMB.listaEstados}" var="e" itemLabel="#{e.estadNombre}" itemValue="#{e.idEstadoconyugal}"/>
+                        </p:selectOneMenu>
+                        <p:message for="Estado"/>
+                        <p:outputLabel value="Nivel de Educaciòn: "/>
+                        <p:selectOneMenu id="Educacion" value="#{buscarPaciente.educacionId}" >
+                            <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idEducacion.educNombre}" itemValue="#{buscarPaciente.personaSeleccionada.idEducacion.idEducacion}" />
+                            <f:selectItems value="#{listasMB.listaEducacion}" var="edu" itemLabel="#{edu.educNombre}" itemValue="#{edu.idEducacion}" />
+                        </p:selectOneMenu>
+                        <p:message for="Educacion"/>
+                        <p:outputLabel value="Ocupación: "/>
+                        <p:inputText id="Ocupacion" value="#{buscarPaciente.personaSeleccionada.persOcupacion}"/>                                    
+                        <p:message for="Ocupacion"/>
+                        <p:outputLabel value="Actividad Económica: "/>
+                        <p:inputText id="Actividad" value="#{buscarPaciente.personaSeleccionada.persActividad}"/>
+                        <p:message for="Actividad"/>
+                        <p:outputLabel value="Pueblo Originario: "/>
+                        <p:selectOneMenu id="Pueblo" value="#{buscarPaciente.puebloOriginarioId}">
+                            <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idPueblooriginario.puebloNombre}" itemValue="#{buscarPaciente.personaSeleccionada.idPueblooriginario.idPueblooriginario}" />
+                            <f:selectItems value="#{listasMB.listaPueblos}" var="town" itemLabel="#{town.puebloNombre}" itemValue="#{town.idPueblooriginario}" />
+                        </p:selectOneMenu>
+                        <p:message for="Pueblo"/>
+                        <p:outputLabel value="Religión: "/>
+                        <p:selectOneMenu id="Religion" value="#{buscarPaciente.religionId}">
+                            <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idReligion.reliName}" itemValue="#{buscarPaciente.personaSeleccionada.idReligion.idReligion}" />
+                            <f:selectItems value="#{listasMB.listaReligion}" var="reli" itemLabel="#{reli.reliName}" itemValue="#{reli.idReligion}" />
+                        </p:selectOneMenu>
+                        <p:message for="Religion"/>
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel header="Información de Paciente." toggleable="true" toggleSpeed="500" collapsed="true">
+
+                    <p:panelGrid columns="3" >
+                        <p:outputLabel value="Numero de Ficha: "/>
+                        <p:inputText id="Ficha" value="#{buscarPaciente.pacienteSeleccionado.paciNficha}"/>                                    
+                        <p:message for="Ficha"/>
+
+                       <p:outputLabel value="Previsión de salud: "/>
+                       <p:selectOneMenu id="Prevision" value="#{buscarPaciente.previsionId}">
+                            <p:ajax event="change" listener="#{buscarPaciente.buscaTipo}" update="TipoPrev, OtraPrev"/>
+                            <f:selectItem itemLabel="#{buscarPaciente.pacienteSeleccionado.idPrevision.previNombre}" itemValue="#{buscarPaciente.pacienteSeleccionado.idPrevision.idPrevision}" />
+                            <f:selectItems value="#{listasMB.listaPrevision}" var="prev" itemLabel="#{prev.previNombre}" itemValue="#{prev.idPrevision}" />
+                        </p:selectOneMenu>
+                        <p:message for="Prevision" display="icon"/>
+                        
+                        <p:outputLabel value="Tipo previsión: "/>
+                        <p:selectOneMenu id="TipoPrev" value="#{buscarPaciente.tipoPrevisionId}">
+                            <f:selectItem itemLabel="#{buscarPaciente.pacienteSeleccionado.idTipoprevision.clasNombre}" itemValue="#{buscarPaciente.pacienteSeleccionado.idTipoprevision.idTipoprevision}" />
+                            <f:selectItems value="#{buscarPaciente.listaTipos}" var="tipo" itemLabel="#{tipo.clasNombre}" itemValue="#{tipo.idTipoprevision}" />
+                        </p:selectOneMenu>
+                        <p:message for="TipoPrev" display="icon"/>
+                        
+                        <p:outputLabel value="Otra previsión: "/>
+                        <p:inputText id="OtraPrev" value="#{buscarPaciente.pacienteSeleccionado.paciOtraprevision}" disabled="#{buscarPaciente.previsionId != 6}"/>
+                        <p:message for="OtraPrev"/>
+
+
+                        <p:outputLabel value="Leyes Sociales: "/>
+                        <p:selectOneMenu id="Ley" value="#{buscarPaciente.leyesSocialesId}">
+                            <f:selectItem itemLabel="#{buscarPaciente.pacienteSeleccionado.idLeyessociales.leyesNombre}" itemValue="#{buscarPaciente.pacienteSeleccionado.idLeyessociales.idLeyessociales}" />
+                            <f:selectItems value="#{listasMB.listaLeyes}" var="ley" itemLabel="#{ley.leyesNombre}" itemValue="#{ley.idLeyessociales}"/>
+                        </p:selectOneMenu>
+                        <p:message for="Ley"/>
+
+                        <p:outputLabel value="Consultorio: "/>
+                        <p:selectOneMenu id="Con" value="#{buscarPaciente.consultorioId}">
+                            <f:selectItem itemLabel="#{buscarPaciente.pacienteSeleccionado.idConsultorio.consNombre}" itemValue="#{buscarPaciente.pacienteSeleccionado.idConsultorio.idConsultorio}" />
+                            <f:selectItems value="#{listasMB.listaConsultorio}" var="consul" itemLabel="#{consul.consNombre}" itemValue="#{consul.idConsultorio}"/>
+                        </p:selectOneMenu>                        
+                        <p:message for="Con"/>                       
+                        
+                        <h:outputText value="Fallecido: " />  
+                        <p:selectBooleanCheckbox id = "id1" value="#{buscarPaciente.pacienteSeleccionado.paciFallecido}"  >
+                            <p:ajax event="change"  update="FechaFall"/>
+                        </p:selectBooleanCheckbox>
+                        <p:message id="msgMaq" for="id1"  />
+
+                        <p:outputLabel  value="Fecha Fallecimiento: " />
+                        <p:calendar disabled="#{buscarPaciente.pacienteSeleccionado.paciFallecido == false}" id="FechaFall" effect="explode" yearRange="c-100:c" navigator="true" value="#{buscarPaciente.pacienteSeleccionado.paciFfallecimiento}" required="false">
+                        </p:calendar>
+                        <p:message for="FechaFall" display="icon"/>
+
+                    </p:panelGrid>
+                </p:panel>
+            </p:panelGrid>
+            <p:commandButton id="editarPers" value="Actualizar Datos" disabled="#{buscarPaciente.pacienteFallecidoAux}" update="actualizarPersona"  actionListener="#{buscarPaciente.actualizar()}" >
+                <p:confirm  header="Atención" message="¿Está seguro que desea actualizar los datos?" icon="ui-icon-alert" />
+            </p:commandButton> 
+
+
+
+
+
+        </h:form>
+
+
+    </p:dialog>
+
+</html>
+
