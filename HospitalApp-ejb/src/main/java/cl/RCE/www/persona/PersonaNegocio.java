@@ -59,6 +59,24 @@ public class PersonaNegocio implements PersonaNegocioLocal {
         Query q = em.createNamedQuery("Persona.findByPersApepaterno").setParameter("persApepaterno", personaApellido);  
         return q.getResultList();
     }
+    
+    @Override
+    public List<Persona> busquedaProfesionalApellidoPaterno(String personaApellido, int tipo){
+        Query q = em.createQuery("SELECT p FROM Persona p WHERE p.persApepaterno = :persApepaterno AND p.persTipopersona = :persTipopersona").setParameter("persApepaterno", personaApellido).setParameter("persTipopersona", tipo);
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<Persona> busquedaProfesionalNombre(String personaNombre, int tipo){
+        Query q = em.createQuery("SELECT p FROM Persona p WHERE p.persNombres = :persNombres AND p.persTipopersona = :persTipopersona").setParameter("persNombres", personaNombre).setParameter("persTipopersona", tipo);
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<Persona> busquedaProfesionalRut(int personaRut, int tipo){
+        Query q = em.createQuery("SELECT p FROM Persona p WHERE p.persRut = :persRut AND p.persTipopersona = :persTipopersona").setParameter("persRut", personaRut).setParameter("persTipopersona", tipo);
+        return q.getResultList();
+    }
 
     /*public List<String> buscarEducacion(int id){
         

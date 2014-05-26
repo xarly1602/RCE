@@ -92,7 +92,7 @@ public class BuscarPaciente {
         switch(Integer.parseInt(opcion)){
             case 1:
                 try{
-                    personasObject =  personaNegocio.busquedaPersonaRut(Integer.parseInt(opcion));
+                    personasObject =  personaNegocio.busquedaPersonaRut(Integer.parseInt(buscado));
                 }
                 catch(NumberFormatException ex){
                     personasObject =  personaNegocio.busquedaPersonaRut(-1);
