@@ -38,7 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Profesional.findByIdProfesional", query = "SELECT p FROM Profesional p WHERE p.idProfesional = :idProfesional"),
     @NamedQuery(name = "Profesional.findByProfActivo", query = "SELECT p FROM Profesional p WHERE p.profActivo = :profActivo"),
     @NamedQuery(name = "Profesional.findByProfFechadesde", query = "SELECT p FROM Profesional p WHERE p.profFechadesde = :profFechadesde"),
-    @NamedQuery(name = "Profesional.findByProfeFechahasta", query = "SELECT p FROM Profesional p WHERE p.profeFechahasta = :profeFechahasta")})
+    @NamedQuery(name = "Profesional.findByProfeFechahasta", query = "SELECT p FROM Profesional p WHERE p.profeFechahasta = :profeFechahasta"),
+    @NamedQuery(name = "Profesional.findByIdPersona", query = "SELECT u FROM Profesional u WHERE u.idPersona.idPersona = :idPersona")    
+})
 public class Profesional implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
