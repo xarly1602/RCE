@@ -6,14 +6,13 @@
 package managedbeans;
 
 import cl.RCE.www.entities.Cargo;
-import cl.RCE.www.entities.Especialidad;
-import cl.RCE.www.entities.Genero;
 import cl.RCE.www.entities.GrupoProfesional;
 import cl.RCE.www.entities.Local;
 import cl.RCE.www.entities.Persona;
 import cl.RCE.www.entities.Profesional;
 import cl.RCE.www.entities.Subespecialidad;
 import cl.RCE.www.persona.PersonaNegocioLocal;
+import cl.RCE.www.profesional.ProfesionalNegocioLocal;
 import cl.RCE.www.sessionbeans.PersonaFacadeLocal;
 import cl.RCE.www.sessionbeans.ProfesionalFacadeLocal;
 import java.util.Date;
@@ -35,7 +34,8 @@ import javax.validation.constraints.Size;
 @ManagedBean
 @SessionScoped
 public class IngresoProfesional {
-
+    @EJB
+    private ProfesionalNegocioLocal profesionalNegocio;
     @EJB
     private ProfesionalFacadeLocal profesionalFacade;
     @EJB
@@ -52,11 +52,10 @@ public class IngresoProfesional {
     @Size(min = 2, message = "El apellido debe tener más de un caracter.")
     private String apellidoMaterno;
     private String descripcion;
+    private String email;
     private int generoId;
     private String nacionalidad;
-    @Size(min = 1, message = "Debe indicar una dirección.")
     private String direccion;
-    @Size(min = 1, message = "Debe indicar un teléfono de contacto.")
     private String telefonoContacto;
     @NotNull(message = "Debe indicar una fecha")
     private Date fechaDesde;
@@ -104,7 +103,7 @@ public class IngresoProfesional {
         rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length() - 1));
         digitoVerificador = rutCompleto.charAt(rutCompleto.length() - 1) + "";
         if (personaNegocio.busquedaPersonaRut(rut).size() > 0) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registro ya existe.", "Profesional: " + nombres + " " + apellidoPaterno + " " + apellidoMaterno + " ya registrado."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registro ya existe.", "El rut indicado ya está registrado."));
         } else {
             //setear activo a true
             persona.setPersApepaterno(apellidoPaterno);
@@ -123,6 +122,7 @@ public class IngresoProfesional {
             profesional.setIdPersona(persona);
             profesional.setIdSubespecialidad(new Subespecialidad(subEspecialidadId));
             if (medicoReferenciaId != 0) {
+                medicoReferenciaId = profesionalNegocio.busquedaProfesionalIdPersona(medicoReferenciaId).getIdProfesional();
                 profesional.setProIdProfesional(new Profesional(medicoReferenciaId));
             }
             profesional.setProfActivo(true);
@@ -139,7 +139,6 @@ public class IngresoProfesional {
 
     public void actualizarDescripcion(ActionEvent actionEvent) {
         descripcion = nombres.concat(" " + apellidoPaterno).concat(" " + apellidoMaterno);
-        System.out.println(descripcion);
     }
 
     private void resetData() {
@@ -150,16 +149,16 @@ public class IngresoProfesional {
         apellidoMaterno = "";
         telefonoContacto = "";
         direccion = "";
+        email = "";
         nacionalidad = "";
         digitoVerificador = "";
-        fechaNacimiento = new Date();
+        fechaNacimiento = null;
         rut = 0;
-        generoId = 1;
         cargoId = 0;
         descripcion = "";
         especialidadId = 0;
-        fechaDesde = new Date();
-        fechaHasta = new Date();
+        fechaDesde = null;
+        fechaHasta = null;
         localId = 0;
         medicoReferenciaId = 0;
         rutCompleto = "";
@@ -213,6 +212,14 @@ public class IngresoProfesional {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getGeneroId() {

@@ -190,6 +190,7 @@ public class PacienteMB {
             persona.setPersRut(rut);
             persona.setPersTelcontacto(telefonoContacto);
             persona.setPersTelefono(telefono);
+            persona.setPersTipopersona(1);
 
             paciente.setIdConsultorio(new Consultorio(consultorioId));
             paciente.setIdLeyessociales(new LeyesSociales(leyesSocialesId));
