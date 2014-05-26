@@ -48,7 +48,7 @@ public class ProfesionalNegocio implements ProfesionalNegocioLocal {
         else {
             return res.get(0);
         }
-        
+      //nadaaa  
     }
 
 }

@@ -16,4 +16,6 @@ import javax.ejb.Local;
 @Local
 public interface ProfesionalNegocioLocal {
     public Profesional busquedaProfesionalIdPersona(int id);
+    //nadaa
+    //
 }

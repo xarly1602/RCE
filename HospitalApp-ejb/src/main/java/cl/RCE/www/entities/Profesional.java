@@ -206,7 +206,9 @@ public class Profesional implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.RCE.www.entities.Profesional[ idProfesional=" + idProfesional + " ]";
+        return "Profesional{" + "idProfesional=" + idProfesional + ", profActivo=" + profActivo + ", profFechadesde=" + profFechadesde + ", profeFechahasta=" + profeFechahasta + ", idUsuario=" + idUsuario + ", idSubespecialidad=" + idSubespecialidad + ", profesionalCollection=" + profesionalCollection + ", proIdProfesional=" + proIdProfesional + ", idPersona=" + idPersona + ", idLocal=" + idLocal + ", idGrupoprofesional=" + idGrupoprofesional + ", idCargo=" + idCargo + '}';
     }
+
+   
     
 }
