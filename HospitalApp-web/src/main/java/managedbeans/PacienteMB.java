@@ -143,14 +143,20 @@ public class PacienteMB {
             rut = 0;
             digitoVerificador = "";
         }
+        else if (rutCompleto.isEmpty() && pasaporte == 0) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error de registro.", "Debe indicar un rut o un número de pasaporte."));
+            return;
+        }
+        else if(rutCompleto.length() < 8){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error de registro.", "Ingrese un rut válido."));
+            return;
+        }
         else{
             rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length()-1));
             digitoVerificador = rutCompleto.charAt(rutCompleto.length() - 1) + "";
         }        
         if (personaNegocio.busquedaPersonaRut(rut).size() > 0) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registro ya existe.", "Paciente: " + nombres + " " + apellidoPaterno + " " + apellidoMaterno + " ya registrado."));
-        } else if (rutCompleto.isEmpty() && pasaporte == 0) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error de registro.", "Debe indicar un rut o un número de pasaporte."));
         } else {
             comuna = new Comuna(comunaId);
             educacion = new Educacion(educacionId);

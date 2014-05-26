@@ -9,6 +9,7 @@ package managedbeans;
 import cl.RCE.www.especialidad.EspecialidadNegocioLocal;
 import cl.RCE.www.subespecialidad.SubespecialidadNegocioLocal;
 import cl.RCE.www.entities.*;
+import cl.RCE.www.sessionbeans.CargoFacadeLocal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -22,9 +23,12 @@ import cl.RCE.www.sessionbeans.EducacionFacadeLocal;
 import cl.RCE.www.sessionbeans.EspecialidadFacadeLocal;
 import cl.RCE.www.sessionbeans.EstadoConyugalFacadeLocal;
 import cl.RCE.www.sessionbeans.GeneroFacadeLocal;
+import cl.RCE.www.sessionbeans.GrupoProfesionalFacadeLocal;
 import cl.RCE.www.sessionbeans.LeyesSocialesFacadeLocal;
+import cl.RCE.www.sessionbeans.LocalFacadeLocal;
 import cl.RCE.www.sessionbeans.PersonaFacadeLocal;
 import cl.RCE.www.sessionbeans.PrevisionFacadeLocal;
+import cl.RCE.www.sessionbeans.ProfesionalFacadeLocal;
 import cl.RCE.www.sessionbeans.PuebloOriginarioFacadeLocal;
 import cl.RCE.www.sessionbeans.ReligionFacadeLocal;
 import cl.RCE.www.sessionbeans.SubespecialidadFacadeLocal;
@@ -38,7 +42,13 @@ import cl.RCE.www.sessionbeans.TipoPrevisionFacadeLocal;
 @RequestScoped
 public class ListasMB {
     @EJB
-    private SubespecialidadNegocioLocal subespecialidadNegocio1;
+    private ProfesionalFacadeLocal profesionalFacade;
+    @EJB
+    private LocalFacadeLocal localFacade;
+    @EJB
+    private GrupoProfesionalFacadeLocal grupoProfesionalFacade;
+    @EJB
+    private CargoFacadeLocal cargoFacade;
     @EJB
     private EspecialidadNegocioLocal especialidadNegocio;
     @EJB
@@ -80,9 +90,13 @@ public class ListasMB {
     private List<LeyesSociales> listaLeyes;
     private List<Persona> listaPersonas;
     private List<Prevision> listaPrevision;
+    private List<Persona> listaProfesionales;
     private List<PuebloOriginario> listaPueblos;
     private List<Religion> listaReligion;
-    private List<TipoPrevision> listaTipos; 
+    private List<TipoPrevision> listaTipos;
+    private List<Cargo> listaCargos;
+    private List<Local> listaLocales;
+    private List<GrupoProfesional> listaGrupos;
 
     private String elementoBuscado;
     private int i;
@@ -107,6 +121,10 @@ public class ListasMB {
         listaPrevision = previsionFacade.findAll();
         listaPueblos = puebloOriginarioFacade.findAll();
         listaReligion = religionFacade.findAll();
+        listaCargos = cargoFacade.findAll();
+        listaLocales = localFacade.findAll();
+        listaGrupos = grupoProfesionalFacade.findAll();
+        listaProfesionales = personaFacade.findAll();
         this.filtrarListas();
     }
 
@@ -122,6 +140,12 @@ public class ListasMB {
         for (i = size - 1; i >= 0; i--) {
             if (!listaSubespecialidad.get(i).getSubespeActivo()){
                 listaSubespecialidad.remove(i);
+            }
+        }
+        size = listaProfesionales.size();
+        for (i = size - 1; i >= 0; i--) {
+            if (listaProfesionales.get(i).getPersTipopersona() != 2) {
+                listaProfesionales.remove(i);
             }
         }
     }
@@ -165,6 +189,38 @@ public class ListasMB {
         }
          
         return suggestions;
+    }
+
+    public List<Cargo> getListaCargos() {
+        return listaCargos;
+    }
+
+    public void setListaCargos(List<Cargo> listaCargos) {
+        this.listaCargos = listaCargos;
+    }
+
+    public List<Local> getListaLocales() {
+        return listaLocales;
+    }
+
+    public void setListaLocales(List<Local> listaLocales) {
+        this.listaLocales = listaLocales;
+    }
+
+    public List<Persona> getListaProfesionales() {
+        return listaProfesionales;
+    }
+
+    public void setListaProfesionales(List<Persona> listaProfesionales) {
+        this.listaProfesionales = listaProfesionales;
+    }
+
+    public List<GrupoProfesional> getListaGrupos() {
+        return listaGrupos;
+    }
+
+    public void setListaGrupos(List<GrupoProfesional> listaGrupos) {
+        this.listaGrupos = listaGrupos;
     }
 
     public int getEspecialidadSeleccionadaId() {

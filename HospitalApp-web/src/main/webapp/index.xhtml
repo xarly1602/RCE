@@ -29,7 +29,10 @@
             <p:submenu label="Sub-Especialidades">
                 <p:menuitem value="Ver Sub-Especialidades"  url="#" onclick="PF('subespec').show()"/>
             </p:submenu>
-            <p:menuitem value="Profesionales" url="#"/>
+            <p:submenu label="Profesional" >
+                <p:menuitem value="Ingresar Profesional" url="#" onclick="PF('addPro').show()"/>
+                <p:menuitem value="Ver Profesionales" url="#"/>
+            </p:submenu>                       
         </p:menubar>
         <p:dialog id='admisionPacientes' maximizable="true" header="Admision Pacientes" widgetVar="addPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800">
@@ -46,6 +49,10 @@
         <p:dialog id="visualizarPaciente" maximizable="true" header="Pacientes" widgetVar="viewPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800">
             <ui:include src="VisualizarPaciente.xhtml"/>
+        </p:dialog>
+        <p:dialog id="agregarProfesional" maximizable="true" header="Profesionales" widgetVar="addPro" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
+                  minimizable="true" height="540" width="800">
+            <ui:include src="AgregarProfesional.xhtml"/>
         </p:dialog>
         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
             <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
