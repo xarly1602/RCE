@@ -3,9 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package managedbeans;
-
 
 import cl.RCE.www.paciente.PacienteNegocioLocal;
 import cl.RCE.www.persona.PersonaNegocioLocal;
@@ -42,6 +40,7 @@ import cl.RCE.www.sessionbeans.PersonaFacadeLocal;
 @SessionScoped
 
 public class BuscarPaciente {
+
     @EJB
     private TipoPrevisionNegocioLocal tipoPrevisionNegocio;
     @EJB
@@ -52,23 +51,23 @@ public class BuscarPaciente {
     private PersonaFacadeLocal personaFacade;
     @EJB
     private PersonaNegocioLocal personaNegocio;
-    
+
     List<Persona> personasObject;
-    
+
     Persona personaSeleccionada;
     Paciente pacienteSeleccionado;
-  
+
     private Educacion educacion;
     private PuebloOriginario puebloOriginario;
     private Religion religion;
     private EstadoConyugal estadoConyugal;
     private Comuna comuna;
     private LeyesSociales leyesSociales;
-    private Consultorio consultorio;    
+    private Consultorio consultorio;
     private Prevision prevision;
     private TipoPrevision tipoPrevision;
     private List<TipoPrevision> listaTipos;
-    private String buscado;    
+    private String buscado;
     private String opcion;
     private boolean pacienteFallecidoAux;
     int leyesSocialesId;
@@ -80,77 +79,96 @@ public class BuscarPaciente {
     int educacionId;
     int estadoConyugalId;
     int puebloOriginarioId;
-    
+
     public BuscarPaciente() {
     }
+
     @PostConstruct
-    public void init(){
+    public void init() {
         personaSeleccionada = new Persona();
+        personasObject = personaFacade.findAll();
+        for (int i = personasObject.size() - 1; i >= 0; i--) {
+            if (personasObject.get(i).getPersTipopersona() != 1) {
+                personasObject.remove(i);
+            }
+        }
     }
-    
-    public void buscarPersona(){
-        switch(Integer.parseInt(opcion)){
+
+    public void buscarPersona() {
+        switch (Integer.parseInt(opcion)) {
             case 1:
-                try{
-                    personasObject =  personaNegocio.busquedaPersonaRut(Integer.parseInt(buscado));
-                }
-                catch(NumberFormatException ex){
-                    personasObject =  personaNegocio.busquedaPersonaRut(-1);
+                try {
+                    personasObject = personaNegocio.busquedaPersonaRut(Integer.parseInt(buscado));
+                    for (int i = personasObject.size() - 1; i >= 0; i--) {
+                        if (personasObject.get(i).getPersTipopersona() != 1) {
+                            personasObject.remove(i);
+                        }
+                    }
+                } catch (NumberFormatException ex) {
+                    personasObject = personaNegocio.busquedaPersonaRut(-1);
                 }
                 break;
             case 2:
-                personasObject = personaNegocio.busquedaPersonaNombre(buscado);           
+                personasObject = personaNegocio.busquedaPersonaNombre(buscado);
+                for (int i = personasObject.size() - 1; i >= 0; i--) {
+                    if (personasObject.get(i).getPersTipopersona() != 1) {
+                        personasObject.remove(i);
+                    }
+                }
                 break;
             case 3:
                 personasObject = personaNegocio.busquedaPersonaApellidoPaterno(buscado);
+                for (int i = personasObject.size() - 1; i >= 0; i--) {
+                    if (personasObject.get(i).getPersTipopersona() != 1) {
+                        personasObject.remove(i);
+                    }
+                }
                 break;
             default:
                 break;
-        }       
+        }
     }
-    
-    public void actualizar(){   
+
+    public void actualizar() {
         comuna = new Comuna(comunaId);
         educacion = new Educacion(educacionId);
-        puebloOriginario =  new PuebloOriginario(puebloOriginarioId);
+        puebloOriginario = new PuebloOriginario(puebloOriginarioId);
         religion = new Religion(religionId);
         estadoConyugal = new EstadoConyugal(estadoConyugalId);
         prevision = new Prevision(previsionId);
         tipoPrevision = new TipoPrevision(tipoPrevisionId);
         leyesSociales = new LeyesSociales(leyesSocialesId);
         consultorio = new Consultorio(consultorioId);
-        
+
         personaSeleccionada.setIdComuna(comuna);
         personaSeleccionada.setIdEducacion(educacion);
         personaSeleccionada.setIdPueblooriginario(puebloOriginario);
         personaSeleccionada.setIdReligion(religion);
         personaSeleccionada.setIdEstadoconyugal(estadoConyugal);
-        
+
         pacienteSeleccionado.setIdPrevision(prevision);
         pacienteSeleccionado.setIdConsultorio(consultorio);
         pacienteSeleccionado.setIdLeyessociales(leyesSociales);
         pacienteSeleccionado.setIdTipoprevision(tipoPrevision);
-        if(pacienteFallecidoAux == true){
+        if (pacienteFallecidoAux == true) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "El paciente esta registrado como fallecido."));
-        }        
-        else{
-            if(pacienteSeleccionado.getIdTipoprevision().getIdTipoprevision() == 0 && (pacienteSeleccionado.getIdPrevision().getIdPrevision() == 1 || pacienteSeleccionado.getIdPrevision().getIdPrevision() == 2 )){
+        } else {
+            if (pacienteSeleccionado.getIdTipoprevision().getIdTipoprevision() == 0 && (pacienteSeleccionado.getIdPrevision().getIdPrevision() == 1 || pacienteSeleccionado.getIdPrevision().getIdPrevision() == 2)) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Debe poner un tipo de previsión."));
-            }
-            else{
+            } else {
                 personaFacade.edit(personaSeleccionada);
                 pacienteFacade.edit(pacienteSeleccionado);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Datos Actualizados"));
             }
-            
-        }        
-        
+
+        }
 
     }
-     public void buscaTipo(AjaxBehaviorEvent event) {
+
+    public void buscaTipo(AjaxBehaviorEvent event) {
         listaTipos = tipoPrevisionNegocio.busquedaTipoIdPrevision(previsionId);
         pacienteSeleccionado.setIdTipoprevision(new TipoPrevision(0));
-        
+
     }
 
     public boolean isPacienteFallecidoAux() {
@@ -184,7 +202,7 @@ public class BuscarPaciente {
     public void setPacienteSeleccionado(Paciente pacienteSeleccionado) {
         this.pacienteSeleccionado = pacienteSeleccionado;
     }
-    
+
     public Persona getPersonaSeleccionada() {
         return personaSeleccionada;
     }
@@ -193,11 +211,8 @@ public class BuscarPaciente {
         this.personaSeleccionada = personaSeleccionada;
         pacienteSeleccionado = pacienteNegocio.busquedaPacienteIdPersona(personaSeleccionada.getIdPersona());
         pacienteFallecidoAux = pacienteSeleccionado.getPaciFallecido();
-        
-        
-       
-        
-    } 
+
+    }
 
     public List<TipoPrevision> getListaTipos() {
         return listaTipos;
@@ -222,8 +237,7 @@ public class BuscarPaciente {
     public void setPrevisionId(int previsionId) {
         this.previsionId = previsionId;
     }
-  
-    
+
     public int getComunaId() {
         return comunaId;
     }
@@ -262,9 +276,7 @@ public class BuscarPaciente {
 
     public void setPuebloOriginarioId(int puebloOriginarioId) {
         this.puebloOriginarioId = puebloOriginarioId;
-    }         
-
-    
+    }
 
     public List<Persona> getPersonasObject() {
         return personasObject;
@@ -272,7 +284,7 @@ public class BuscarPaciente {
 
     public void setPersonasObject(List<Persona> personasObject) {
         this.personasObject = personasObject;
-    } 
+    }
 
     public String getBuscado() {
         return buscado;
@@ -289,8 +301,5 @@ public class BuscarPaciente {
     public void setOpcion(String opcion) {
         this.opcion = opcion;
     }
-            
-    
-            
-    
+
 }

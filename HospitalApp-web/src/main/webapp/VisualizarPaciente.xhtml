@@ -4,25 +4,22 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
-    <h:form id="formBuscar">                    
+    <h:form id="formBuscar">  
+        <p:growl id="growl" showDetail="true"/>
         <h:panelGrid columns="3" id="panelCampo">
             <p:outputLabel value="Buscar"></p:outputLabel>
             <p:inputText value="#{buscarPaciente.buscado}"/>
-            <p:commandButton update="Personas" action="#{buscarPaciente.buscarPersona()}" value="Buscar" icon="ui-icon-search"/>
+            <p:commandButton update="Personas, growl" action="#{buscarPaciente.buscarPersona()}" value="Buscar" icon="ui-icon-search"/>
         </h:panelGrid>
 
-        <p:selectOneRadio requiredMessage="Campo requerido" required ="true"  id="buscado" value="#{buscarPaciente.opcion}">  
+        <p:selectOneRadio requiredMessage="Seleccione un campo de búsqueda" required ="true"  id="buscado" value="#{buscarPaciente.opcion}">  
             <f:selectItem itemLabel="Rut" itemValue="1" />  
             <f:selectItem itemLabel="Nombre" itemValue="2" />  
             <f:selectItem itemLabel="Apellido Paterno" itemValue="3" />  
         </p:selectOneRadio> 
 
-        <p:dataTable id="Personas" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+        <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" id="Personas" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      rowsPerPageTemplate="5,10,20"   var="paciente" value="#{buscarPaciente.personasObject}">  
-
-            <f:facet name="header">  
-                Pacientes 
-            </f:facet>  
 
             <p:column headerText="Rut">  
                 #{paciente.persRut}  

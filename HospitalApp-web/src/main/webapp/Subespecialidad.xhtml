@@ -7,6 +7,7 @@
     <h:form id="subespecialidades">
         <p:growl id="growl" showDetail="true" />
         <p:dataTable id="listaSubespecialidades" value="#{listasMB.listaSubespecialidad}" var="subesp"
+                     emptyMessage="No se encontraron elementos que coincidan con la búsqueda"
                      paginator="true" rows="10"
                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                      rowsPerPageTemplate="5,10,20">            
