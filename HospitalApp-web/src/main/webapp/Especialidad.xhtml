@@ -54,7 +54,7 @@
                   showEffect="clip" hideEffect="fold" >
             <h:panelGrid id="display2" columns="2" cellpadding="4">
                 <h:outputText value="Código Especialidad:" />
-                <h:inputText value="#{especialidadMB.espeId}"/>
+                <h:inputText id="codigo" value="#{especialidadMB.espeId}"/>
                 <h:outputText value="Nombre Especialidad:" />
                 <h:inputText value="#{especialidadMB.espeNombre}"/>
                 <p:commandButton value="Guardar" update=":subespecialidades" actionListener="#{especialidadMB.nuevaEspecialidad(actionEvent)}" icon="ui-icon-check"/>

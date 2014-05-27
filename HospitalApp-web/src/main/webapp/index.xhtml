@@ -32,7 +32,8 @@
             <p:submenu label="Profesional" >
                 <p:menuitem value="Ingresar Profesional" url="#" onclick="PF('addPro').show()"/>
                 <p:menuitem value="Ver Profesionales" url="#" onclick="PF('viewPro').show()"/>
-            </p:submenu>                       
+            </p:submenu>
+            <p:menuitem value="Buscar Paciente" url="#" onclick="PF('searchPac').show()"/>
         </p:menubar>
         <p:dialog id='admisionPacientes' maximizable="true" header="Admision Pacientes" widgetVar="addPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800">
@@ -57,6 +58,10 @@
         <p:dialog id="ingresarProfesional" maximizable="true" header="Profesionales" widgetVar="viewPro" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800">
             <ui:include src="VisualizarProfesional.xhtml"/>
+        </p:dialog>
+        <p:dialog id="buscarPaciente" maximizable="true" header="Profesionales" widgetVar="searchPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
+                  minimizable="true" height="540" width="800">
+            <ui:include src="BuscarPaciente.xhtml"/>
         </p:dialog>
         
         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">

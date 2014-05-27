@@ -56,8 +56,8 @@ public class EspecialidadMB {
     }
 
     public void nuevaEspecialidad(ActionEvent actionEvent) {
-        if (Integer.toString(espeId).length() != 5) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Largo codigo inválido", "El código debe tener largo 5"));
+        if (Integer.toString(espeId).length() != 3) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Largo codigo inválido", "El código debe tener largo 3"));
         } else if (especialidadFacade.find(espeId) != null) {
             if(especialidadFacade.find(espeId).getEspeActivo())
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atención.", "El código ingresado ya existe."));

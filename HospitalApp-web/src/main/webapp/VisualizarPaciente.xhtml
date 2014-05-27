@@ -6,20 +6,23 @@
       xmlns:f="http://java.sun.com/jsf/core">
     <h:form id="formBuscar">  
         <p:growl id="growl" showDetail="true"/>
-        <h:panelGrid columns="3" id="panelCampo">
-            <p:outputLabel value="Buscar"></p:outputLabel>
-            <p:inputText value="#{buscarPaciente.buscado}"/>
-            <p:commandButton update="Personas, growl" action="#{buscarPaciente.buscarPersona()}" value="Buscar" icon="ui-icon-search"/>
-        </h:panelGrid>
-
-        <p:selectOneRadio requiredMessage="Seleccione un campo de búsqueda" required ="true"  id="buscado" value="#{buscarPaciente.opcion}">  
-            <f:selectItem itemLabel="Rut" itemValue="1" />  
-            <f:selectItem itemLabel="Nombre" itemValue="2" />  
-            <f:selectItem itemLabel="Apellido Paterno" itemValue="3" />  
-        </p:selectOneRadio> 
 
         <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" id="Personas" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      rowsPerPageTemplate="5,10,20"   var="paciente" value="#{buscarPaciente.personasObject}">  
+            <f:facet name="header">
+                <p:outputLabel>
+                    <h:panelGrid columns="3" id="panelCampo">
+                        <p:outputLabel value="Buscar"></p:outputLabel>
+                        <p:inputText value="#{buscarPaciente.buscado}"/>
+                        <p:commandButton update="Personas, :formBuscar:growl" action="#{buscarPaciente.buscarPersona()}" value="Buscar" icon="ui-icon-search"/>
+                    </h:panelGrid>
+                    <p:selectOneRadio columns="3" requiredMessage="Seleccione un campo de búsqueda" required ="true"  id="buscado" value="#{buscarPaciente.opcion}">  
+                        <f:selectItem itemLabel="Rut" itemValue="1" />  
+                        <f:selectItem itemLabel="Nombre" itemValue="2" />  
+                        <f:selectItem itemLabel="Apellido Paterno" itemValue="3" />  
+                    </p:selectOneRadio> 
+                </p:outputLabel>
+            </f:facet>
 
             <p:column headerText="Rut">  
                 #{paciente.persRut}  
@@ -173,21 +176,21 @@
                         <p:inputText id="Ficha" value="#{buscarPaciente.pacienteSeleccionado.paciNficha}"/>                                    
                         <p:message for="Ficha"/>
 
-                       <p:outputLabel value="Previsión de salud: "/>
-                       <p:selectOneMenu id="Prevision" value="#{buscarPaciente.previsionId}">
+                        <p:outputLabel value="Previsión de salud: "/>
+                        <p:selectOneMenu id="Prevision" value="#{buscarPaciente.previsionId}">
                             <p:ajax event="change" listener="#{buscarPaciente.buscaTipo}" update="TipoPrev, OtraPrev"/>
                             <f:selectItem itemLabel="#{buscarPaciente.pacienteSeleccionado.idPrevision.previNombre}" itemValue="#{buscarPaciente.pacienteSeleccionado.idPrevision.idPrevision}" />
                             <f:selectItems value="#{listasMB.listaPrevision}" var="prev" itemLabel="#{prev.previNombre}" itemValue="#{prev.idPrevision}" />
                         </p:selectOneMenu>
                         <p:message for="Prevision" display="icon"/>
-                        
+
                         <p:outputLabel value="Tipo previsión: "/>
                         <p:selectOneMenu id="TipoPrev" value="#{buscarPaciente.tipoPrevisionId}">
                             <f:selectItem itemLabel="#{buscarPaciente.pacienteSeleccionado.idTipoprevision.clasNombre}" itemValue="#{buscarPaciente.pacienteSeleccionado.idTipoprevision.idTipoprevision}" />
                             <f:selectItems value="#{buscarPaciente.listaTipos}" var="tipo" itemLabel="#{tipo.clasNombre}" itemValue="#{tipo.idTipoprevision}" />
                         </p:selectOneMenu>
                         <p:message for="TipoPrev" display="icon"/>
-                        
+
                         <p:outputLabel value="Otra previsión: "/>
                         <p:inputText id="OtraPrev" value="#{buscarPaciente.pacienteSeleccionado.paciOtraprevision}" disabled="#{buscarPaciente.previsionId != 6}"/>
                         <p:message for="OtraPrev"/>
@@ -206,7 +209,7 @@
                             <f:selectItems value="#{listasMB.listaConsultorio}" var="consul" itemLabel="#{consul.consNombre}" itemValue="#{consul.idConsultorio}"/>
                         </p:selectOneMenu>                        
                         <p:message for="Con"/>                       
-                        
+
                         <h:outputText value="Fallecido: " />  
                         <p:selectBooleanCheckbox id = "id1" value="#{buscarPaciente.pacienteSeleccionado.paciFallecido}"  >
                             <p:ajax event="change"  update="FechaFall"/>

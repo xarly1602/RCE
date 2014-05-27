@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:form id="buscaPaciente">
+        <p:panelGrid columns="3" id="datosPaciente">
+            <p:outputLabel for="Rut" value="Rut: "/>
+            <p:inputText id="Rut" value="#{busquedaMB.rut}"/>
+            <p:message for="Rut" showDetail="true"/>
+            <p:outputLabel for="Nombres" value="Nombre: "/>
+            <p:inputText id="Nombres" value="#{busquedaMB.nombres}"/>
+            <p:message for="Nombres" showDetail="true"/>
+            <p:outputLabel for="ApePaterno" value="Apellido Paterno: "/>
+            <p:inputText id="ApePaterno" value="#{busquedaMB.apePaterno}"/>
+            <p:message for="ApePaterno" showDetail="true"/>
+            <p:outputLabel for="ApeMaterno" value="Apellido Materno: "/>
+            <p:inputText id="ApeMaterno" value="#{busquedaMB.apeMaterno}"/>
+            <p:message for="ApeMaterno" showDetail="true"/>
+            <p:outputLabel for="NumeroFicha"  value="Numero de Ficha: "/>
+            <p:inputText id="NumeroFicha" value="#{busquedaMB.numeroFicha}"/>
+            <p:message for="NumeroFicha" showDetail="true"/>
+            <p:outputLabel for="Sexo" value="Sexo: "/>
+            <p:selectOneMenu id="Sexo" value="#{busquedaMB.sexo}">
+                <f:selectItem itemLabel="Seleccionar" itemValue="#{0}"/>
+                <f:selectItem itemLabel="Hombre" itemValue="#{1}"/>
+                <f:selectItem itemLabel="Mujer" itemValue="#{2}"/>
+                <f:selectItem itemLabel="Indeterminado" itemValue="#{3}"/>
+                <f:selectItem itemLabel="Desconocido" itemValue="#{4}"/>
+            </p:selectOneMenu>
+            <p:message for="Sexo" showDetail="true"/>
+            <p:outputLabel for="FechaNacimiento" value="Fecha de Nacimiento: "/>
+            <p:inputText id="FechaNacimiento" value="#{busquedaMB.fechaNacimiento}"/>
+            <p:message for="FechaNacimiento" showDetail="true"/>
+        </p:panelGrid>
+        <p:commandButton value="Buscar" icon="ui-icon-search" actionListener="#{busquedaMB.buscar}" oncomplete="PF('Resultados').show()" update="buscaPaciente, ResultadosBusqueda"/>
+        
+        <p:dialog id="ResultadosBusqueda" widgetVar="Resultados" header="Resultados de Búsqueda" showEffect="fade" hideEffect="fade">
+            <p:dataTable value="#{busquedaMB.listaPersonas}" var="persona">
+                <p:column headerText="Rut">
+                    #{persona.persRut}
+                </p:column>
+                <p:column headerText="Nombres">
+                    #{persona.persNombres}
+                </p:column>
+                <p:column headerText="Apellido Paterno">
+                    #{persona.persApepaterno}
+                </p:column>
+                <p:column headerText="Apellido Materno">
+                    #{persona.persApematerno}
+                </p:column>
+            </p:dataTable>
+        </p:dialog>
+    </h:form>
+</html>
+
