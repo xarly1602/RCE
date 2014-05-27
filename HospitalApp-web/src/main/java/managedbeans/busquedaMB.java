@@ -47,7 +47,7 @@ public class busquedaMB {
     private Date fechaNacimiento;
 
     private List<Persona> listaPersonas;
-    private List<Paciente> listaPaciente;
+    private Paciente paciente;
 
     public busquedaMB() {
     }
@@ -109,6 +109,12 @@ public class busquedaMB {
             }
             etapa = 4;
         } else if (!numeroFicha.isEmpty()) {
+            paciente = pacienteNegocio.busquedaPacienteNumeroFicha(numeroFicha);
+            for (int i = listaPersonas.size() - 1; i >= 0; i--) {
+                if (listaPersonas.get(i).getIdPersona() != paciente.getIdPersona().getIdPersona()) {
+                    listaPersonas.remove(i);
+                }
+            }
             etapa = 5;
         } else if (sexo != 0) {
             listaPersonas = personaNegocio.busquedaPersonaSexo(sexo, 1);
@@ -147,8 +153,12 @@ public class busquedaMB {
                 }
             case 4:
                 if (!numeroFicha.isEmpty()) {
-                    System.out.println("4");
-                    System.out.println("holi");
+                    paciente = pacienteNegocio.busquedaPacienteNumeroFicha(numeroFicha);
+                    for (int i = listaPersonas.size() - 1; i >= 0; i--) {
+                        if (listaPersonas.get(i).getIdPersona() != paciente.getIdPersona().getIdPersona()) {
+                            listaPersonas.remove(i);
+                        }
+                    }
                 }
             case 5:
                 if (sexo != 0) {
@@ -238,12 +248,12 @@ public class busquedaMB {
         this.listaPersonas = listaPersonas;
     }
 
-    public List<Paciente> getListaPaciente() {
-        return listaPaciente;
+    public Paciente getPaciente() {
+        return paciente;
     }
 
-    public void setListaPaciente(List<Paciente> listaPaciente) {
-        this.listaPaciente = listaPaciente;
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
     }
 
 }

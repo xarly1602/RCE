@@ -18,5 +18,6 @@ import javax.ejb.Local;
 public interface PacienteNegocioLocal {
     public Paciente busquedaPacienteId(int id);
     public Paciente busquedaPacienteIdPersona(int id);
+    public Paciente busquedaPacienteNumeroFicha(String nFicha);
 }
 

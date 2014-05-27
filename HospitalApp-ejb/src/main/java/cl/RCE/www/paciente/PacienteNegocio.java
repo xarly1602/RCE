@@ -65,5 +65,19 @@ public class PacienteNegocio implements PacienteNegocioLocal {
         }
         
     }
+    
+    @Override
+    public Paciente busquedaPacienteNumeroFicha(String nFicha) {
+        Query q = em.createNamedQuery("Paciente.findByPaciNficha");
+        q.setParameter("paciNficha", nFicha);
+        List<Paciente> res = q.getResultList();
+        if (res.isEmpty()) {
+            return null;
+        }
+        else {
+            return res.get(0);
+        }
+        
+    }
 }
 
