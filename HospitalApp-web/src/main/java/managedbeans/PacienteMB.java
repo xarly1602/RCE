@@ -155,7 +155,7 @@ public class PacienteMB {
             rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length()-1));
             digitoVerificador = rutCompleto.charAt(rutCompleto.length() - 1) + "";
         }        
-        if (personaNegocio.busquedaPersonaRut(rut).size() > 0) {
+        if (personaNegocio.busquedaPersonaRut(rut,1).size() > 0) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registro ya existe.", "Paciente: " + nombres + " " + apellidoPaterno + " " + apellidoMaterno + " ya registrado."));
         } else {
             comuna = new Comuna(comunaId);
@@ -217,8 +217,8 @@ public class PacienteMB {
             return;
         }
         rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length()-1));
-        if (!personaNegocio.busquedaPersonaRut(rut).isEmpty()) {
-            persona = personaNegocio.busquedaPersonaRut(rut).get(0);
+        if (!personaNegocio.busquedaPersonaRut(rut,1).isEmpty()) {
+            persona = personaNegocio.busquedaPersonaRut(rut,1).get(0);
             this.actividadEconomica = persona.getPersActividad();
             this.apellidoMaterno = persona.getPersApematerno();
             this.apellidoPaterno = persona.getPersApepaterno();

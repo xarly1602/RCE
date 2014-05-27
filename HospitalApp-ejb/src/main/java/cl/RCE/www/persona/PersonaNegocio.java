@@ -38,42 +38,20 @@ public class PersonaNegocio implements PersonaNegocioLocal {
         }
     }
     
-  
     @Override
-    public List<Persona> busquedaPersonaNombre(String personaNombre) {
-        Query q = em.createNamedQuery("Persona.findByPersNombres").setParameter("persNombres", personaNombre);        
-        return q.getResultList();
-    }
-
-  
-    @Override
-    public List<Persona> busquedaPersonaRut(int personaRut) {
-        
-        Query q = em.createNamedQuery("Persona.findByPersRut").setParameter("persRut", personaRut);  
-        return q.getResultList();
-    }
-
-
-    @Override
-    public List<Persona> busquedaPersonaApellidoPaterno(String personaApellido) {
-        Query q = em.createNamedQuery("Persona.findByPersApepaterno").setParameter("persApepaterno", personaApellido);  
-        return q.getResultList();
-    }
-    
-    @Override
-    public List<Persona> busquedaProfesionalApellidoPaterno(String personaApellido, int tipo){
+    public List<Persona> busquedaPersonaApellidoPaterno(String personaApellido, int tipo){
         Query q = em.createQuery("SELECT p FROM Persona p WHERE p.persApepaterno = :persApepaterno AND p.persTipopersona = :persTipopersona").setParameter("persApepaterno", personaApellido).setParameter("persTipopersona", tipo);
         return q.getResultList();
     }
     
     @Override
-    public List<Persona> busquedaProfesionalNombre(String personaNombre, int tipo){
+    public List<Persona> busquedaPersonaNombre(String personaNombre, int tipo){
         Query q = em.createQuery("SELECT p FROM Persona p WHERE p.persNombres = :persNombres AND p.persTipopersona = :persTipopersona").setParameter("persNombres", personaNombre).setParameter("persTipopersona", tipo);
         return q.getResultList();
     }
     
     @Override
-    public List<Persona> busquedaProfesionalRut(int personaRut, int tipo){
+    public List<Persona> busquedaPersonaRut(int personaRut, int tipo){
         Query q = em.createQuery("SELECT p FROM Persona p WHERE p.persRut = :persRut AND p.persTipopersona = :persTipopersona").setParameter("persRut", personaRut).setParameter("persTipopersona", tipo);
         return q.getResultList();
     }

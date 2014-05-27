@@ -15,11 +15,8 @@ import javax.ejb.Local;
  * @author DevelUser
  */
 @Local
-public interface PersonaNegocioLocal {
-    public List<Persona> busquedaPersonaNombre(String personaNombre);
-    public List<Persona> busquedaPersonaRut(int personaRut);
-    public List<Persona> busquedaPersonaApellidoPaterno(String personaApellido);
-    public List<Persona> busquedaProfesionalApellidoPaterno(String personaApellido, int tipo);
-    public List<Persona> busquedaProfesionalNombre(String personaNombre, int tipo);
-    public List<Persona> busquedaProfesionalRut(int personaRut, int tipo);
+public interface PersonaNegocioLocal {   
+    public List<Persona> busquedaPersonaApellidoPaterno(String personaApellido, int tipo);
+    public List<Persona> busquedaPersonaNombre(String personaNombre, int tipo);
+    public List<Persona> busquedaPersonaRut(int personaRut, int tipo);
 }

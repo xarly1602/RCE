@@ -102,7 +102,7 @@ public class IngresoProfesional {
         }
         rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length() - 1));
         digitoVerificador = rutCompleto.charAt(rutCompleto.length() - 1) + "";
-        if (personaNegocio.busquedaPersonaRut(rut).size() > 0) {
+        if (personaNegocio.busquedaPersonaRut(rut,2).size() > 0) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registro ya existe.", "El rut indicado ya está registrado."));
         } else {
             //setear activo a true

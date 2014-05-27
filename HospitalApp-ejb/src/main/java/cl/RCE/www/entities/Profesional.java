@@ -206,8 +206,10 @@ public class Profesional implements Serializable {
 
     @Override
     public String toString() {
-        return "Profesional{" + "idProfesional=" + idProfesional + ", profActivo=" + profActivo + ", profFechadesde=" + profFechadesde + ", profeFechahasta=" + profeFechahasta + ", idUsuario=" + idUsuario + ", idSubespecialidad=" + idSubespecialidad + ", profesionalCollection=" + profesionalCollection + ", proIdProfesional=" + proIdProfesional + ", idPersona=" + idPersona + ", idLocal=" + idLocal + ", idGrupoprofesional=" + idGrupoprofesional + ", idCargo=" + idCargo + '}';
+        return "Profesional{" + "idProfesional=" + idProfesional + ", profActivo=" + profActivo + ", profFechadesde=" + profFechadesde + ", profeFechahasta=" + profeFechahasta + ", idUsuario=" + idUsuario + ", idSubespecialidad=" + idSubespecialidad + ", proIdProfesional=" + proIdProfesional + ", idPersona=" + idPersona + ", idLocal=" + idLocal + ", idGrupoprofesional=" + idGrupoprofesional + ", idCargo=" + idCargo + '}';
     }
+
+   
 
    
     

@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package managedbeans;
 
 import cl.RCE.www.entities.Cargo;
@@ -31,7 +32,6 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @SessionScoped
 public class BuscarProfesional {
-
     @EJB
     private ProfesionalFacadeLocal profesionalFacade;
     @EJB
@@ -43,82 +43,72 @@ public class BuscarProfesional {
 
     Persona personaSeleccionada;
     Profesional profesionalSeleccionado;
-    List<Persona> personasObject;
-
+    List<Persona> personasObject;    
+   
     private int cargoId;
     private int medicoReferenciaId;
     private int grupoId;
     private int localId;
     private int especialidadId;
     private int subEspecialidadId;
-
+    
     private boolean activoAux;
-    private String buscado;
+    private String buscado;    
     private String opcion;
-
     public BuscarProfesional() {
     }
-
     @PostConstruct
-    public void init() {
+    public void init(){
         personaSeleccionada = new Persona();
-        personasObject = personaFacade.findAll();
-        for (int i = personasObject.size() - 1; i >= 0; i--) {
-            if (personasObject.get(i).getPersTipopersona() != 1) {
-                personasObject.remove(i);
-            }
-        }
     }
-
-    public void buscarPersona() {
-        switch (Integer.parseInt(opcion)) {
+    public void buscarPersona(){
+        switch(Integer.parseInt(opcion)){
             case 1:
-                try {
-                    personasObject = personaNegocio.busquedaProfesionalRut(Integer.parseInt(buscado), 2);
-                    for (int i = personasObject.size() - 1; i >= 0; i--) {
-                        if (personasObject.get(i).getPersTipopersona() != 1) {
-                            personasObject.remove(i);
-                        }
-                    }
-                } catch (NumberFormatException ex) {
-                    personasObject = personaNegocio.busquedaProfesionalRut(-1, 0);
+                try{
+                    personasObject =  personaNegocio.busquedaPersonaRut(Integer.parseInt(buscado), 2);
+                }
+                catch(NumberFormatException ex){
+                    personasObject =  personaNegocio.busquedaPersonaRut(-1,0);
                 }
                 break;
             case 2:
-                personasObject = personaNegocio.busquedaProfesionalNombre(buscado, 2);
-                for (int i = personasObject.size() - 1; i >= 0; i--) {
-                    if (personasObject.get(i).getPersTipopersona() != 1) {
-                        personasObject.remove(i);
-                    }
-                }
+                personasObject = personaNegocio.busquedaPersonaNombre(buscado, 2);           
                 break;
             case 3:
-                personasObject = personaNegocio.busquedaProfesionalApellidoPaterno(buscado, 2);
-                for (int i = personasObject.size() - 1; i >= 0; i--) {
-                    if (personasObject.get(i).getPersTipopersona() != 1) {
-                        personasObject.remove(i);
-                    }
-                }
+                personasObject = personaNegocio.busquedaPersonaApellidoPaterno(buscado, 2);
                 break;
             default:
                 break;
-        }
+        }       
     }
-
-    public void actualizar() {
-
-        profesionalSeleccionado.setIdCargo(new Cargo(cargoId));
-        profesionalSeleccionado.setIdGrupoprofesional(new GrupoProfesional(grupoId));
-        profesionalSeleccionado.setIdLocal(new Local(localId));
-        profesionalSeleccionado.setIdSubespecialidad(new Subespecialidad(subEspecialidadId));
-        if (medicoReferenciaId != 0) {
-            profesionalSeleccionado.setProIdProfesional(new Profesional(medicoReferenciaId));
+    
+    public void actualizar(){       
+       
+        if(profesionalSeleccionado.getIdPersona().getIdPersona() == medicoReferenciaId){
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "El profesional es el mismo que su encargado."));
+        }   
+        
+        else{
+            
+            profesionalSeleccionado.setIdCargo(new Cargo(cargoId));
+            profesionalSeleccionado.setIdGrupoprofesional(new GrupoProfesional(grupoId));
+            profesionalSeleccionado.setIdLocal(new Local(localId));                  
+            profesionalSeleccionado.setIdSubespecialidad(new Subespecialidad(subEspecialidadId));
+          
+            if(medicoReferenciaId != 0){
+                profesionalSeleccionado.setProIdProfesional(new Profesional(medicoReferenciaId));            }
+           
+            
+            personaFacade.edit(personaSeleccionada);
+            profesionalFacade.edit(profesionalSeleccionado);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Datos Actualizado.", "Datos actualizados correctamente"));
         }
-        personaFacade.edit(personaSeleccionada);
-        profesionalFacade.edit(profesionalSeleccionado);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Datos Actualizado.", "Datos actualizados correctamente"));
+        
+           
 
-    }
+    }    
+
 
     public boolean isActivoAux() {
         return activoAux;
@@ -217,5 +207,8 @@ public class BuscarProfesional {
     public void setOpcion(String opcion) {
         this.opcion = opcion;
     }
-
+      
+      
 }
+
+

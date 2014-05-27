@@ -371,7 +371,9 @@ public class Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.RCE.www.entities.Persona[ idPersona=" + idPersona + " ]";
+        return "Persona{" + "idPersona=" + idPersona + ", persRut=" + persRut + ", persDv=" + persDv + ", persNombres=" + persNombres + ", persApepaterno=" + persApepaterno + ", persApematerno=" + persApematerno + ", persEmail=" + persEmail + ", persTelefono=" + persTelefono + ", persCelular=" + persCelular + ", persTelcontacto=" + persTelcontacto + ", persDireccion=" + persDireccion + ", persNdepartamento=" + persNdepartamento + ", persOcupacion=" + persOcupacion + ", persActividad=" + persActividad + ", persFnacimiento=" + persFnacimiento + ", persNacionalidad=" + persNacionalidad + ", persPasaporte=" + persPasaporte + ", persTipopersona=" + persTipopersona + ", idReligion=" + idReligion + ", idPueblooriginario=" + idPueblooriginario + ", idGenero=" + idGenero + ", idEstadoconyugal=" + idEstadoconyugal + ", idEducacion=" + idEducacion + ", idComuna=" + idComuna + '}';
     }
+
+    
     
 }

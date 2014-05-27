@@ -4,22 +4,25 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
-    <h:form id="formBuscarProfesional">
-        <p:growl id="growl" showDetail="true"/>
+    <h:form id="formBuscarProfesional">                    
         <h:panelGrid columns="3" id="panelCampoProf">
             <p:outputLabel value="Buscar"></p:outputLabel>
             <p:inputText value="#{buscarProfesional.buscado}"/>
-            <p:commandButton update="PersonasProf, growl" action="#{buscarProfesional.buscarPersona()}" value="Buscar" icon="ui-icon-search"/>
+            <p:commandButton update="PersonasProf" action="#{buscarProfesional.buscarPersona()}" value="Buscar" icon="ui-icon-search"/>
         </h:panelGrid>
 
-        <p:selectOneRadio requiredMessage="Seleccione un campo de búsqueda." required ="true"  id="buscadoProf" value="#{buscarProfesional.opcion}">  
+        <p:selectOneRadio requiredMessage="Campo requerido" required ="true"  id="buscadoProf" value="#{buscarProfesional.opcion}">  
             <f:selectItem itemLabel="Rut" itemValue="1" />  
             <f:selectItem itemLabel="Nombre" itemValue="2" />  
             <f:selectItem itemLabel="Apellido Paterno" itemValue="3" />  
         </p:selectOneRadio> 
 
-        <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" id="PersonasProf" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+        <p:dataTable id="PersonasProf" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      rowsPerPageTemplate="5,10,20"   var="profesional" value="#{buscarProfesional.personasObject}">  
+
+            <f:facet name="header">  
+                Profesionales 
+            </f:facet>  
 
             <p:column headerText="Rut">  
                 #{profesional.persRut}  
@@ -97,14 +100,14 @@
                 <p:panel header="Información de Contacto">
                     <p:panelGrid columns="3">
                         <p:outputLabel value="Dirección: "/>
-                        <p:inputText id="Direccion" value="#{buscarPaciente.personaSeleccionada.persDireccion}"/>
+                        <p:inputText id="Direccion" value="#{buscarProfesional.personaSeleccionada.persDireccion}"/>
                         <p:message for="Direccion"/>
 
                         <p:outputLabel value="Teléfono de contacto: "/>
-                        <p:inputText id="TelefonoContacto" required="true" value="#{buscarPaciente.personaSeleccionada.persTelcontacto}">
+                        <p:inputText id="TelefonoContacto" required="true"  requiredMessage="Debe ingresar un numero de contacto" value="#{buscarProfesional.personaSeleccionada.persTelcontacto}">
                             <f:validator validatorId="Validator.PhoneValidator"/>
                         </p:inputText>
-                        <p:message for="TelefonoContacto"/>
+                        
                     </p:panelGrid>
                 </p:panel>                
                 <p:panel header="Información del Profesional." toggleable="true" toggleSpeed="500" collapsed="true">
