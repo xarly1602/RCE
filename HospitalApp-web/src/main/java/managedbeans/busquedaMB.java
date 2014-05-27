@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package managedbeans;
 
 import cl.RCE.www.entities.Paciente;
@@ -14,6 +13,7 @@ import cl.RCE.www.sessionbeans.PacienteFacadeLocal;
 import cl.RCE.www.sessionbeans.PersonaFacadeLocal;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -27,6 +27,7 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @RequestScoped
 public class busquedaMB {
+
     @EJB
     private PacienteFacadeLocal pacienteFacade;
     @EJB
@@ -44,11 +45,15 @@ public class busquedaMB {
     private int sexo;
     private int etapa;
     private Date fechaNacimiento;
-    
+
     private List<Persona> listaPersonas;
     private List<Paciente> listaPaciente;
-    
+
     public busquedaMB() {
+    }
+
+    @PostConstruct
+    public void init() {
         nombres = "";
         apePaterno = "";
         apeMaterno = "";
@@ -56,60 +61,76 @@ public class busquedaMB {
         numeroFicha = "";
         fechaNacimiento = null;
         etapa = 0;
+        listaPersonas = personaFacade.findAll();
+        for (int i = listaPersonas.size() - 1; i >= 0; i--) {
+            if (listaPersonas.get(i).getPersTipopersona() != 1) {
+                listaPersonas.remove(i);
+            }
+        }
     }
 
-    public void buscar(){
-        if (!rut.isEmpty()){
+    public void buscar() {
+        if (!rut.isEmpty()) {
             System.out.println("busca Rut");
             rut = rut.toUpperCase();
             rut = rut.replace(".", "");
-            try{
+            try {
                 int rutTemp = Integer.parseInt(rut);
                 listaPersonas = personaNegocio.busquedaPersonaRut(rutTemp, 1);
                 etapa = 1;
-            }
-            catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Rut invalido", "Ingrese un rut válido"));
             }
-        }
-        else if (!nombres.isEmpty()){
+        } else if (!nombres.isEmpty()) {
             System.out.println("BuscaNombres");
-            listaPersonas = personaNegocio.busquedaPersonaNombre(nombres, 1);
+            // listaPersonas = personaNegocio.busquedaPersonaNombre(nombres, 1);
+            for (int i = listaPersonas.size() - 1; i >= 0; i--) {
+                if (!listaPersonas.get(i).getPersNombres().startsWith(nombres)) {
+                    listaPersonas.remove(i);
+                }
+            }
             etapa = 2;
-        }
-        else if (!apePaterno.isEmpty()){
+        } else if (!apePaterno.isEmpty()) {
             System.out.println("BuscaApellido");
-            listaPersonas = personaNegocio.busquedaPersonaApellidoPaterno(apePaterno, 1);
+            // listaPersonas = personaNegocio.busquedaPersonaApellidoPaterno(apePaterno, 1);
+            for (int i = listaPersonas.size() - 1; i >= 0; i--) {
+                if (!listaPersonas.get(i).getPersApepaterno().startsWith(apePaterno)) {
+                    listaPersonas.remove(i);
+                }
+            }
             etapa = 3;
-        }
-        else if (!apeMaterno.isEmpty()){
+        } else if (!apeMaterno.isEmpty()) {
             System.out.println("BuscaMaterno");
-            listaPersonas = personaNegocio.busquedaPersonaApellidoPaterno(apeMaterno, 1);
+            // listaPersonas = personaNegocio.busquedaPersonaApellidoPaterno(apeMaterno, 1);
+            for (int i = listaPersonas.size() - 1; i >= 0; i--) {
+                if (!listaPersonas.get(i).getPersApematerno().startsWith(apeMaterno)) {
+                    listaPersonas.remove(i);
+                }
+            }
             etapa = 4;
-        }
-        else if (!numeroFicha.isEmpty()){
+        } else if (!numeroFicha.isEmpty()) {
             etapa = 5;
-        }
-        else if (sexo != 0){
+        } else if (sexo != 0) {
+            listaPersonas = personaNegocio.busquedaPersonaSexo(sexo, 1);
             etapa = 6;
+        } else if (fechaNacimiento != null) {
+            listaPersonas = personaNegocio.busquedaPersonaFechaNacimiento(fechaNacimiento, 1);
+            etapa = 7;
         }
-        else if (fechaNacimiento != null){
-            etapa ++;
-        }
-        switch (etapa){
+        switch (etapa) {
             case 1:
                 if (!nombres.isEmpty()) {
-                System.out.println("1");
-                    for (int i = listaPersonas.size()-1; i >= 0; i--) {
+                    System.out.println("1");
+                    for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                         if (!listaPersonas.get(i).getPersNombres().startsWith(nombres)) {
                             listaPersonas.remove(i);
                         }
                     }
                 }
-            case 2: 
+            case 2:
                 if (!apePaterno.isEmpty()) {
-                System.out.println("2");
-                    for (int i = listaPersonas.size()-1; i >= 0; i--) {
+                    System.out.println("2");
+                    for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                         if (!listaPersonas.get(i).getPersApepaterno().startsWith(apePaterno)) {
                             listaPersonas.remove(i);
                         }
@@ -117,8 +138,8 @@ public class busquedaMB {
                 }
             case 3:
                 if (!apeMaterno.isEmpty()) {
-                System.out.println("3");
-                    for (int i = listaPersonas.size()-1; i >= 0; i--) {
+                    System.out.println("3");
+                    for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                         if (!listaPersonas.get(i).getPersApematerno().startsWith(apeMaterno)) {
                             listaPersonas.remove(i);
                         }
@@ -126,18 +147,24 @@ public class busquedaMB {
                 }
             case 4:
                 if (!numeroFicha.isEmpty()) {
-                System.out.println("4");
+                    System.out.println("4");
                     System.out.println("holi");
                 }
             case 5:
                 if (sexo != 0) {
-                System.out.println("5");
-                    System.out.println("Holi");
+                    for (int i = listaPersonas.size() - 1; i >= 0; i--) {
+                        if (listaPersonas.get(i).getIdGenero().getIdGenero() != sexo) {
+                            listaPersonas.remove(i);
+                        }
+                    }
                 }
             case 6:
                 if (fechaNacimiento != null) {
-                System.out.println("6");
-                    System.out.println("holi");
+                    for (int i = listaPersonas.size() - 1; i >= 0; i--) {
+                        if (listaPersonas.get(i).getPersFnacimiento() != fechaNacimiento) {
+                            listaPersonas.remove(i);
+                        }
+                    }
                 }
             default:
                 break;
@@ -146,7 +173,7 @@ public class busquedaMB {
             System.out.println(persona.getPersNombres());
         }
     }
-    
+
     public String getNombres() {
         return nombres;
     }
@@ -218,5 +245,5 @@ public class busquedaMB {
     public void setListaPaciente(List<Paciente> listaPaciente) {
         this.listaPaciente = listaPaciente;
     }
-    
+
 }

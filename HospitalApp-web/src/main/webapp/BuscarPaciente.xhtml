@@ -32,7 +32,7 @@
             </p:selectOneMenu>
             <p:message for="Sexo" showDetail="true"/>
             <p:outputLabel for="FechaNacimiento" value="Fecha de Nacimiento: "/>
-            <p:inputText id="FechaNacimiento" value="#{busquedaMB.fechaNacimiento}"/>
+            <p:calendar effect="explode" navigator="true" yearRange="c-100:c" id="FechaNacimiento" value="#{busquedaMB.fechaNacimiento}"/>
             <p:message for="FechaNacimiento" showDetail="true"/>
         </p:panelGrid>
         <p:commandButton value="Buscar" icon="ui-icon-search" actionListener="#{busquedaMB.buscar}" oncomplete="PF('Resultados').show()" update="buscaPaciente, ResultadosBusqueda"/>

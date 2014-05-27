@@ -7,6 +7,7 @@
 package cl.RCE.www.persona;
 
 import cl.RCE.www.entities.Persona;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,6 +57,17 @@ public class PersonaNegocio implements PersonaNegocioLocal {
         return q.getResultList();
     }
 
+    @Override
+    public List<Persona> busquedaPersonaSexo(int sexoId, int tipo){
+        Query q = em.createQuery("SELECT p FROM Persona p WHERE p.idGenero.idGenero = :idGenero AND p.persTipopersona = :persTipopersona").setParameter("idGenero", sexoId).setParameter("persTipopersona", tipo);
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<Persona> busquedaPersonaFechaNacimiento(Date fechaNacimiento, int tipo){
+        Query q = em.createQuery("SELECT p FROM Persona p WHERE p.persFnacimiento = :fechaNacimiento AND p.persTipopersona = :persTipopersona").setParameter("fechaNacimiento", fechaNacimiento).setParameter("persTipopersona", tipo);
+        return q.getResultList();
+    }
     /*public List<String> buscarEducacion(int id){
         
         Query q = em.createNativeQuery("select educ_nombre from educacion where id_educacion = ?1 ") 

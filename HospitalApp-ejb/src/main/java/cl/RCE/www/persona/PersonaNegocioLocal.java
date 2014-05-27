@@ -7,6 +7,7 @@
 package cl.RCE.www.persona;
 
 import cl.RCE.www.entities.Persona;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -19,4 +20,6 @@ public interface PersonaNegocioLocal {
     public List<Persona> busquedaPersonaApellidoPaterno(String personaApellido, int tipo);
     public List<Persona> busquedaPersonaNombre(String personaNombre, int tipo);
     public List<Persona> busquedaPersonaRut(int personaRut, int tipo);
+    public List<Persona> busquedaPersonaSexo(int sexoId, int tipo);
+    public List<Persona> busquedaPersonaFechaNacimiento(Date fechaNacimiento, int tipo);
 }
