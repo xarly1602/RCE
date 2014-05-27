@@ -57,7 +57,6 @@
                             <f:selectItems value="#{listasMB.listaProfesionales}" var="prof" itemLabel="#{prof.persNombres} #{prof.persApepaterno}" itemValue="#{prof.idPersona}"/>
                         </p:selectOneMenu>
                         <p:message for="MediRef" display="icon"/>
-                        <p:commandButton value="Datos de contacto" onclick="PF('contacto').show()"/>
                     </p:panelGrid>
                 </p:panel>
                 <p:panel header="Otros Detalles">
@@ -82,6 +81,7 @@
                             <f:selectItems value="#{listasMB.listaLocales}" var="local" itemLabel="#{local.localNombre}" itemValue="#{local.idLocal}"/>
                         </p:selectOneMenu>
                         <p:message for="Local" display="icon"/>
+                        <p:commandButton value="Datos de contacto" onclick="PF('contacto').show()"/>
                     </p:panelGrid>
                 </p:panel>
             </p:panelGrid>

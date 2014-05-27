@@ -60,6 +60,12 @@ public class BuscarProfesional {
     @PostConstruct
     public void init(){
         personaSeleccionada = new Persona();
+        personasObject = personaFacade.findAll();
+        for (int i = personasObject.size() - 1; i >= 0; i--) {
+            if (personasObject.get(i).getPersTipopersona() != 2) {
+                personasObject.remove(i);
+            }
+        }
     }
     public void buscarPersona(){
         switch(Integer.parseInt(opcion)){

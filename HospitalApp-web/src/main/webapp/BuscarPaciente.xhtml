@@ -38,7 +38,7 @@
         <p:commandButton value="Buscar" icon="ui-icon-search" actionListener="#{busquedaMB.buscar}" oncomplete="PF('Resultados').show()" update="buscaPaciente, ResultadosBusqueda"/>
         
         <p:dialog id="ResultadosBusqueda" widgetVar="Resultados" header="Resultados de Búsqueda" showEffect="fade" hideEffect="fade">
-            <p:dataTable value="#{busquedaMB.listaPersonas}" var="persona">
+            <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" value="#{busquedaMB.listaPersonas}" var="persona">
                 <p:column headerText="Rut">
                     #{persona.persRut}
                 </p:column>
