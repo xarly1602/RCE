@@ -7,6 +7,7 @@
 package cl.RCE.www.profesional;
 
 import cl.RCE.www.entities.Profesional;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -16,6 +17,6 @@ import javax.ejb.Local;
 @Local
 public interface ProfesionalNegocioLocal {
     public Profesional busquedaProfesionalIdPersona(int id);
-    //nadaa
-    //
+    public List<Profesional> busquedaProfesionalEspecialidad(int id);
+    public List<Profesional> busquedaProfesionalSubespecialidad(int id);
 }

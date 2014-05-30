@@ -51,4 +51,18 @@ public class ProfesionalNegocio implements ProfesionalNegocioLocal {
       //nadaaa  
     }
 
+    @Override
+    public List<Profesional> busquedaProfesionalSubespecialidad(int id){
+        Query q = em.createNamedQuery("Profesional.findByProfeSubespecialidad");
+        q.setParameter("profeSubespecialidad", id);
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<Profesional> busquedaProfesionalEspecialidad(int id){
+        Query q = em.createNamedQuery("Profesional.findByProfeEspecialidad");
+        q.setParameter("profeEspecialidad", id);
+        return q.getResultList();
+    }
+    
 }

@@ -22,6 +22,16 @@
                         <f:selectItem itemLabel="Nombre" itemValue="2" />  
                         <f:selectItem itemLabel="Apellido Paterno" itemValue="3" />  
                     </p:selectOneRadio> 
+                    <p:outputLabel value="Especialidad: "/>
+                    <p:selectOneMenu value="#{buscarProfesional.especialidadId}">
+                        <p:ajax event="change" listener="#{buscarProfesional.buscarPorEspecialidad()}" update="PersonasProf"/>
+                        <f:selectItems value="#{listasMB.listaEspecialidades}" var="espe" itemLabel="#{espe.espeNombre}" itemValue="#{espe.idEspecialidad}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Subespecialidad: "/>
+                    <p:selectOneMenu value="#{buscarProfesional.subEspecialidadId}">
+                        <p:ajax event="change" listener="#{buscarProfesional.buscarPorSubespecialidad()}" update="PersonasProf"/>
+                        <f:selectItems value="#{listasMB.listaSubespecialidad}" var="subespe" itemLabel="#{subespe.subespeNombre}" itemValue="#{subespe.idSubespecialidad}"/>
+                    </p:selectOneMenu>
                 </p:outputPanel>
             </f:facet>  
 
