@@ -11,38 +11,38 @@
             <p:panelGrid columns="2">
                 <p:panel header="Detalle Principal">
                     <p:panelGrid columns="3">
-                        <p:outputLabel for="Rut" value="Rut: "/>
-                        <p:inputText id="Rut" value="#{ingresoProfesional.rutCompleto}">
+                        <p:outputLabel for="Rut" value="Rut: " style="font-weight: bold"/>
+                        <p:inputText id="Rut" value="#{ingresoProfesional.rutCompleto}" required="true" requiredMessage="Debe indicar un rut.">
                             <f:validator validatorId="Validator.RutValidator"/>
                         </p:inputText>
                         <p:message for="Rut" display="icon"/>
                         <p:outputLabel for="Descripcion" value="Descripción: "/>
                         <p:inputText id="Descripcion" value="#{ingresoProfesional.descripcion}" readonly="true"/>
                         <p:message for="Descripcion" display="icon"/>
-                        <p:outputLabel for="TipoPro" value="Tipo: "/>
+                        <p:outputLabel for="TipoPro" value="Tipo: " style="font-weight: bold"/>
                         <p:selectOneMenu id="TipoPro" value="#{ingresoProfesional.cargoId}">
                             <f:selectItems value="#{listasMB.listaCargos}" var="cargo" itemLabel="#{cargo.cargoNombre}" itemValue="#{cargo.idCargo}"/>
                         </p:selectOneMenu>
                         <p:message for="TipoPro" display="icon"/>
-                        <p:outputLabel for="FechaDesde" value="Fecha Desde: "/>
+                        <p:outputLabel for="FechaDesde" value="Fecha Desde: " style="font-weight: bold"/>
                         <p:calendar id="FechaDesde" value="#{ingresoProfesional.fechaDesde}" effect="explode" yearRange="c-20:c" navigator="true"/>
                         <p:message for="FechaDesde" display="icon"/>
                         <p:outputLabel for="FechaHasta" value="Fecha Hasta: "/>
                         <p:calendar id="FechaHasta" value="#{ingresoProfesional.fechaHasta}" effect="explode" yearRange="c-20:c" navigator="true"/>
                         <p:message for="FechaHasta" display="icon"/>
-                        <p:outputLabel for="ApePaterno" value="Apellido Paterno: "/>
+                        <p:outputLabel for="ApePaterno" value="Apellido Paterno: " style="font-weight: bold"/>
                         <p:inputText id="ApePaterno" value="#{ingresoProfesional.apellidoPaterno}">
                             <p:ajax event="blur" listener="#{ingresoProfesional.actualizarDescripcion(actionEvent)}" update="Descripcion"/>
                             <f:validator validatorId="Validator.NameValidator"/>
                         </p:inputText>
                         <p:message for="ApePaterno" display="icon"/>
-                        <p:outputLabel for="ApeMaterno" value="Apellido Materno: "/>
+                        <p:outputLabel for="ApeMaterno" value="Apellido Materno: " style="font-weight: bold"/>
                         <p:inputText id="ApeMaterno" value="#{ingresoProfesional.apellidoMaterno}">
                             <p:ajax event="blur" listener="#{ingresoProfesional.actualizarDescripcion(actionEvent)}" update="Descripcion"/>
                             <f:validator validatorId="Validator.NameValidator"/>
                         </p:inputText>
                         <p:message for="ApeMaterno" display="icon"/>
-                        <p:outputLabel for="Nombres" value="Nombres: "/>
+                        <p:outputLabel for="Nombres" value="Nombres: " style="font-weight: bold"/>
                         <p:inputText id="Nombres" value="#{ingresoProfesional.nombres}">
                             <p:ajax event="blur" listener="#{ingresoProfesional.actualizarDescripcion(actionEvent)}" update="Descripcion"/>
                             <f:validator validatorId="Validator.NameValidator"/>

@@ -66,6 +66,7 @@ public class BuscarProfesional {
                 personasObject.remove(i);
             }
         }
+        opcion = "1";
     }
     public void buscarPersona(){
         switch(Integer.parseInt(opcion)){

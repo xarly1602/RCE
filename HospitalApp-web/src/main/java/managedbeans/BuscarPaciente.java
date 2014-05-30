@@ -92,6 +92,7 @@ public class BuscarPaciente {
                 personasObject.remove(i);
             }
         }
+        opcion = "1";
     }
     
     public void buscarPersona(){

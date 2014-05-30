@@ -72,7 +72,7 @@ public class EspecialidadMB {
         }
         if (espeNombre.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atención.", "Debe ingresar un nombre de especialidad."));
-        } else if (Integer.toString(espeId).length() == 5 && !espeNombre.isEmpty()) {
+        } else if (Integer.toString(espeId).length() == 3 && !espeNombre.isEmpty()) {
             especialidad = new Especialidad();
             especialidad.setIdEspecialidad(espeId);
             especialidad.setEspeNombre(espeNombre);

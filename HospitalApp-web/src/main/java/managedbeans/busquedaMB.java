@@ -70,17 +70,9 @@ public class busquedaMB {
     }
 
     public void buscar() {
-        if (!rut.isEmpty()) {
-            System.out.println("busca Rut");
-            rut = rut.toUpperCase();
-            rut = rut.replace(".", "");
-            try {
-                int rutTemp = Integer.parseInt(rut);
-                listaPersonas = personaNegocio.busquedaPersonaRut(rutTemp, 1);
-                etapa = 1;
-            } catch (NumberFormatException e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Rut invalido", "Ingrese un rut válido"));
-            }
+        if (fechaNacimiento != null) {
+            listaPersonas = personaNegocio.busquedaPersonaFechaNacimiento(fechaNacimiento, 1);
+            etapa = 1;
         } else if (!nombres.isEmpty()) {
             System.out.println("BuscaNombres");
             // listaPersonas = personaNegocio.busquedaPersonaNombre(nombres, 1);
@@ -119,9 +111,17 @@ public class busquedaMB {
         } else if (sexo != 0) {
             listaPersonas = personaNegocio.busquedaPersonaSexo(sexo, 1);
             etapa = 6;
-        } else if (fechaNacimiento != null) {
-            listaPersonas = personaNegocio.busquedaPersonaFechaNacimiento(fechaNacimiento, 1);
-            etapa = 7;
+        } else if (!rut.isEmpty()) {
+            System.out.println("busca Rut");
+            rut = rut.toUpperCase();
+            rut = rut.replace(".", "");
+            try {
+                int rutTemp = Integer.parseInt(rut);
+                listaPersonas = personaNegocio.busquedaPersonaRut(rutTemp, 1);
+                etapa = 7;
+            } catch (NumberFormatException e) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Rut invalido", "Ingrese un rut válido"));
+            }
         }
         switch (etapa) {
             case 1:
@@ -169,11 +169,18 @@ public class busquedaMB {
                     }
                 }
             case 6:
-                if (fechaNacimiento != null) {
-                    for (int i = listaPersonas.size() - 1; i >= 0; i--) {
-                        if (listaPersonas.get(i).getPersFnacimiento() != fechaNacimiento) {
+                if (!rut.isEmpty()) {
+                    rut = rut.toUpperCase();
+                    rut = rut.replace(".", "");
+                    try {
+                        int rutTemp = Integer.parseInt(rut);
+                        for (int i = listaPersonas.size() - 1; i >= 0; i--) {
+                        if (listaPersonas.get(i).getPersRut() != rutTemp) {
                             listaPersonas.remove(i);
                         }
+                    }
+                    } catch (NumberFormatException e) {
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Rut invalido", "Ingrese un rut válido"));
                     }
                 }
             default:

@@ -11,39 +11,39 @@
                 <p:panelGrid columns="2">
                     <p:panel header="Antecedentes Personales">
                         <p:panelGrid columns="3">
-                            <p:outputLabel value="Rut: "/>
+                            <p:outputLabel for="rut" value="Rut: "/>
                             <p:inputText id="rut" value="#{pacienteMB.rutCompleto}">
                                 <f:validator validatorId="Validator.RutValidator"/>
                                 <p:ajax event="blur" listener="#{pacienteMB.buscar(actionEvent)}" update="formul"/>
                             </p:inputText>
                             <p:message for="rut" display="icon"/>
-                            <p:outputLabel value="Pasaporte: "/>
+                            <p:outputLabel for="pasaporte" value="Pasaporte: "/>
                             <p:inputText id="pasaporte" value="#{pacienteMB.pasaporte}"/>
-                            <p:message for="pasaporte"/>
-                            <p:outputLabel value="Nombres: " style="font-weight: bold"/>
+                            <p:message for="pasaporte" showDetail="true"/>
+                            <p:outputLabel for="Nombres" value="Nombres: " style="font-weight: bold"/>
                             <p:inputText id="Nombres" value="#{pacienteMB.nombres}">
                                 <f:validator validatorId="Validator.NameValidator"/>
                             </p:inputText>
                             <p:message for="Nombres" display="icon"/>
-                            <p:outputLabel value="Apellido Paterno: " style="font-weight: bold"/>
+                            <p:outputLabel for="Paterno" value="Apellido Paterno: " style="font-weight: bold"/>
                             <p:inputText id="Paterno" value="#{pacienteMB.apellidoPaterno}">
                                 <f:validator validatorId="Validator.NameValidator"/>
                             </p:inputText>
                             <p:message for="Paterno" display="icon"/>
-                            <p:outputLabel value="Apellido Materno: "/>
+                            <p:outputLabel for="Materno" value="Apellido Materno: "/>
                             <p:inputText id="Materno" value="#{pacienteMB.apellidoMaterno}">
                                 <f:validator validatorId="Validator.NameValidator"/>
                             </p:inputText>
                             <p:message for="Materno" display="icon"/>
-                            <p:outputLabel value="Numero de Ficha: "/>
+                            <p:outputLabel for="numFicha" value="Numero de Ficha: "/>
                             <p:inputText id="numFicha" value="#{pacienteMB.numFicha}"/>
                             <p:message for="numFicha" display="icon"/>
-                            <p:outputLabel value="Sexo: " style="font-weight: bold"/>
+                            <p:outputLabel for="Genero" value="Sexo: " style="font-weight: bold"/>
                             <p:selectOneMenu id="Genero" value="#{pacienteMB.generoId}" required="true">
                                 <f:selectItems value="#{listasMB.listaGenero}" var="gen" itemLabel="#{gen.generoNombre}" itemValue="#{gen.idGenero}"/>
                             </p:selectOneMenu>
                             <p:message for="Genero" display="icon"/>
-                            <p:outputLabel value="Fecha Nacimiento: " style="font-weight: bold"/>
+                            <p:outputLabel for="FechaNac" value="Fecha Nacimiento: " style="font-weight: bold"/>
                             <p:calendar id="FechaNac" effect="explode" yearRange="c-100:c" navigator="true" value="#{pacienteMB.fechaNacimiento}">
                                 <p:ajax event="dateSelect" listener="#{pacienteMB.calculaEdad}" update="Edad"/>
                             </p:calendar>
@@ -51,37 +51,37 @@
                             <p:outputLabel value="Edad: "/>
                             <p:inputText readonly="true" id="Edad" value="#{pacienteMB.edad}"/>
                             <p:message for="Edad" display="icon"/>
-                            <p:outputLabel value="Nacionalidad: " style="font-weight: bold"/>
+                            <p:outputLabel for="Nacionalidad" value="Nacionalidad: " style="font-weight: bold"/>
                             <p:inputText id="Nacionalidad" value="#{pacienteMB.nacionalidad}"/>
                             <p:message for="Nacionalidad" display="icon"/>
                         </p:panelGrid>
                     </p:panel>
                     <p:panel header="Información de Contacto">
                         <p:panelGrid columns="3">
-                            <p:outputLabel value="Dirección: " style="font-weight: bold"/>
+                            <p:outputLabel for="Direccion" value="Dirección: " style="font-weight: bold"/>
                             <p:inputText id="Direccion" value="#{pacienteMB.direccion}"/>
                             <p:message for="Direccion" display="icon"/>
-                            <p:outputLabel value="Comuna: "/>
+                            <p:outputLabel for="Comuna" value="Comuna: "/>
                             <p:selectOneMenu id="Comuna" value="#{pacienteMB.comunaId}">
                                 <f:selectItems value="#{listasMB.listaComuna}" var="comu" itemLabel="#{comu.comuNombre}" itemValue="#{comu.idComuna}" />
                             </p:selectOneMenu>
                             <p:message for="Comuna" display="icon"/>
-                            <p:outputLabel value="Email: "/>
+                            <p:outputLabel for="Email" value="Email: "/>
                             <p:inputText id="Email" value="#{pacienteMB.email}">
                                 <f:validator validatorId="Validator.EmailValidator"/>
                             </p:inputText>
                             <p:message for="Email" display="icon"/>
-                            <p:outputLabel value="Teléfono: "/>
+                            <p:outputLabel for="Telefono" value="Teléfono: "/>
                             <p:inputText id="Telefono" value="#{pacienteMB.telefono}">
                                 <f:validator validatorId="Validator.PhoneValidator"/>
                             </p:inputText>
                             <p:message for="Telefono" display="icon"/>
-                            <p:outputLabel value="Celular: "/>
+                            <p:outputLabel for="Celular" value="Celular: "/>
                             <p:inputText id="Celular" value="#{pacienteMB.celular}">
                                 <f:validator validatorId="Validator.PhoneValidator"/>
                             </p:inputText>
                             <p:message for="Celular" display="icon"/>
-                            <p:outputLabel value="Teléfono de contacto: " style="font-weight: bold"/>
+                            <p:outputLabel for="TelefonoContacto" value="Teléfono de contacto: " style="font-weight: bold"/>
                             <p:inputText id="TelefonoContacto" value="#{pacienteMB.telefonoContacto}">
                                 <f:validator validatorId="Validator.PhoneValidator"/>                                
                             </p:inputText>
@@ -91,54 +91,54 @@
                 </p:panelGrid>
                 <p:panel header="Información Adicional." toggleable="true" toggleSpeed="500" collapsed="true">
                     <p:panelGrid id="panel" columns="3" >
-                        <p:outputLabel value="Consultorio: "/>
+                        <p:outputLabel for="Consultorio" value="Consultorio: "/>
                         <p:selectOneMenu id="Consultorio" value="#{pacienteMB.consultorioId}">
                             <f:selectItems value="#{listasMB.listaConsultorio}" var="cons" itemLabel="#{cons.consNombre}" itemValue="#{cons.idConsultorio}" />
                         </p:selectOneMenu>
                         <p:message for="Consultorio" display="icon"/>
-                        <p:outputLabel value="Previsión de salud: "/>
+                        <p:outputLabel for="Prevision" value="Previsión de salud: "/>
                         <p:selectOneMenu id="Prevision" value="#{pacienteMB.previsionId}">
                             <p:ajax event="change" listener="#{pacienteMB.buscaTipo}" update="Tipo"/>
                             <f:selectItems value="#{listasMB.listaPrevision}" var="prev" itemLabel="#{prev.previNombre}" itemValue="#{prev.idPrevision}" />
                         </p:selectOneMenu>
                         <p:message for="Prevision" display="icon"/>
-                        <p:outputLabel value="Tipo previsión: "/>
+                        <p:outputLabel for="Tipo" value="Tipo previsión: "/>
                         <p:selectOneMenu id="Tipo" value="#{pacienteMB.tipoPrevisionId}">
                             <f:selectItems value="#{pacienteMB.listaTipos}" var="tipo" itemLabel="#{tipo.clasNombre}" itemValue="#{tipo.idTipoprevision}" />
                         </p:selectOneMenu>
                         <p:message for="Tipo" display="icon"/>
-                        <p:outputLabel value="Otra previsión: "/>
+                        <p:outputLabel for="OtraPrevision" value="Otra previsión: "/>
                         <p:inputText id="OtraPrevision" value="#{pacienteMB.otraPrevision}"/>
                         <p:message for="OtraPrevision"/>
-                        <p:outputLabel value="Leyes sociales: "/>
+                        <p:outputLabel for="Leyes" value="Leyes sociales: "/>
                         <p:selectOneMenu id="Leyes" value="#{pacienteMB.leyesSocialesId}" >
                             <f:selectItem itemLabel="Seleccionar una" itemValue="" />
                             <f:selectItems value="#{listasMB.listaLeyes}" var="ley" itemLabel="#{ley.leyesNombre}" itemValue="#{ley.idLeyessociales}" />
                         </p:selectOneMenu>
                         <p:message for="Leyes" display="icon"/>
-                        <p:outputLabel value="Estado Conyugal: "/>
+                        <p:outputLabel for="Estado" value="Estado Conyugal: "/>
                         <p:selectOneMenu id="Estado" value="#{pacienteMB.estadoConyugalId}">
                             <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
                             <f:selectItems value="#{listasMB.listaEstados}" var="e" itemLabel="#{e.estadNombre}" itemValue="#{e.idEstadoconyugal}"/>
                         </p:selectOneMenu>
                         <p:message for="Estado" display="icon"/>
-                        <p:outputLabel value="Nivel de Educaciòn: "/>
+                        <p:outputLabel for="Educacion" value="Nivel de Educaciòn: "/>
                         <p:selectOneMenu id="Educacion" value="#{pacienteMB.educacionId}" >
                             <f:selectItems value="#{listasMB.listaEducacion}" var="edu" itemLabel="#{edu.educNombre}" itemValue="#{edu.idEducacion}" />
                         </p:selectOneMenu>
                         <p:message for="Educacion" display="icon"/>
-                        <p:outputLabel value="Ocupación: "/>
+                        <p:outputLabel for="Ocupacion" value="Ocupación: "/>
                         <p:inputText id="Ocupacion" value="#{pacienteMB.ocupacion}"/>                                    
                         <p:message for="Ocupacion" display="icon"/>
-                        <p:outputLabel value="Actividad Económica: "/>
+                        <p:outputLabel for="Actividad" value="Actividad Económica: "/>
                         <p:inputText id="Actividad" value="#{pacienteMB.actividadEconomica}"/>
                         <p:message for="Actividad" display="icon"/>
-                        <p:outputLabel value="Pueblo Originario: "/>
+                        <p:outputLabel for="Pueblo" value="Pueblo Originario: "/>
                         <p:selectOneMenu id="Pueblo" value="#{pacienteMB.puebloOriginarioId}">
                             <f:selectItems value="#{listasMB.listaPueblos}" var="town" itemLabel="#{town.puebloNombre}" itemValue="#{town.idPueblooriginario}" />
                         </p:selectOneMenu>
                         <p:message for="Pueblo" display="icon"/>
-                        <p:outputLabel value="Religión: "/>
+                        <p:outputLabel for="Religion" value="Religión: "/>
                         <p:selectOneMenu id="Religion" value="#{pacienteMB.religionId}">
                             <f:selectItems value="#{listasMB.listaReligion}" var="reli" itemLabel="#{reli.reliName}" itemValue="#{reli.idReligion}" />
                         </p:selectOneMenu>
