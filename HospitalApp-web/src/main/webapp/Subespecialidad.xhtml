@@ -16,7 +16,7 @@
                     <p:inputText id="buscarSubesp" value="#{listasMB.elementoBuscado}" style="width:150px" placeholder="Buscar Subespecialidad"/>
                     <p:commandButton value="Buscar" icon="ui-icon-search" update="listaSubespecialidades" action="#{listasMB.buscarSubespecialidad()}"/>
                     <br/>
-                    <p:outputLabel value="Especialidad"/>
+                    <p:outputLabel value="Especialidad: "/>
                     <p:selectOneMenu value="#{listasMB.especialidadSeleccionadaId}">
                         <p:ajax event="change" listener="#{listasMB.filtrarEspecialidad}" update="listaSubespecialidades"/>                        
                         <f:selectItems value="#{listasMB.listaEspecialidades}" var="espec" itemLabel="#{espec.espeNombre}" itemValue="#{espec.idEspecialidad}"/>

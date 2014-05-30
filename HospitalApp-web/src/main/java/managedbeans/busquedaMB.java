@@ -11,6 +11,7 @@ import cl.RCE.www.paciente.PacienteNegocioLocal;
 import cl.RCE.www.persona.PersonaNegocioLocal;
 import cl.RCE.www.sessionbeans.PacienteFacadeLocal;
 import cl.RCE.www.sessionbeans.PersonaFacadeLocal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -69,6 +70,46 @@ public class busquedaMB {
         }
     }
 
+    public List<String> completarRut(String query){
+        List<String> listaFiltrada = new ArrayList<String>();
+        for (Persona persona : listaPersonas) {
+            if (persona.getPersRut().toString().startsWith(query) && !listaFiltrada.contains(persona.getPersRut().toString())) {
+                listaFiltrada.add(persona.getPersRut().toString());
+            }
+        }
+        return listaFiltrada;
+    }
+    
+    public List<String> completarNombre(String query){
+        List<String> listaFiltrada = new ArrayList<String>();
+        for (Persona persona : listaPersonas) {
+            if (persona.getPersNombres().startsWith(query) && !listaFiltrada.contains(persona.getPersNombres())) {
+                listaFiltrada.add(persona.getPersNombres());
+            }
+        }
+        return listaFiltrada;
+    }
+    
+    public List<String> completarApePaterno(String query){
+        List<String> listaFiltrada = new ArrayList<String>();
+        for (Persona persona : listaPersonas) {
+            if (persona.getPersApepaterno().startsWith(query) && !listaFiltrada.contains(persona.getPersApepaterno())) {
+                listaFiltrada.add(persona.getPersApepaterno());
+            }
+        }
+        return listaFiltrada;
+    }
+    
+    public List<String> completarApeMaterno(String query){
+        List<String> listaFiltrada = new ArrayList<String>();
+        for (Persona persona : listaPersonas) {
+            if (persona.getPersApematerno().startsWith(query) && !listaFiltrada.contains(persona.getPersApematerno())) {
+                listaFiltrada.add(persona.getPersApematerno());
+            }
+        }
+        return listaFiltrada;
+    }
+    
     public void buscar() {
         if (fechaNacimiento != null) {
             listaPersonas = personaNegocio.busquedaPersonaFechaNacimiento(fechaNacimiento, 1);
