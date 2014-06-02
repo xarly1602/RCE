@@ -23,7 +23,7 @@ import javax.faces.context.FacesContext;
 
 /**
  *
- * @author DevelUser
+ * @author Xarly1602
  */
 @ManagedBean
 @RequestScoped
@@ -49,10 +49,17 @@ public class busquedaMB {
 
     private List<Persona> listaPersonas;
     private Paciente paciente;
-
+    
+    /**
+     * Constructor de la clase.
+     */
     public busquedaMB() {
     }
 
+    /**
+     * Postconstructor: 
+     * Inicializar algunas variables y lista de personas.
+     */
     @PostConstruct
     public void init() {
         nombres = "";
@@ -70,6 +77,13 @@ public class busquedaMB {
         }
     }
 
+    /**
+     * Autocompletar ruts para la búsqueda
+     * Función para realizar la lista que se muestra mientras se va escribiendo
+     * un rut en el campo de búsqueda correspondiente.
+     * @param query String correspondiente al inicio del rut que se busca.
+     * @return Lista con los resultados encontrados.
+     */
     public List<String> completarRut(String query){
         List<String> listaFiltrada = new ArrayList<String>();
         for (Persona persona : listaPersonas) {
@@ -80,6 +94,13 @@ public class busquedaMB {
         return listaFiltrada;
     }
     
+    /**
+     * Autocompletar nombres para la búsqueda
+     * Función para realizar la lista que se muestra mientras se va escribiendo
+     * un nombre en el campo de búsqueda correspondiente.
+     * @param query String correspondiente al inicio del nombre buscado.
+     * @return Lista de resultados encontrados.
+     */
     public List<String> completarNombre(String query){
         List<String> listaFiltrada = new ArrayList<String>();
         for (Persona persona : listaPersonas) {
@@ -90,6 +111,13 @@ public class busquedaMB {
         return listaFiltrada;
     }
     
+    /**
+     * Autocompletar apellido paterno para la búsqueda
+     * Función para realizar la lista que se muestra mientras se va escribiendo
+     * un apellido en el campo de búsqueda correspondiente al apellido paterno.
+     * @param query String correspondiente al inicio del apellido buscado.
+     * @return Lista de resultados encontrados.
+     */
     public List<String> completarApePaterno(String query){
         List<String> listaFiltrada = new ArrayList<String>();
         for (Persona persona : listaPersonas) {
@@ -100,6 +128,13 @@ public class busquedaMB {
         return listaFiltrada;
     }
     
+    /**
+     * Autocompletar apellido para la búsqueda
+     * Función para realizar la lista que se muestra mientras se va escribiendo
+     * un apellido en el campo de búsqueda correspondiente al apellido materno.
+     * @param query String correspondiente al inicio del apellido buscado.
+     * @return Lista de resultados encontrados.
+     */
     public List<String> completarApeMaterno(String query){
         List<String> listaFiltrada = new ArrayList<String>();
         for (Persona persona : listaPersonas) {
@@ -110,6 +145,12 @@ public class busquedaMB {
         return listaFiltrada;
     }
     
+    /**
+     * Función que realiza la búsqueda de los campos indicados.
+     * La búsqueda se realiza según todos los campos completados, en primer 
+     * lugar se busca por el primer valor no nulo o vacío y luego se filtra ese
+     * resultado según los demás campos rellenados.
+     */
     public void buscar() {
         if (fechaNacimiento != null) {
             listaPersonas = personaNegocio.busquedaPersonaFechaNacimiento(fechaNacimiento, 1);
@@ -232,6 +273,7 @@ public class busquedaMB {
         }
     }
 
+    //Getters y Setters
     public String getNombres() {
         return nombres;
     }

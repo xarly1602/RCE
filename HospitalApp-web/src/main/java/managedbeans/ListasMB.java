@@ -101,12 +101,17 @@ public class ListasMB {
     private String elementoBuscado;
     private int i;
     private int especialidadSeleccionadaId;
+    
     /**
-     * Creates a new instance of ListasMB
+     * Constructor de la clase.
      */
     public ListasMB() {
     }
     
+    /**
+     * Postconstructor:
+     * Inicializar todas las listas de datos.
+     */
     @PostConstruct
     public void init(){
         listaEspecialidades = especialidadFacade.findAll();
@@ -128,6 +133,11 @@ public class ListasMB {
         this.filtrarListas();
     }
 
+    /**
+     * Filtrar listas.
+     * Eliminar datos de las listas que se encuentren inactivos en la base de 
+     * datos.
+     */
     public void filtrarListas(){
         int size;
         size = listaEspecialidades.size();
@@ -150,7 +160,10 @@ public class ListasMB {
         }
     }
     
-    // Busca una sub-especialidad por nombre.
+    /**
+     * Buscar subespecialidad.
+     * Busca una subespecialidad por el nombre indicado en el formulario.
+     */
     public void buscarSubespecialidad(){
         listaSubespecialidad = subespecialidadNegocio.busquedaSubespecialidadNombre(elementoBuscado);
         for (i = listaSubespecialidad.size() - 1; i >= 0 ; i--) {
@@ -160,6 +173,10 @@ public class ListasMB {
         }
     }
 
+    /**
+     * Buscar especialidad.
+     * Busca una especialidad por el nombre indicado en el formulario.
+     */
     public void buscarEspecialidad(){
         listaEspecialidades = especialidadNegocio.busquedaEspecialidadNombre(elementoBuscado);
         for (i = listaEspecialidades.size() - 1; i >= 0; i--) {
@@ -169,17 +186,27 @@ public class ListasMB {
         }
     }
 
+    /**
+     * Filtrar especialidades.
+     * Mostrar solo las subespecialidades que correspondan a la especialidad 
+     * seleccionada.
+     * @param event Evento en la página xhtml que acciona la función.
+     */
     public void filtrarEspecialidad(AjaxBehaviorEvent event){
         listaSubespecialidad = subespecialidadNegocio.busquedaSubespecialidadIdEspecialidad(especialidadSeleccionadaId);
         for (i = listaSubespecialidad.size() - 1; i >= 0 ; i--) {
-            System.out.println(listaSubespecialidad.get(i).getSubespeNombre());
             if (!listaSubespecialidad.get(i).getSubespeActivo()) {
-                System.out.println("Quitar: "+listaSubespecialidad.get(i).getSubespeNombre());
                 listaSubespecialidad.remove(i);
             }
         }
     }
     
+    /**
+     * Completar subespecialidades.
+     * Función para realizar la búsqueda de subespecialidades con autocompletar.
+     * @param query Nombre completo o inicio de la subespecialidad buscada.
+     * @return Lista de resultados encontrados.
+     */
     public List<Subespecialidad> completeSub(String query) {
         List<Subespecialidad> suggestions = new ArrayList<Subespecialidad>();
          
@@ -191,6 +218,7 @@ public class ListasMB {
         return suggestions;
     }
 
+    // Getters y Setters
     public List<Cargo> getListaCargos() {
         return listaCargos;
     }

@@ -16,10 +16,23 @@ import javax.faces.validator.ValidatorException;
 public class RutValidator implements Validator {
 
     private String rut;
-    
+
+    /**
+     * Constructor de la clase.
+     */
     public RutValidator() {
     }
 
+    /**
+     * Validar.
+     * Indica si un rut ingresado es válido o no, arrojando un mensaje en caso 
+     * de que no sea válido.
+     * @param context
+     * @param component
+     * @param value Rut que se desea validar.
+     * @throws ValidatorException Arrojada en caso de que el rut ingresado no 
+     * sea válido.
+     */
     @Override
     public void validate(FacesContext context, UIComponent component,
             Object value) throws ValidatorException {
@@ -37,6 +50,13 @@ public class RutValidator implements Validator {
 
     }
 
+    /**
+     * Validar rut.
+     * Verifica si el rut ingresado es correcto, es decir, si coincide rut con 
+     * difito verificador.
+     * @param rut String correspondiente al rut que se desea validar.
+     * @return True si el rut es válido y False si es inválido.
+     */
     public static boolean validarRut(String rut) {
         boolean validacion = false;
         if(rut.isEmpty())

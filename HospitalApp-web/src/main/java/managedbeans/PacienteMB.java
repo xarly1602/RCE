@@ -19,8 +19,6 @@ import cl.RCE.www.entities.Religion;
 import cl.RCE.www.entities.TipoPrevision;
 import cl.RCE.www.persona.PersonaNegocioLocal;
 import cl.RCE.www.sessionbeans.EstadoConyugalFacadeLocal;
-import cl.RCE.www.sessionbeans.PacienteFacadeLocal;
-import cl.RCE.www.sessionbeans.PersonaFacadeLocal;
 import cl.RCE.www.tipoprevision.TipoPrevisionNegocioLocal;
 import java.awt.event.ActionEvent;
 import java.util.Calendar;
@@ -31,10 +29,8 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import org.primefaces.event.SelectEvent;
@@ -98,7 +94,6 @@ public class PacienteMB {
     private int leyesSocialesId;
     private int generoId;
     private int consultorioId;
-    private int ley16744Id;
     private Genero genero;
     private Educacion educacion;
     private PuebloOriginario puebloOriginario;
@@ -109,18 +104,20 @@ public class PacienteMB {
     private LeyesSociales leyesSociales;
     private Comuna comuna;
     private Consultorio consultorio;
-    private String ley16744; //Este debe ser una entities
 
-    //Listas
     private List<EstadoConyugal> listaEstados;
     private List<TipoPrevision> listaTipos;
 
     /**
-     * Creates a new instance of EstadoConyugalMB
+     * Constructor de la clase.
      */
     public PacienteMB() {
     }
 
+    /**
+     * Postconstructor:
+     * Inicializar variables y establecer valores por default.
+     */
     @PostConstruct
     public void init() {
         puebloOriginarioId = 12;
@@ -135,6 +132,13 @@ public class PacienteMB {
         listaEstados = estadoConyugalFacade.findAll();
     }
 
+    /**
+     * Agregar un paciente.
+     * Agregar un nuevo paciente al sistema de acuerdo a los datos ingresados en
+     * el formulario correspondiente, arrojando los mensajes respectivos a los 
+     * distintos tipos de casos que puedan ocurrir.
+     * @param actionEvent Evento en la página xhtml que acciona la función.
+     */
     public void agregarPaciente(ActionEvent actionEvent) {
         rutCompleto = rutCompleto.toUpperCase();
         rutCompleto = rutCompleto.replace(".", "");
@@ -209,6 +213,13 @@ public class PacienteMB {
         }
     }
 
+    /**
+     * Buscar un rut.
+     * Se busca el rut ingresado en el formulario de creación para saber si éste
+     * ya se encuentra registrado, en tal caso, se traerán los datos del 
+     * paciente correspondiente y serán mostrados en la vista.
+     * @param actionEvent Evento en la página xhtml que acciona la vista.
+     */
     public void buscar(ActionEvent actionEvent) {
         rutCompleto = rutCompleto.toUpperCase();
         rutCompleto = rutCompleto.replace(".", "");
@@ -245,6 +256,14 @@ public class PacienteMB {
         }
     }
 
+    /**
+     * Calcular edad.
+     * Se calcula la edad según la fecha de nacimiento indicada en el 
+     * formulario. Si la edad es menor que un año, se especifica la edad en 
+     * cantidad de meses, días y horas, en caso contrario, solo se indica la 
+     * edad en años.
+     * @param event Evento en la pagina xhtml que acciona el evento.
+     */
     public void calculaEdad(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Date today = Calendar.getInstance().getTime();
@@ -267,6 +286,11 @@ public class PacienteMB {
         }
     }
 
+    /**
+     * Reiniciar variables.
+     * Se resetean las variables y se restauran las correspondientes a su valor
+     * por default.
+     */
     private void resetData() {
         persona = new Persona();
         paciente = new Paciente();
@@ -299,10 +323,17 @@ public class PacienteMB {
         consultorioId = 1;
     }
 
+    /**
+     * Buscar tipo de previsión.
+     * Se crea la lista de los tipos de previsión correspondientes a la 
+     * previsión seleccionada.
+     * @param event Evento en la página xhtml que acciona la función.
+     */
     public void buscaTipo(AjaxBehaviorEvent event) {
         listaTipos = tipoPrevisionNegocio.busquedaTipoIdPrevision(previsionId);
     }
 
+    // Getters y Setters.
     public String getEdad() {
         return edad;
     }
@@ -463,14 +494,6 @@ public class PacienteMB {
         this.leyesSocialesId = leyesSocialesId;
     }
 
-    public int getLey16744Id() {
-        return ley16744Id;
-    }
-
-    public void setLey16744Id(int ley16744Id) {
-        this.ley16744Id = ley16744Id;
-    }
-
     public Comuna getComuna() {
         return comuna;
     }
@@ -629,14 +652,6 @@ public class PacienteMB {
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public String getLey16744() {
-        return ley16744;
-    }
-
-    public void setLey16744(String ley16744) {
-        this.ley16744 = ley16744;
     }
 
     public String getRutCompleto() {

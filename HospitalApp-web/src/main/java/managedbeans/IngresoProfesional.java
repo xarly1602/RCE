@@ -76,9 +76,16 @@ public class IngresoProfesional {
     private int subEspecialidadId;
     private int rut;
 
+    /**
+     * Constructor de la clase.
+     */
     public IngresoProfesional() {
     }
 
+    /**
+     * Postconstructor.
+     * Inicializar algunos datos del profesional.
+     */
     @PostConstruct
     public void init() {
         persona = new Persona();
@@ -88,6 +95,12 @@ public class IngresoProfesional {
         apellidoPaterno = "";
     }
 
+    /**
+     * Agregar un profesional.
+     * Agrega un profesional al sistema con los datos ingresados en el 
+     * formulario correspondiente, arrojando los mensajes respectivos ya sea 
+     * cuando ocurra algún error de validación o cuando el ingreso sea exitoso.
+     */
     public void agregarProfesional() {
         rutCompleto = rutCompleto.toUpperCase();
         rutCompleto = rutCompleto.replace(".", "");
@@ -137,10 +150,20 @@ public class IngresoProfesional {
         }
     }
 
+    /**
+     * Actualizar descripción.
+     * Concatena el nombre con los apellidos mientras estos se escriben para 
+     * mostrarlos en el campo correspondiente del formulario.
+     * @param actionEvent Evento en la página xhtml que acciona la función.
+     */
     public void actualizarDescripcion(ActionEvent actionEvent) {
         descripcion = nombres.concat(" " + apellidoPaterno).concat(" " + apellidoMaterno);
     }
 
+    /**
+     * Resetear información.
+     * Se reinician los datos para poder hacer un nuevo ingreso.
+     */
     private void resetData() {
         persona = new Persona();
         profesional = new Profesional();
@@ -166,6 +189,7 @@ public class IngresoProfesional {
 
     }
 
+    // Getters y Setters.
     public String getRutCompleto() {
         return rutCompleto;
     }

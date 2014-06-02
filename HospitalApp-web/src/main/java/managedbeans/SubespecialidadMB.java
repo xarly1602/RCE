@@ -39,12 +39,16 @@ public class SubespecialidadMB {
     private int subespecialidadSeleccionadaId;
 
     /**
-     * Creates a new instance of SubespecialidadMB
+     * Constructor de la clase.
      */
     public SubespecialidadMB() {
         subespecialidades = new ArrayList<String>();
     }
 
+    /**
+     * Postconstructor:
+     * Inicializar variables.
+     */
     @PostConstruct
     public void init() {
         subespecialidad = new Subespecialidad();
@@ -60,6 +64,12 @@ public class SubespecialidadMB {
         }
     }
 
+    /**
+     * Agregar una nueva subespecialidad al sistema.
+     * Se genera una nueva subespecialidad con los datos ingresados en la vista
+     * correspondiente.
+     * @param actionEvent Evento en la página xhtml que acciona la función.
+     */
     public void nuevaSubespecialidad(ActionEvent actionEvent) {
         if (Integer.toString(subespecialidadId).length() != 5) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Largo codigo inválido", "El código debe tener largo 5"));
@@ -99,6 +109,9 @@ public class SubespecialidadMB {
         }
     }
 
+    /**
+     * Setear parámetros de acuerdo a la subespecialidad seleccionada.
+     */
     public void seleccionEditar() {
         try {
             subespeNombre = subespecialidad.getSubespeNombre();
@@ -107,6 +120,9 @@ public class SubespecialidadMB {
         }
     }
 
+    /**
+     * Eliminar la subespecialidad seleccionada.
+     */
     public void eliminar() {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Subespecialidad " + subespeNombre + " eliminada exitosamente"));
         subespecialidad.setSubespeActivo(Boolean.FALSE);
@@ -114,6 +130,11 @@ public class SubespecialidadMB {
         this.resetData();
     }
 
+    /**
+     * Editar subespecialidad.
+     * Se actualiza la especialidad seleccionada.
+     * @param actionEvent Evento en la página xhtml que acciona la función.
+     */
     public void editar(ActionEvent actionEvent) {
         if (subespecialidadSeleccionada.getSubespeNombre().isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Nombre no indicado", "Debe ingresar un nombre"));
@@ -129,12 +150,16 @@ public class SubespecialidadMB {
         this.resetData();
     }
 
+    /**
+     * Reiniciar variables utilizadas.
+     */
     private void resetData() {
         subespeNombre = "";
         especialidadId = 0;
         subespecialidadId = 0;
     }
 
+    // Getters y Setters.
     public int getSubespecialidadId() {
         return subespecialidadId;
     }

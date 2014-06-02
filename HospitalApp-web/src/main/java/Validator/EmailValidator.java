@@ -26,10 +26,23 @@ public class EmailValidator implements Validator{
 	private Pattern pattern;
 	private Matcher matcher;
  
-	public EmailValidator(){
+        /**
+         * Constructor de la clase.
+         */
+        public EmailValidator(){
 		  pattern = Pattern.compile(EMAIL_PATTERN);
 	}
  
+        /**
+         * Validar.
+         * Valida si un correo indicado es válido o no verificando si éste 
+         * cumple con una expresión regular dada.
+         * @param context
+         * @param component
+         * @param value Correo que se desea validar.
+         * @throws ValidatorException Arrojada cuando el correo indicado no 
+         * sigue el formato de la expresión regular dada.
+         */
 	@Override
 	public void validate(FacesContext context, UIComponent component,
 			Object value) throws ValidatorException {
@@ -39,7 +52,7 @@ public class EmailValidator implements Validator{
  
 			FacesMessage msg = 
 				new FacesMessage("Ingrese un correo válido.", 
-						"Invalid E-mail format.");
+						"Formato de correo inválido.");
 			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(msg);
  

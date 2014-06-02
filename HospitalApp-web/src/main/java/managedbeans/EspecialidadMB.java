@@ -14,12 +14,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 import cl.RCE.www.sessionbeans.EspecialidadFacadeLocal;
 import cl.RCE.www.sessionbeans.SubespecialidadFacadeLocal;
 
@@ -45,16 +41,28 @@ public class EspecialidadMB {
     private List<Subespecialidad> listaSubespecialidades;
 
     /**
-     * Creates a new instance of EspecialidadMB
+     * Constructor de la clase.
      */
     public EspecialidadMB() {
     }
 
+    /**
+     * Postconstructor.
+     * Inicializar la especialidad que será creada.
+     */
     @PostConstruct
     public void init() {
         especialidad = new Especialidad();
     }
 
+    /**
+     * Ingresar nueva especialidad.
+     * Agregar una nueva especialidad al sistema con los datos indicados en el 
+     * formulario correspondiente, mostrando los mensajes necesarios en caso de 
+     * que ocurra algún error de validación o en caso que se agregue la 
+     * especialidad correctamente.
+     * @param actionEvent Evento en la página xhtml que acciona el evento.
+     */
     public void nuevaEspecialidad(ActionEvent actionEvent) {
         if (Integer.toString(espeId).length() != 3) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Largo codigo inválido", "El código debe tener largo 3"));
@@ -83,6 +91,10 @@ public class EspecialidadMB {
         }
     }
 
+    /**
+     * Eliminar especialidad.
+     * Elimina la especialidad del sistema marcándola como inactiva.
+     */
     public void eliminar() {
         listaSubespecialidades = subespecialidadNegocio.busquedaSubespecialidadIdEspecialidad(especialidad.getIdEspecialidad());
         for (Subespecialidad subespecialidad : listaSubespecialidades) {
@@ -95,9 +107,14 @@ public class EspecialidadMB {
         this.resetData();
     }
 
+    /**
+     * Editar especialidad.
+     * Actualiza la información de una especialidad del sistema según los datos
+     * indicados en el formulario correspondiente.
+     * @param actionEvent Evento en la página xhtml que acciona la función.
+     */
     public void editar(ActionEvent actionEvent) {
         try {
-            System.out.println("Editar: " + especialidad.getEspeNombre());
             if(especialidad.getEspeNombre().isEmpty()){
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Atención.", "Debe indicar un nombre de especialidad."));
             }
@@ -108,11 +125,16 @@ public class EspecialidadMB {
         this.resetData();
     }
 
+    /**
+     * Resetear información.
+     * Reiniciar los datos de la especialidad.
+     */
     public void resetData(){
         espeNombre = "";
         espeId = 0;
     }
     
+    // Getters y Setters.
     public String getEspeNombre() {
         return espeNombre;
     }
