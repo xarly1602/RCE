@@ -11,7 +11,7 @@
 
             <f:facet name="header">
                 <p:outputPanel>
-                    <h:panelGrid columns="3" id="panelCampoProf">
+                    <h:panelGrid columns="3" id="panelCampoProf" styleClass="companyHeaderGrid">
                         <p:outputLabel value="Buscar"></p:outputLabel>
                         <p:inputText value="#{buscarProfesional.buscado}"/>
                         <p:commandButton update="PersonasProf, :formBuscarProfesional:growl" action="#{buscarProfesional.buscarPersona()}" value="Buscar" icon="ui-icon-search"/>
@@ -73,7 +73,7 @@
     <p:dialog maximizable="true" minimizable="true" id="dialogEditarProf" header="Editar Profesional" widgetVar="dialogEditarPersonaProf" height="600" width="950">  
         <h:form id="actualizarPersonaProf">
             <p:growl id="growl" showDetail="true" sticky="true" />
-            <p:panelGrid columns="2" id="panelEditarProf" >
+            <p:panelGrid columns="2" id="panelEditarProf" styleClass="companyHeaderGrid">
                 <p:panel header="Antecedentes Personales">
                     <p:outputLabel value="RUT Paciente: "/>
                     <p:inputText id="rut" readonly="true" required="true" value="#{buscarProfesional.personaSeleccionada.persRut}"/>-<p:inputText id="dv" readonly="true" style="width: 10px" required="true" value="#{buscarPaciente.personaSeleccionada.persDv}"/>
@@ -122,7 +122,7 @@
                     </p:panelGrid>
                 </p:panel>
             </p:panelGrid>
-            <p:panel header="Información del Profesional." toggleable="true" toggleSpeed="500" collapsed="true">
+            <p:panel header="Información del Profesional." toggleable="true" toggleSpeed="500" collapsed="true" styleClass="companyHeaderGrid">
 
                 <p:panelGrid columns="3" >
                     <p:outputLabel value="Fecha Desde: "/>

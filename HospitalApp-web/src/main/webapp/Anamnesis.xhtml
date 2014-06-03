@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:form id="Anamnesis">
+        <p:panel id="InformacionPersonal" header="Información Personal">
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="Nombre: "/>
+                </p:column>
+                <p:column> 
+                    <h:outputText value="#{anamnesisMB.paciente.idPersona.persNombres} #{anamnesisMB.paciente.idPersona.persApepaterno}" style="text-decoration: underline"/>
+                </p:column>
+                <p:outputLabel value="Dirección: "/> <h:outputText value="#{anamnesisMB.paciente.idPersona.persDireccion}" style="text-decoration: underline"/>
+            </p:row>
+        </p:panel>
+    </h:form>
+</html>
+

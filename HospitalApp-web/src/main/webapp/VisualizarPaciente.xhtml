@@ -11,7 +11,7 @@
                      rowsPerPageTemplate="5,10,20"   var="paciente" value="#{buscarPaciente.personasObject}">  
             <f:facet name="header">
                 <p:outputPanel>
-                    <h:panelGrid columns="3" id="panelCampo">
+                    <h:panelGrid columns="3" id="panelCampo" styleClass="companyHeaderGrid">
                         <p:outputLabel value="Buscar"></p:outputLabel>
                         <p:inputText value="#{buscarPaciente.buscado}"/>
                         <p:commandButton update="Personas, :formBuscar:growl" action="#{buscarPaciente.buscarPersona()}" value="Buscar" icon="ui-icon-search"/>
@@ -48,25 +48,18 @@
             <p:column headerText="Direccion" >  
                 #{paciente.persDireccion}  
             </p:column>
-
-
-
             <p:column headerText="Acción" style="width:20px"> 
-
                 <p:commandButton update=":actualizarPersona" onclick="PF('dialogEditarPersona').show()"  icon="ui-icon-pencil" title="Editar" >
                     <f:setPropertyActionListener value="#{paciente}" target="#{buscarPaciente.personaSeleccionada}" />  
                 </p:commandButton>
-
             </p:column> 
-
         </p:dataTable>
-
     </h:form>
 
     <p:dialog maximizable="true" minimizable="true" id="dialogEditar" header="Editar Persona" widgetVar="dialogEditarPersona" height="600" width="950">  
         <h:form id="actualizarPersona">
             <p:growl id="growl" showDetail="true" sticky="true" />
-            <p:panelGrid columns="2" id="panelEditar" >
+            <p:panelGrid columns="2" id="panelEditar" styleClass="companyHeaderGrid">
                 <p:panel header="Antecedentes Personales">
                     <p:outputLabel value="RUT Paciente: "/>
                     <p:inputText id="rut" readonly="true" required="true" value="#{buscarPaciente.personaSeleccionada.persRut}"/>-<p:inputText id="dv" readonly="true" style="width: 10px" required="true" value="#{buscarPaciente.personaSeleccionada.persDv}"/>

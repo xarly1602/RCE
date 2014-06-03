@@ -8,7 +8,7 @@
         <h:form id="formul">
             <div align="center" id = "divAgregar">
                 <p:growl id="growl" showDetail="true" />
-                <p:panelGrid columns="2">
+                <p:panelGrid columns="2" styleClass="companyHeaderGrid">
                     <p:panel header="Antecedentes Personales">
                         <p:panelGrid columns="3">
                             <p:outputLabel for="rut" value="Rut: "/>
@@ -90,7 +90,7 @@
                     </p:panel>
                 </p:panelGrid>
                 <p:panel header="Información Adicional." toggleable="true" toggleSpeed="500" collapsed="true">
-                    <p:panelGrid id="panel" columns="3" >
+                    <p:panelGrid id="panel" columns="3" styleClass="companyHeaderGrid">
                         <p:outputLabel for="Consultorio" value="Consultorio: "/>
                         <p:selectOneMenu id="Consultorio" value="#{pacienteMB.consultorioId}">
                             <f:selectItems value="#{listasMB.listaConsultorio}" var="cons" itemLabel="#{cons.consNombre}" itemValue="#{cons.idConsultorio}" />

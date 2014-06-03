@@ -40,7 +40,7 @@
 
         <p:dialog id="editarEspecialidad" header="Editar Especialidad" widgetVar="editEspec" resizable="false"
                   showEffect="clip" hideEffect="fold">
-            <h:panelGrid id="display" columns="2" cellpadding="4">
+            <h:panelGrid id="display" columns="2" cellpadding="4" styleClass="companyHeaderGrid">
                 <h:outputText value="Código Especialidad:" />
                 <h:inputText value="#{especialidadMB.especialidad.idEspecialidad}" readonly="true"/>
                 <h:outputText value="Nombre Especialidad:" />
@@ -52,7 +52,7 @@
 
         <p:dialog id="nuevaEspecialidad" header="Datos Especialidad" widgetVar="addEspec" resizable="false"
                   showEffect="clip" hideEffect="fold" >
-            <h:panelGrid id="display2" columns="2" cellpadding="4">
+            <h:panelGrid id="display2" columns="2" cellpadding="4" styleClass="companyHeaderGrid">
                 <h:outputText value="Código Especialidad:" />
                 <h:inputText id="codigo" value="#{especialidadMB.espeId}"/>
                 <h:outputText value="Nombre Especialidad:" />
