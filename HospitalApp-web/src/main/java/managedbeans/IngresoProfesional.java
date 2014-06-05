@@ -139,13 +139,30 @@ public class IngresoProfesional {
                 profesional.setProIdProfesional(new Profesional(medicoReferenciaId));
             }
             profesional.setProfActivo(true);
-            profesional.setProfFechadesde(fechaDesde);
-            profesional.setProfeFechahasta(fechaHasta);
+            if(fechaDesde != null && fechaHasta != null){
+                if(fechaDesde.before(fechaHasta)){
+                    profesional.setProfFechadesde(fechaDesde);
+                    profesional.setProfeFechahasta(fechaHasta);
 
-            personaFacade.create(persona);
-            profesionalFacade.create(profesional);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + nombres + " " + apellidoPaterno + " " + apellidoMaterno));
-            this.resetData();
+                    personaFacade.create(persona);
+                    profesionalFacade.create(profesional);
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + nombres + " " + apellidoPaterno + " " + apellidoMaterno));
+                    this.resetData();
+                }
+                else{
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Las fechas no coinciden, ingrese una correcta."));
+                }
+            }           
+            else{
+                profesional.setProfFechadesde(fechaDesde);
+                profesional.setProfeFechahasta(fechaHasta);
+
+                personaFacade.create(persona);
+                profesionalFacade.create(profesional);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + nombres + " " + apellidoPaterno + " " + apellidoMaterno));
+                this.resetData();                
+            }
+            
 
         }
     }

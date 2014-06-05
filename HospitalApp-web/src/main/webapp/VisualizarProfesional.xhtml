@@ -22,12 +22,12 @@
                         <f:selectItem itemLabel="Nombre" itemValue="2" />  
                         <f:selectItem itemLabel="Apellido Paterno" itemValue="3" />  
                     </p:selectOneRadio> 
-                    <p:outputLabel value="Especialidad: "/>
+                    <p:outputLabel value="Especialidad:  "/>
                     <p:selectOneMenu value="#{buscarProfesional.especialidadId}">
                         <p:ajax event="change" listener="#{buscarProfesional.buscarPorEspecialidad()}" update="PersonasProf"/>
                         <f:selectItems value="#{listasMB.listaEspecialidades}" var="espe" itemLabel="#{espe.espeNombre}" itemValue="#{espe.idEspecialidad}"/>
                     </p:selectOneMenu>
-                    <p:outputLabel value="Subespecialidad: "/>
+                    <p:outputLabel value="  Subespecialidad:  "/>
                     <p:selectOneMenu value="#{buscarProfesional.subEspecialidadId}">
                         <p:ajax event="change" listener="#{buscarProfesional.buscarPorSubespecialidad()}" update="PersonasProf"/>
                         <f:selectItems value="#{listasMB.listaSubespecialidad}" var="subespe" itemLabel="#{subespe.subespeNombre}" itemValue="#{subespe.idSubespecialidad}"/>
@@ -129,10 +129,11 @@
                     <p:inputText id="fechaDesde" readonly="true" required="true" value="#{buscarProfesional.profesionalSeleccionado.profFechadesde}"/>
                     <p:message for="fechaDesde"/>
 
-                    <p:outputLabel value="Fecha Hasta: " style="font-weight: bold"/>
-                    <p:calendar id="FechaHasta" effect="explode" yearRange="c:c+40" navigator="true" value="#{buscarProfesional.profesionalSeleccionado.profeFechahasta}">                                
+                    <p:outputLabel value="Fecha Hasta: " />
+                    <p:calendar id="FechaHasta" effect="explode" yearRange="c:c+40" navigator="true" value="#{buscarProfesional.fechaHasta}">                             
                     </p:calendar>
                     <p:message for="FechaHasta" display="icon"/>
+
 
                     <p:outputLabel value="Grupo Profesional: "/>
                     <p:selectOneMenu id="Grupo" value="#{buscarProfesional.grupoId}">                            
@@ -176,6 +177,7 @@
 
                 </p:panelGrid>
             </p:panel>
+
             <p:commandButton id="editarPersProf" value="Actualizar Datos" disabled="#{buscarProfesional.activoAux == false}" update="actualizarPersonaProf"  actionListener="#{buscarProfesional.actualizar()}" >
                 <p:confirm  header="Atención" message="¿Está seguro que desea actualizar los datos?" icon="ui-icon-alert" />
             </p:commandButton>

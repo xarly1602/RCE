@@ -89,6 +89,8 @@
 
             <p:dialog id="DatosContacto" header="Datos de contacto" widgetVar="contacto" showEffect="fade" hideEffect="fade">
                 <p:panelGrid id="Contacto" columns="3" styleClass="companyHeaderGrid">
+                    <p:inputText id="Nacio" required="true" requiredMessage="Ingrese Nacionalidad" value="#{ingresoProfesional.nacionalidad}"/>                        
+                    <p:message for="Nacio" display="icon"/>
                     <p:outputLabel for="DireccionPro" value="Dirección: "/>
                     <p:inputText id="DireccionPro" value="#{ingresoProfesional.direccion}"/>
                     <p:message for="DireccionPro" display="icon"/>

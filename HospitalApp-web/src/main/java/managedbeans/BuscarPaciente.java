@@ -15,7 +15,6 @@ import cl.RCE.www.entities.Comuna;
 import cl.RCE.www.entities.Consultorio;
 import cl.RCE.www.entities.Educacion;
 import cl.RCE.www.entities.EstadoConyugal;
-import cl.RCE.www.entities.Genero;
 import cl.RCE.www.entities.LeyesSociales;
 import cl.RCE.www.entities.Paciente;
 import cl.RCE.www.entities.Persona;
@@ -83,6 +82,13 @@ public class BuscarPaciente {
     
     public BuscarPaciente() {
     }
+    
+     /**
+     * Postconstructor.
+     * Se crea a la persona que será seleccionada para poder editarla, se obtiene
+     * una lista de todos los pacientes que hay en el sistema y se iniciliza 
+     * la opcion de busqueda en 1 (busqueda por rut).
+     */
     @PostConstruct
     public void init(){
         personaSeleccionada = new Persona();
@@ -95,6 +101,13 @@ public class BuscarPaciente {
         opcion = "1";
     }
     
+     /**
+     * Buscar a una Paciente.
+     * Dependiendo la opción que eliga el usuario se buscará al paciente,
+     * puede ser por rut, nombre o apellido paterno.
+     * Finalmente la función tendrá la lista con los pacientes que 
+     * coincidan con lo buscado.
+     */
     public void buscarPersona(){
         switch(Integer.parseInt(opcion)){
             case 1:
@@ -116,6 +129,13 @@ public class BuscarPaciente {
         }       
     }
     
+     /**
+     * Actualizar datos.
+     * Función que actualiza los datos del paciente, se crean las entidades relacionadas con el paciente
+     * como la comuna, eduación, entre otros.
+     * Se setean los datos para la persona y para el paciente según corresponda.
+     * Finalmente se actualizan los datos de la persona y del paciente.
+     */
     public void actualizar(){   
         comuna = new Comuna(comunaId);
         educacion = new Educacion(educacionId);
@@ -154,12 +174,18 @@ public class BuscarPaciente {
         
 
     }
+     /**
+     * Buscar la lista de los tipos de prevision.
+     * Se buscará la lista de tipos de prevision según el id de la previsión que ingreso el usuario,
+     * luego al tipo de previsión se le seteará una prevision de id cero (que no existe), para que
+     * no muestre un tipo de previsión que no corresponda a la previsión correcta.
+     */
      public void buscaTipo(AjaxBehaviorEvent event) {
         listaTipos = tipoPrevisionNegocio.busquedaTipoIdPrevision(previsionId);
         pacienteSeleccionado.setIdTipoprevision(new TipoPrevision(0));
         
     }
-
+    // Setters y getters. 
     public boolean isPacienteFallecidoAux() {
         return pacienteFallecidoAux;
     }
@@ -195,15 +221,15 @@ public class BuscarPaciente {
     public Persona getPersonaSeleccionada() {
         return personaSeleccionada;
     }
-
+     /**
+     * Setear Persona seleccionada.
+     * Luego de setear a la persona seleccionada, se buscará al paciente que corresponda 
+     * a la busqueda y se guardará en una variable auxiliar el estado del paciente (fallecido o no).
+     */
     public void setPersonaSeleccionada(Persona personaSeleccionada) {
         this.personaSeleccionada = personaSeleccionada;
         pacienteSeleccionado = pacienteNegocio.busquedaPacienteIdPersona(personaSeleccionada.getIdPersona());
-        pacienteFallecidoAux = pacienteSeleccionado.getPaciFallecido();
-        
-        
-       
-        
+        pacienteFallecidoAux = pacienteSeleccionado.getPaciFallecido();        
     } 
 
     public List<TipoPrevision> getListaTipos() {
