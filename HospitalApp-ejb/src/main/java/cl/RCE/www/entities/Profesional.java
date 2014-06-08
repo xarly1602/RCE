@@ -44,6 +44,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Profesional.findByIdPersona", query = "SELECT u FROM Profesional u WHERE u.idPersona.idPersona = :idPersona")    
 })
 public class Profesional implements Serializable {
+    @OneToMany(mappedBy = "idProfesional")
+    private Collection<ConsentimientoInformado> consentimientoInformadoCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -209,6 +211,15 @@ public class Profesional implements Serializable {
     @Override
     public String toString() {
         return "Profesional{" + "idProfesional=" + idProfesional + ", profActivo=" + profActivo + ", profFechadesde=" + profFechadesde + ", profeFechahasta=" + profeFechahasta + ", idUsuario=" + idUsuario + ", idSubespecialidad=" + idSubespecialidad + ", proIdProfesional=" + proIdProfesional + ", idPersona=" + idPersona + ", idLocal=" + idLocal + ", idGrupoprofesional=" + idGrupoprofesional + ", idCargo=" + idCargo + '}';
+    }
+
+    @XmlTransient
+    public Collection<ConsentimientoInformado> getConsentimientoInformadoCollection() {
+        return consentimientoInformadoCollection;
+    }
+
+    public void setConsentimientoInformadoCollection(Collection<ConsentimientoInformado> consentimientoInformadoCollection) {
+        this.consentimientoInformadoCollection = consentimientoInformadoCollection;
     }
 
    

@@ -6,6 +6,7 @@
 package cl.RCE.www.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,11 +18,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,6 +42,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Paciente.findByIdPersona", query = "SELECT p FROM Paciente p WHERE p.idPersona.idPersona = :idPersona"),
     @NamedQuery(name = "Paciente.findByPaciOtraprevision", query = "SELECT p FROM Paciente p WHERE p.paciOtraprevision = :paciOtraprevision")})
 public class Paciente implements Serializable {
+    @OneToMany(mappedBy = "idPaciente")
+    private Collection<ConsentimientoInformado> consentimientoInformadoCollection;
+    @OneToMany(mappedBy = "idPaciente")
+    private Collection<Anamnesis> anamnesisCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -216,6 +223,24 @@ public class Paciente implements Serializable {
     @Override
     public String toString() {
         return "cl.RCE.www.entities.Paciente[ idPaciente=" + idPaciente + " ]";
+    }
+
+    @XmlTransient
+    public Collection<ConsentimientoInformado> getConsentimientoInformadoCollection() {
+        return consentimientoInformadoCollection;
+    }
+
+    public void setConsentimientoInformadoCollection(Collection<ConsentimientoInformado> consentimientoInformadoCollection) {
+        this.consentimientoInformadoCollection = consentimientoInformadoCollection;
+    }
+
+    @XmlTransient
+    public Collection<Anamnesis> getAnamnesisCollection() {
+        return anamnesisCollection;
+    }
+
+    public void setAnamnesisCollection(Collection<Anamnesis> anamnesisCollection) {
+        this.anamnesisCollection = anamnesisCollection;
     }
 
 }
