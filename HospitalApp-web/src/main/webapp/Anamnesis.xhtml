@@ -2,19 +2,235 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-    <h:form id="Anamnesis">
-        <p:panel id="InformacionPersonal" header="Información Personal">
-            <p:row>
-                <p:column>
-                    <p:outputLabel value="Nombre: "/>
-                </p:column>
-                <p:column> 
-                    <h:outputText value="#{anamnesisMB.paciente.idPersona.persNombres} #{anamnesisMB.paciente.idPersona.persApepaterno}" style="text-decoration: underline"/>
-                </p:column>
-                <p:outputLabel value="Dirección: "/> <h:outputText value="#{anamnesisMB.paciente.idPersona.persDireccion}" style="text-decoration: underline"/>
-            </p:row>
-        </p:panel>
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="Anamnesis" styleClass="companyHeaderGrid">
+        <p:growl id="growl" showDetail="true"/>
+        <p:panelGrid columns="6">
+            <p:outputLabel value="Nombre: "/>
+            <p:outputLabel value="#{anamnesisMB.paciente.idPersona.persNombres} #{anamnesisMB.paciente.idPersona.persApepaterno}"/>
+            <p:outputLabel value="Edad: "/>
+            <p:outputLabel value="## años"/>
+            <p:outputLabel value="Rut: "/>
+            <p:outputLabel value="#{anamnesisMB.paciente.idPersona.persRut}-#{anamnesisMB.paciente.idPersona.persDv}"/>            
+        </p:panelGrid>
+        <p:outputLabel value="Ingreso por: "/>
+        <p:selectOneRadio columns="2" value="#{anamnesisMB.ingresoPor}">
+            <f:selectItem itemLabel="URGENCIA" itemValue="1"/>
+            <f:selectItem itemLabel="CAROP" itemValue="2"/>
+        </p:selectOneRadio>
+        <p:outputLabel value="Motivo de consulta: "/>
+        <p:inputText style="width: 100%" value="#{anamnesisMB.motivoConsulta}"/>
+        <p:tabView style="height: 100%;" id="Anamnesis" orientation="left">
+            <p:tab title="Anamnesis">
+                <p:inputTextarea style="height: 100%; width: 100%" value="#{anamnesisMB.anamnesis}"/>
+            </p:tab>
+            <p:tab title="Historia Obstétrica">
+                <p:panelGrid columns="3">
+                    <p:panel>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="F.U.R. "/>
+                            <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{anamnesisMB.fur}"/>
+                            <p:outputLabel value="F.U.R.op. "/>
+                            <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{anamnesisMB.furop}"/>
+                            <p:outputLabel value="F.P.P. "/>
+                            <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{anamnesisMB.fpp}"/>
+                            <p:outputLabel value="Eco. precoz "/>
+                            <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{anamnesisMB.ecoPrecoz}"/>
+                            <p:outputLabel value="EG "/>
+                            <p:inputText style="width: 50px;" value="#{anamnesisMB.eg}"/>
+                            <p:outputLabel value="Acorde "/>
+                            <p:selectBooleanCheckbox value="#{anamnesisMB.acorde}"/>
+                        </p:panelGrid>
+                    </p:panel>
+                    <p:panel>
+                        <div align="center">
+                            <p:panelGrid>
+                                <f:facet name="header">
+                                    <p:row>
+                                        <p:column colspan="4">Gestas</p:column>
+                                    </p:row>
+                                </f:facet>
+                                <p:row>
+                                    <p:column colspan="4">
+                                        <p:inputText style="width: 10px;" value="#{anamnesisMB.gestas}"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="2" styleClass="ui-widget-header">
+                                        Partos
+                                    </p:column>
+                                    <p:column colspan="2" styleClass="ui-widget-header">
+                                        Abortos
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="2">
+                                        <p:inputText style="width: 10px;" value="#{anamnesisMB.partos}"/>
+                                    </p:column>
+                                    <p:column colspan="2">
+                                        <p:inputText style="width: 10px;" value="#{anamnesisMB.abortos}"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column styleClass="ui-widget-header">
+                                        Vag
+                                    </p:column>
+                                    <p:column styleClass="ui-widget-header">
+                                        Ces
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:inputText style="width: 10px;" value="#{anamnesisMB.vaginales}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText style="width: 10px;" value="#{anamnesisMB.cesareas}"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="2">Último embarazo: </p:column>
+                                    <p:column colspan="2"><p:calendar pattern="dd/mm/yy" value="#{anamnesisMB.ultimoEmbarazo}"/></p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="2">RN mayor peso</p:column>
+                                    <p:column colspan="2"><p:inputText style="width: 50px;" value="#{anamnesisMB.mayorPeso}"/></p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="2">RN menor peso</p:column>
+                                    <p:column colspan="2"><p:inputText style="width: 50px;" value="#{anamnesisMB.menorPeso}"/></p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </div>
+                    </p:panel>
+                    <p:panel>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Causa cesárea(s): "/>
+                            <p:inputText value="#{anamnesisMB.causaCesarea}"/>
+                            <p:outputLabel value="Parto prematuro: "/>
+                            <p:inputText value="#{anamnesisMB.partoPrem}"/>
+                            <p:outputLabel value="Emb. múltiple: "/>
+                            <p:inputText value="#{anamnesisMB.embMultiple}"/>
+                            <p:outputLabel value="Mortinato: "/>
+                            <p:inputText value="#{anamnesisMB.mortinato}"/>
+                            <p:outputLabel value="Mortineonato: "/>
+                            <p:inputText value="#{anamnesisMB.mortineonato}"/>
+                        </p:panelGrid>
+                    </p:panel>
+                </p:panelGrid>
+            </p:tab>
+            <p:tab id="ExamenFisico" title="Exámen Físico">
+                <p:panelGrid columns="2">
+                    <p:outputLabel for="PA" value="Presión arterial: "/>
+                    <p:inputText id="PA" value="#{anamnesisMB.presionArterial}"/>
+                    <p:outputLabel for="Temp" value="Temperatura: "/>
+                    <p:inputText id="Temp" value="#{anamnesisMB.temperatura}"/>
+                    <p:outputLabel for="Pulso" value="Pulso: "/>
+                    <p:inputText id="Pulso" value="#{anamnesisMB.pulso}"/>
+                    <p:outputLabel for="Peso" value="Peso: "/>
+                    <p:inputText id="Peso" value="#{anamnesisMB.peso}"/>
+                    <p:outputLabel for="Talla" value="Talla: "/>
+                    <p:inputText id="Talla" value="#{anamnesisMB.talla}"/>
+                    <p:outputLabel for="IMC" value="IMC: "/>
+                    <p:inputText id="IMC" value="#{anamnesisMB.imc}" readonly="true"/>
+                </p:panelGrid>
+                <p:commandButton action="#{anamnesisMB.calcularIMC(actionEvent)}" value="Calcular IMC" update="IMC"/>
+            </p:tab>
+            <p:tab title="Exámen Obstétrico">
+                <p:panelGrid columns="6">
+                    <p:outputLabel value="A.U. "/>
+                    <p:inputText style="width: 15px;" value="#{anamnesisMB.alturaUterina}"/>
+                    <p:outputLabel value="L.C.F. "/>
+                    <p:inputText style="width: 15px;" value="#{anamnesisMB.lcf}"/>
+                    <p:outputLabel value="D.U. "/>
+                    <p:inputText style="width: 15px;" value="#{anamnesisMB.du}"/>
+                </p:panelGrid>
+                <p:outputLabel value="Presentación"/>
+                <p:selectOneRadio value="#{anamnesisMB.presentacion}">
+                    <f:selectItem itemLabel="Cefálica" itemValue="Cefálica"/>
+                    <f:selectItem itemLabel="Podálica" itemValue="Podálica"/>
+                    <f:selectItem itemLabel="Trans." itemValue="Trans."/>
+                </p:selectOneRadio>
+                <p:outputLabel value="Tacto vaginal"/>
+                <p:selectOneRadio value="#{anamnesisMB.tactoVag}">
+                    <f:selectItem itemLabel="Si" itemValue="1"/>
+                    <f:selectItem itemLabel="No" itemValue="2"/>
+                </p:selectOneRadio>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Posición"/>
+                    <p:selectOneMenu value="#{anamnesisMB.posicion}">
+                        <f:selectItem itemLabel="Posterior" itemValue="Posterior"/>
+                        <f:selectItem itemLabel="Intermedio" itemValue="Intermedio"/>
+                        <f:selectItem itemLabel="Central" itemValue="Central"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Consistencia"/>
+                    <p:selectOneMenu value="#{anamnesisMB.consistencia}">
+                        <f:selectItem itemLabel="Duro" itemValue="Duro"/>
+                        <f:selectItem itemLabel="+/- Blando" itemValue="+/- Blando"/>
+                        <f:selectItem itemLabel="Blando" itemValue="Blando"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Borramiento"/>
+                    <p:inputText value="#{anamnesisMB.borramiento}"/>
+                    <p:outputLabel value="Dilatación"/>
+                    <p:inputText value="#{anamnesisMB.dilatacion}" placeholder="cm"/>
+                    <p:outputLabel value="Plano"/>
+                    <p:inputText value="#{anamnesisMB.plano}"/>
+                    <p:outputLabel value="Membranas"/>
+                    <p:selectOneMenu value="#{anamnesisMB.membranas}">
+                        <f:selectItem itemLabel="Íntegras" itemValue="Íntegras"/>
+                        <f:selectItem itemLabel="Rotas" itemValue="Rotas"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:outputLabel value="Score de Bishop: "/>
+                <p:inputText value="#{anamnesisMB.bishop}"/>
+            </p:tab>
+            <p:tab title="Resumen Patologías Maternas">
+                <p:selectManyCheckbox layout="grid" columns="3" value="#{anamnesisMB.patologiasMat}">
+                    <f:selectItem itemLabel="Ninguna" itemValue="Ninguna"/>
+                    <f:selectItem itemLabel="Otras infec." itemValue="Otras infec."/>
+                    <f:selectItem itemLabel="Anemia crónica" itemValue="Anemia crónica"/>
+                    <f:selectItem itemLabel="Emb. múltiple" itemValue="Emb. múltiple"/>
+                    <f:selectItem itemLabel="Parasitosis" itemValue="Parasitosis"/>
+                    <f:selectItem itemLabel="Rot. pre. memb." itemValue="Rot. pre. memb."/>
+                    <f:selectItem itemLabel="Hipert. previa" itemValue="Hipert. previa"/>
+                    <f:selectItem itemLabel="R.C.I.U." itemValue="R.C.I.U."/>
+                    <f:selectItem itemLabel="Infec. puerp." itemValue="Infec. puerp."/>
+                    <f:selectItem itemLabel="Preeclampsia" itemValue="Preeclampsia"/>
+                    <f:selectItem itemLabel="Anem. parto prem." itemValue="Anem. parto prem."/>
+                    <f:selectItem itemLabel="Hem. puerp." itemValue="Hem. puerp."/>
+                    <f:selectItem itemLabel="Eclampsia" itemValue="Eclampsia"/>
+                    <f:selectItem itemLabel="Desprop. cef. pelv." itemValue="Desprop. cef. pelv."/>
+                    <f:selectItem itemLabel="Alcohol/drogas" itemValue="Alcohol/drogas"/>
+                    <f:selectItem itemLabel="Cardiopatía" itemValue="Cardiopatía"/>
+                    <f:selectItem itemLabel="Hemorragia 1° trim." itemValue="Hemorragia 1° trim."/>
+                    <f:selectItem itemLabel="Cesárea anterior" itemValue="Cesárea anterior"/>
+                    <f:selectItem itemLabel="Diabetes" itemValue="Diabetes"/>
+                    <f:selectItem itemLabel="Hemorragia 2° trim." itemValue="Hemorragia 2° trim."/>
+                    <f:selectItem itemLabel="Inf. urinaria" itemValue="Inf. urinaria"/>
+                    <f:selectItem itemLabel="C.I.E." itemValue="C.I.E."/>
+                    <f:selectItem itemLabel="Hemorragia 3° trim." itemValue="Hemorragia 3° trim."/>
+                    <f:selectItem itemLabel="Otras" itemValue="Otras"/>
+                </p:selectManyCheckbox>
+                <p:outputLabel value="Control en CAROP"/>
+                <p:selectOneRadio value="#{anamnesisMB.controlCarop}">
+                    <f:selectItem itemLabel="Si" itemValue="1"/>
+                    <f:selectItem itemLabel="No" itemValue="2"/>
+                </p:selectOneRadio>
+                <p:panelGrid columns="4">
+                    <p:outputLabel value="Motivo"/>
+                    <p:inputText value="#{anamnesisMB.motivoUltimaConsulta}"/>
+                    <p:outputLabel value="Último control"/>
+                    <p:inputText value="#{anamnesisMB.ultimoControl}"/>
+                </p:panelGrid>
+            </p:tab>
+            <p:tab title="Diagnósticos">
+                <p:inputTextarea style="height: 100%; width: 100%" value="#{anamnesisMB.diagnostico}"/>
+            </p:tab>
+            <p:tab title="Indicaciones">
+                <p:inputTextarea style="height: 100%; width: 100%" value="#{anamnesisMB.indicaciones}"/>
+            </p:tab>
+        </p:tabView>
+        <p:commandButton value="Guardar" icon="ui-icon-save" action="#{anamnesisMB.guardarAnamnesis()}" update="Anamnesis"/>        
     </h:form>
 </html>
 

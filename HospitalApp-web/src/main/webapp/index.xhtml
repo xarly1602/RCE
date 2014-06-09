@@ -14,6 +14,13 @@
                 padding: 0;
                 font-size:80%;
             }
+            .ui-panelgrid td {
+                background-color: activeborder;
+            }
+            .ui-panel {
+                background-color: gainsboro;
+                border: none;
+            }
             .companyHeaderGrid tr, .companyHeaderGrid td {
                 border: none;
             }
@@ -37,7 +44,10 @@
                 <p:menuitem value="Ver Profesionales" url="#" onclick="PF('viewPro').show()"/>
             </p:submenu>
             <p:menuitem value="Buscar Paciente" url="#" onclick="PF('searchPac').show()"/>
-            <p:menuitem value="Ver Anamnesis" url="#" onclick="PF('anamnesisPac').show()"/>
+            <p:submenu label="Anamnesis">
+                <p:menuitem value="Agregar Anamnesis" url="#" onclick="PF('anamPac').show()"/>
+                <p:menuitem value="Ver Anamnesis" url="#" onclick="PF('verAnamPac').show()"/>
+            </p:submenu>
         </p:menubar>
         <p:dialog id='admisionPacientes' maximizable="true" header="Admision Pacientes" widgetVar="addPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800">
@@ -68,11 +78,16 @@
             <ui:include src="BuscarPaciente.xhtml"/>
         </p:dialog>
 
-        <p:dialog id="anamnesisPaciente" maximizable="true" header="Anamnesis" widgetVar="anamnesisPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
-                  minimizable="true">
+        <p:dialog id="anamnesisPaciente" maximizable="true" header="Anamnesis" widgetVar="anamPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
+                  minimizable="true" height="540" width="1250">
             <ui:include src="Anamnesis.xhtml"/>
         </p:dialog>
 
+        <p:dialog id="verAnamnesisPaciente" maximizable="true" header="Anamnesis" widgetVar="verAnamPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
+                  minimizable="true" height="540" width="1250">
+            <ui:include src="VisualizarAnamnesis.xhtml"/>
+        </p:dialog>
+        
         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
             <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>     

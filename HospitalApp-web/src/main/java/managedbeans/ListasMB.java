@@ -21,6 +21,7 @@ import cl.RCE.www.sessionbeans.ComunaFacadeLocal;
 import cl.RCE.www.sessionbeans.ConsultorioFacadeLocal;
 import cl.RCE.www.sessionbeans.EducacionFacadeLocal;
 import cl.RCE.www.sessionbeans.EspecialidadFacadeLocal;
+import cl.RCE.www.sessionbeans.EstablecimientoFacadeLocal;
 import cl.RCE.www.sessionbeans.EstadoConyugalFacadeLocal;
 import cl.RCE.www.sessionbeans.GeneroFacadeLocal;
 import cl.RCE.www.sessionbeans.GrupoProfesionalFacadeLocal;
@@ -31,6 +32,8 @@ import cl.RCE.www.sessionbeans.PrevisionFacadeLocal;
 import cl.RCE.www.sessionbeans.ProfesionalFacadeLocal;
 import cl.RCE.www.sessionbeans.PuebloOriginarioFacadeLocal;
 import cl.RCE.www.sessionbeans.ReligionFacadeLocal;
+import cl.RCE.www.sessionbeans.SectorFacadeLocal;
+import cl.RCE.www.sessionbeans.ServicioSaludFacadeLocal;
 import cl.RCE.www.sessionbeans.SubespecialidadFacadeLocal;
 import cl.RCE.www.sessionbeans.TipoPrevisionFacadeLocal;
 
@@ -41,6 +44,12 @@ import cl.RCE.www.sessionbeans.TipoPrevisionFacadeLocal;
 @ManagedBean
 @RequestScoped
 public class ListasMB {
+    @EJB
+    private SectorFacadeLocal sectorFacade;
+    @EJB
+    private ServicioSaludFacadeLocal servicioSaludFacade;
+    @EJB
+    private EstablecimientoFacadeLocal establecimientoFacade;
     @EJB
     private ProfesionalFacadeLocal profesionalFacade;
     @EJB
@@ -97,6 +106,9 @@ public class ListasMB {
     private List<Cargo> listaCargos;
     private List<Local> listaLocales;
     private List<GrupoProfesional> listaGrupos;
+    private List<Establecimiento> listaEstablecimientos;
+    private List<Sector> listaSectores;
+    private List<ServicioSalud> listaServicios;
 
     private String elementoBuscado;
     private int i;
@@ -130,6 +142,9 @@ public class ListasMB {
         listaLocales = localFacade.findAll();
         listaGrupos = grupoProfesionalFacade.findAll();
         listaProfesionales = personaFacade.findAll();
+        listaSectores = sectorFacade.findAll();
+        listaServicios = servicioSaludFacade.findAll();
+        listaEstablecimientos = establecimientoFacade.findAll();
         this.filtrarListas();
     }
 
@@ -361,6 +376,30 @@ public class ListasMB {
 
     public void setListaTipos(List<TipoPrevision> listaTipos) {
         this.listaTipos = listaTipos;
+    }
+
+    public List<Establecimiento> getListaEstablecimientos() {
+        return listaEstablecimientos;
+    }
+
+    public void setListaEstablecimientos(List<Establecimiento> listaEstablecimientos) {
+        this.listaEstablecimientos = listaEstablecimientos;
+    }
+
+    public List<Sector> getListaSectores() {
+        return listaSectores;
+    }
+
+    public void setListaSectores(List<Sector> listaSectores) {
+        this.listaSectores = listaSectores;
+    }
+
+    public List<ServicioSalud> getListaServicios() {
+        return listaServicios;
+    }
+
+    public void setListaServicios(List<ServicioSalud> listaServicios) {
+        this.listaServicios = listaServicios;
     }
 
     public String getElementoBuscado() {

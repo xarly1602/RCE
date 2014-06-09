@@ -8,6 +8,7 @@ package managedbeans;
 import cl.RCE.www.entities.Comuna;
 import cl.RCE.www.entities.Consultorio;
 import cl.RCE.www.entities.Educacion;
+import cl.RCE.www.entities.Establecimiento;
 import cl.RCE.www.entities.EstadoConyugal;
 import cl.RCE.www.entities.Genero;
 import cl.RCE.www.entities.LeyesSociales;
@@ -16,6 +17,8 @@ import cl.RCE.www.entities.Persona;
 import cl.RCE.www.entities.Prevision;
 import cl.RCE.www.entities.PuebloOriginario;
 import cl.RCE.www.entities.Religion;
+import cl.RCE.www.entities.Sector;
+import cl.RCE.www.entities.ServicioSalud;
 import cl.RCE.www.entities.TipoPrevision;
 import cl.RCE.www.persona.PersonaNegocioLocal;
 import cl.RCE.www.sessionbeans.EstadoConyugalFacadeLocal;
@@ -94,6 +97,9 @@ public class PacienteMB {
     private int leyesSocialesId;
     private int generoId;
     private int consultorioId;
+    private int establecimientoId;
+    private int servicioId;
+    private int sectorId;
     private Genero genero;
     private Educacion educacion;
     private PuebloOriginario puebloOriginario;
@@ -104,6 +110,9 @@ public class PacienteMB {
     private LeyesSociales leyesSociales;
     private Comuna comuna;
     private Consultorio consultorio;
+    private Sector sector;
+    private Establecimiento establecimiento;
+    private ServicioSalud servicio;
 
     private List<EstadoConyugal> listaEstados;
     private List<TipoPrevision> listaTipos;
@@ -203,6 +212,12 @@ public class PacienteMB {
             paciente.setIdTipoprevision(new TipoPrevision(tipoPrevisionId));
             paciente.setPaciFallecido(Boolean.FALSE);
             paciente.setPaciNficha(numFicha);
+            if (establecimientoId != 0)
+                paciente.setIdEstablecimiento(new Establecimiento(establecimientoId));
+            if (sectorId != 0)
+                paciente.setIdSector(new Sector(sectorId));
+            if (servicioId != 0)
+                paciente.setIdServiciosalud(new ServicioSalud(servicioId));
             if (previsionId == 6) {
                 paciente.setPaciOtraprevision(otraPrevision);
             }
@@ -494,6 +509,30 @@ public class PacienteMB {
         this.leyesSocialesId = leyesSocialesId;
     }
 
+    public int getEstablecimientoId() {
+        return establecimientoId;
+    }
+
+    public void setEstablecimientoId(int establecimientoId) {
+        this.establecimientoId = establecimientoId;
+    }
+
+    public int getServicioId() {
+        return servicioId;
+    }
+
+    public void setServicioId(int servicioId) {
+        this.servicioId = servicioId;
+    }
+
+    public int getSectorId() {
+        return sectorId;
+    }
+
+    public void setSectorId(int sectorId) {
+        this.sectorId = sectorId;
+    }
+
     public Comuna getComuna() {
         return comuna;
     }
@@ -684,6 +723,30 @@ public class PacienteMB {
 
     public void setPasaporte(int pasaporte) {
         this.pasaporte = pasaporte;
+    }
+
+    public Sector getSector() {
+        return sector;
+    }
+
+    public void setSector(Sector sector) {
+        this.sector = sector;
+    }
+
+    public Establecimiento getEstablecimiento() {
+        return establecimiento;
+    }
+
+    public void setEstablecimiento(Establecimiento establecimiento) {
+        this.establecimiento = establecimiento;
+    }
+
+    public ServicioSalud getServicio() {
+        return servicio;
+    }
+
+    public void setServicio(ServicioSalud servicio) {
+        this.servicio = servicio;
     }
 
 }

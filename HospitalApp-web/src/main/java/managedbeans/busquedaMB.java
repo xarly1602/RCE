@@ -23,7 +23,7 @@ import javax.faces.context.FacesContext;
 
 /**
  *
- * @author Xarly1602
+ * @author G3
  */
 @ManagedBean
 @RequestScoped
@@ -78,7 +78,7 @@ public class busquedaMB {
     }
 
     /**
-     * Autocompletar ruts para la búsqueda
+     * Autocompletar ruts para la búsqueda.
      * Función para realizar la lista que se muestra mientras se va escribiendo
      * un rut en el campo de búsqueda correspondiente.
      * @param query String correspondiente al inicio del rut que se busca.
@@ -95,7 +95,7 @@ public class busquedaMB {
     }
     
     /**
-     * Autocompletar nombres para la búsqueda
+     * Autocompletar nombres para la búsqueda.
      * Función para realizar la lista que se muestra mientras se va escribiendo
      * un nombre en el campo de búsqueda correspondiente.
      * @param query String correspondiente al inicio del nombre buscado.
@@ -112,7 +112,7 @@ public class busquedaMB {
     }
     
     /**
-     * Autocompletar apellido paterno para la búsqueda
+     * Autocompletar apellido paterno para la búsqueda.
      * Función para realizar la lista que se muestra mientras se va escribiendo
      * un apellido en el campo de búsqueda correspondiente al apellido paterno.
      * @param query String correspondiente al inicio del apellido buscado.
@@ -129,7 +129,7 @@ public class busquedaMB {
     }
     
     /**
-     * Autocompletar apellido para la búsqueda
+     * Autocompletar apellido para la búsqueda.
      * Función para realizar la lista que se muestra mientras se va escribiendo
      * un apellido en el campo de búsqueda correspondiente al apellido materno.
      * @param query String correspondiente al inicio del apellido buscado.
@@ -156,8 +156,6 @@ public class busquedaMB {
             listaPersonas = personaNegocio.busquedaPersonaFechaNacimiento(fechaNacimiento, 1);
             etapa = 1;
         } else if (!nombres.isEmpty()) {
-            System.out.println("BuscaNombres");
-            // listaPersonas = personaNegocio.busquedaPersonaNombre(nombres, 1);
             for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                 if (!listaPersonas.get(i).getPersNombres().startsWith(nombres)) {
                     listaPersonas.remove(i);
@@ -165,8 +163,6 @@ public class busquedaMB {
             }
             etapa = 2;
         } else if (!apePaterno.isEmpty()) {
-            System.out.println("BuscaApellido");
-            // listaPersonas = personaNegocio.busquedaPersonaApellidoPaterno(apePaterno, 1);
             for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                 if (!listaPersonas.get(i).getPersApepaterno().startsWith(apePaterno)) {
                     listaPersonas.remove(i);
@@ -174,8 +170,6 @@ public class busquedaMB {
             }
             etapa = 3;
         } else if (!apeMaterno.isEmpty()) {
-            System.out.println("BuscaMaterno");
-            // listaPersonas = personaNegocio.busquedaPersonaApellidoPaterno(apeMaterno, 1);
             for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                 if (!listaPersonas.get(i).getPersApematerno().startsWith(apeMaterno)) {
                     listaPersonas.remove(i);
@@ -202,7 +196,8 @@ public class busquedaMB {
                 listaPersonas = personaNegocio.busquedaPersonaRut(rutTemp, 1);
                 etapa = 7;
             } catch (NumberFormatException e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Rut invalido", "Ingrese un rut válido"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Rut invalido", "Ingrese un rut válido"));
+                throw e;
             }
         }
         switch (etapa) {

@@ -88,63 +88,82 @@
                             <p:message for="TelefonoContacto" display="icon"/>
                         </p:panelGrid>
                     </p:panel>
+                    <p:panel header="Información Adicional." toggleable="true" toggleSpeed="500" collapsed="true">
+                        <p:panelGrid id="panel" columns="3" styleClass="companyHeaderGrid">
+                            <p:outputLabel for="Consultorio" value="Consultorio: "/>
+                            <p:selectOneMenu id="Consultorio" value="#{pacienteMB.consultorioId}">
+                                <f:selectItems value="#{listasMB.listaConsultorio}" var="cons" itemLabel="#{cons.consNombre}" itemValue="#{cons.idConsultorio}" />
+                            </p:selectOneMenu>
+                            <p:message for="Consultorio" display="icon"/>
+                            <p:outputLabel for="Prevision" value="Previsión de salud: "/>
+                            <p:selectOneMenu id="Prevision" value="#{pacienteMB.previsionId}">
+                                <p:ajax event="change" listener="#{pacienteMB.buscaTipo}" update="Tipo"/>
+                                <f:selectItems value="#{listasMB.listaPrevision}" var="prev" itemLabel="#{prev.previNombre}" itemValue="#{prev.idPrevision}" />
+                            </p:selectOneMenu>
+                            <p:message for="Prevision" display="icon"/>
+                            <p:outputLabel for="Tipo" value="Tipo previsión: "/>
+                            <p:selectOneMenu id="Tipo" value="#{pacienteMB.tipoPrevisionId}">
+                                <f:selectItems value="#{pacienteMB.listaTipos}" var="tipo" itemLabel="#{tipo.clasNombre}" itemValue="#{tipo.idTipoprevision}" />
+                            </p:selectOneMenu>
+                            <p:message for="Tipo" display="icon"/>
+                            <p:outputLabel for="OtraPrevision" value="Otra previsión: "/>
+                            <p:inputText id="OtraPrevision" value="#{pacienteMB.otraPrevision}"/>
+                            <p:message for="OtraPrevision"/>
+                            <p:outputLabel for="Leyes" value="Leyes sociales: "/>
+                            <p:selectOneMenu id="Leyes" value="#{pacienteMB.leyesSocialesId}" >
+                                <f:selectItem itemLabel="Seleccionar una" itemValue="" />
+                                <f:selectItems value="#{listasMB.listaLeyes}" var="ley" itemLabel="#{ley.leyesNombre}" itemValue="#{ley.idLeyessociales}" />
+                            </p:selectOneMenu>
+                            <p:message for="Leyes" display="icon"/>
+                            <p:outputLabel for="Estado" value="Estado Conyugal: "/>
+                            <p:selectOneMenu id="Estado" value="#{pacienteMB.estadoConyugalId}">
+                                <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
+                                <f:selectItems value="#{listasMB.listaEstados}" var="e" itemLabel="#{e.estadNombre}" itemValue="#{e.idEstadoconyugal}"/>
+                            </p:selectOneMenu>
+                            <p:message for="Estado" display="icon"/>
+                            <p:outputLabel for="Educacion" value="Nivel de Educaciòn: "/>
+                            <p:selectOneMenu id="Educacion" value="#{pacienteMB.educacionId}" >
+                                <f:selectItems value="#{listasMB.listaEducacion}" var="edu" itemLabel="#{edu.educNombre}" itemValue="#{edu.idEducacion}" />
+                            </p:selectOneMenu>
+                            <p:message for="Educacion" display="icon"/>
+                            <p:outputLabel for="Ocupacion" value="Ocupación: "/>
+                            <p:inputText id="Ocupacion" value="#{pacienteMB.ocupacion}"/>                                    
+                            <p:message for="Ocupacion" display="icon"/>
+                            <p:outputLabel for="Actividad" value="Actividad Económica: "/>
+                            <p:inputText id="Actividad" value="#{pacienteMB.actividadEconomica}"/>
+                            <p:message for="Actividad" display="icon"/>
+                            <p:outputLabel for="Pueblo" value="Pueblo Originario: "/>
+                            <p:selectOneMenu id="Pueblo" value="#{pacienteMB.puebloOriginarioId}">
+                                <f:selectItems value="#{listasMB.listaPueblos}" var="town" itemLabel="#{town.puebloNombre}" itemValue="#{town.idPueblooriginario}" />
+                            </p:selectOneMenu>
+                            <p:message for="Pueblo" display="icon"/>
+                            <p:outputLabel for="Religion" value="Religión: "/>
+                            <p:selectOneMenu id="Religion" value="#{pacienteMB.religionId}">
+                                <f:selectItems value="#{listasMB.listaReligion}" var="reli" itemLabel="#{reli.reliName}" itemValue="#{reli.idReligion}" />
+                            </p:selectOneMenu>
+                            <p:message for="Religion" display="icon"/>
+                        </p:panelGrid>
+                    </p:panel>
+                    <p:panel header="Datos de inscripción">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Sector:"/>
+                            <p:selectOneMenu value="#{pacienteMB.sectorId}">
+                                <f:selectItem itemLabel="Seleccionar uno" itemValue=""/>
+                                <f:selectItems value="#{listasMB.listaSectores}" var="sector" itemLabel="#{sector.secNombre}" itemValue="#{sector.idSector}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Establecimiento:"/>
+                            <p:selectOneMenu value="#{pacienteMB.establecimientoId}">
+                                <f:selectItem itemLabel="Seleccionar uno" itemValue=""/>
+                                <f:selectItems value="#{listasMB.listaEstablecimientos}" var="est" itemLabel="#{est.estNombre}" itemValue="#{est.idEstablecimiento}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Servicio de salud:"/>
+                            <p:selectOneMenu value="#{pacienteMB.servicioId}">
+                                <f:selectItem itemLabel="Seleccionar uno" itemValue=""/>
+                                <f:selectItems value="#{listasMB.listaServicios}" var="serv" itemLabel="#{serv.servNombre}" itemValue="#{serv.idServiciosalud}"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                    </p:panel>
                 </p:panelGrid>
-                <p:panel header="Información Adicional." toggleable="true" toggleSpeed="500" collapsed="true">
-                    <p:panelGrid id="panel" columns="3" styleClass="companyHeaderGrid">
-                        <p:outputLabel for="Consultorio" value="Consultorio: "/>
-                        <p:selectOneMenu id="Consultorio" value="#{pacienteMB.consultorioId}">
-                            <f:selectItems value="#{listasMB.listaConsultorio}" var="cons" itemLabel="#{cons.consNombre}" itemValue="#{cons.idConsultorio}" />
-                        </p:selectOneMenu>
-                        <p:message for="Consultorio" display="icon"/>
-                        <p:outputLabel for="Prevision" value="Previsión de salud: "/>
-                        <p:selectOneMenu id="Prevision" value="#{pacienteMB.previsionId}">
-                            <p:ajax event="change" listener="#{pacienteMB.buscaTipo}" update="Tipo"/>
-                            <f:selectItems value="#{listasMB.listaPrevision}" var="prev" itemLabel="#{prev.previNombre}" itemValue="#{prev.idPrevision}" />
-                        </p:selectOneMenu>
-                        <p:message for="Prevision" display="icon"/>
-                        <p:outputLabel for="Tipo" value="Tipo previsión: "/>
-                        <p:selectOneMenu id="Tipo" value="#{pacienteMB.tipoPrevisionId}">
-                            <f:selectItems value="#{pacienteMB.listaTipos}" var="tipo" itemLabel="#{tipo.clasNombre}" itemValue="#{tipo.idTipoprevision}" />
-                        </p:selectOneMenu>
-                        <p:message for="Tipo" display="icon"/>
-                        <p:outputLabel for="OtraPrevision" value="Otra previsión: "/>
-                        <p:inputText id="OtraPrevision" value="#{pacienteMB.otraPrevision}"/>
-                        <p:message for="OtraPrevision"/>
-                        <p:outputLabel for="Leyes" value="Leyes sociales: "/>
-                        <p:selectOneMenu id="Leyes" value="#{pacienteMB.leyesSocialesId}" >
-                            <f:selectItem itemLabel="Seleccionar una" itemValue="" />
-                            <f:selectItems value="#{listasMB.listaLeyes}" var="ley" itemLabel="#{ley.leyesNombre}" itemValue="#{ley.idLeyessociales}" />
-                        </p:selectOneMenu>
-                        <p:message for="Leyes" display="icon"/>
-                        <p:outputLabel for="Estado" value="Estado Conyugal: "/>
-                        <p:selectOneMenu id="Estado" value="#{pacienteMB.estadoConyugalId}">
-                            <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
-                            <f:selectItems value="#{listasMB.listaEstados}" var="e" itemLabel="#{e.estadNombre}" itemValue="#{e.idEstadoconyugal}"/>
-                        </p:selectOneMenu>
-                        <p:message for="Estado" display="icon"/>
-                        <p:outputLabel for="Educacion" value="Nivel de Educaciòn: "/>
-                        <p:selectOneMenu id="Educacion" value="#{pacienteMB.educacionId}" >
-                            <f:selectItems value="#{listasMB.listaEducacion}" var="edu" itemLabel="#{edu.educNombre}" itemValue="#{edu.idEducacion}" />
-                        </p:selectOneMenu>
-                        <p:message for="Educacion" display="icon"/>
-                        <p:outputLabel for="Ocupacion" value="Ocupación: "/>
-                        <p:inputText id="Ocupacion" value="#{pacienteMB.ocupacion}"/>                                    
-                        <p:message for="Ocupacion" display="icon"/>
-                        <p:outputLabel for="Actividad" value="Actividad Económica: "/>
-                        <p:inputText id="Actividad" value="#{pacienteMB.actividadEconomica}"/>
-                        <p:message for="Actividad" display="icon"/>
-                        <p:outputLabel for="Pueblo" value="Pueblo Originario: "/>
-                        <p:selectOneMenu id="Pueblo" value="#{pacienteMB.puebloOriginarioId}">
-                            <f:selectItems value="#{listasMB.listaPueblos}" var="town" itemLabel="#{town.puebloNombre}" itemValue="#{town.idPueblooriginario}" />
-                        </p:selectOneMenu>
-                        <p:message for="Pueblo" display="icon"/>
-                        <p:outputLabel for="Religion" value="Religión: "/>
-                        <p:selectOneMenu id="Religion" value="#{pacienteMB.religionId}">
-                            <f:selectItems value="#{listasMB.listaReligion}" var="reli" itemLabel="#{reli.reliName}" itemValue="#{reli.idReligion}" />
-                        </p:selectOneMenu>
-                        <p:message for="Religion" display="icon"/>
-                    </p:panelGrid>
-                </p:panel>
                 <p:commandButton update="formul" actionListener="#{pacienteMB.agregarPaciente(actionEvent)}"  value="Ingresar Admisión"/>
 
             </div>
