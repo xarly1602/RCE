@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:form id="verAnamnesis">
         <p:growl id="growl" showDetail="true"/>
         <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" id="Pacientes" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
@@ -25,9 +26,15 @@
             </p:column>
             <p:column headerText="Acción" style="width:20px">
                 <p:commandButton update=":listaAnam" oncomplete="PF('listAnam').show()" action="#{buscarAnamnesis.buscarAnamnesis(paciente.idPaciente)}" icon="ui-icon-pencil" title="Ver anamnesis" />
+                <p:commandButton update=":addAnam" oncomplete="PF('addAnam').show()" icon="ui-icon-plus" title="Agregar anamnesis" >
+                    <f:setPropertyActionListener target="#{anamnesisMB.paciente}" value="#{paciente}"/>
+                </p:commandButton>
             </p:column> 
         </p:dataTable>
     </h:form>
+    <p:dialog id="addAnam" widgetVar="addAnam">
+        <ui:include src="Anamnesis.xhtml"/>
+    </p:dialog>
     <p:dialog widgetVar="listAnam" >
         <h:form id="listaAnam">
             <p:dataTable id="listaAnamDetalle" value="#{buscarAnamnesis.listaAnamnesis}" var="anam">

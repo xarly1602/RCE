@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -92,6 +93,7 @@ public class AnamnesisMB {
     private int tactoVag;
     private int dilatacion;
     private int controlCarop;
+    private int edad;
     private float temperatura;
     private float peso;
     private float talla;
@@ -110,7 +112,8 @@ public class AnamnesisMB {
         try{
         System.out.println("HOLAAAA!!!!!"+anamnesisPaciente.getAnamDescripcion());}
         catch (Exception e){}
-        paciente = pacienteFacade.find(3);
+        //paciente = pacienteFacade.find(3);
+        paciente = new Paciente();
         patologiasMat = new ArrayList<String>();        
         //anamnesisPaciente = new Anamnesis();
     }
@@ -243,6 +246,10 @@ public class AnamnesisMB {
     }
     
     public void setPaciente(Paciente paciente) {
+        int aux = Calendar.getInstance().getTime().getYear() - paciente.getIdPersona().getPersFnacimiento().getYear();
+        if(Calendar.getInstance().getTime().getMonth() < paciente.getIdPersona().getPersFnacimiento().getMonth())
+            aux --;
+        this.edad = aux;
         this.paciente = paciente;
     }
     
@@ -572,6 +579,14 @@ public class AnamnesisMB {
     
     public void setControlCarop(int controlCarop) {
         this.controlCarop = controlCarop;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
     }
     
     public float getTemperatura() {

@@ -49,10 +49,7 @@
                 <p:menuitem value="Ver Profesionales" url="#" onclick="PF('viewPro').show()"/>
             </p:submenu>
             <p:menuitem value="Buscar Paciente" url="#" onclick="PF('searchPac').show()"/>
-            <p:submenu label="Anamnesis">
-                <p:menuitem value="Agregar Anamnesis" url="#" onclick="PF('anamPac').show()"/>
-                <p:menuitem value="Ver Anamnesis" url="#" onclick="PF('verAnamPac').show()"/>
-            </p:submenu>
+            <p:menuitem value="Anamnesis" url="#" onclick="PF('verAnamPac').show()"/>
         </p:menubar>
         <p:dialog id='admisionPacientes' maximizable="true" header="Admision Pacientes" widgetVar="addPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800">
@@ -81,11 +78,6 @@
         <p:dialog id="buscarPaciente" maximizable="true" header="Buscar Pacientes" widgetVar="searchPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true">
             <ui:include src="BuscarPaciente.xhtml"/>
-        </p:dialog>
-
-        <p:dialog id="anamnesisPaciente" maximizable="true" header="Anamnesis" widgetVar="anamPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
-                  minimizable="true" height="540" width="1270">
-            <ui:include src="Anamnesis.xhtml"/>
         </p:dialog>
 
         <p:dialog id="verAnamnesisPaciente" maximizable="true" header="Anamnesis" widgetVar="verAnamPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
