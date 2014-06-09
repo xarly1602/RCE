@@ -23,28 +23,19 @@
             <p:column headerText="Apellido materno" >  
                 #{paciente.idPersona.persApematerno}  
             </p:column>
-
-            <p:column headerText="Estudios" >  
-                #{paciente.idPersona.idEducacion.educNombre}  
-            </p:column>
-
-            <p:column headerText="Direccion" >  
-                #{paciente.idPersona.persDireccion}  
-            </p:column>
             <p:column headerText="Acción" style="width:20px">
                 <p:commandButton update=":listaAnam" oncomplete="PF('listAnam').show()" action="#{buscarAnamnesis.buscarAnamnesis(paciente.idPaciente)}" icon="ui-icon-pencil" title="Ver anamnesis" />
             </p:column> 
         </p:dataTable>
     </h:form>
     <p:dialog widgetVar="listAnam" >
-
         <h:form id="listaAnam">
             <p:dataTable id="listaAnamDetalle" value="#{buscarAnamnesis.listaAnamnesis}" var="anam">
                 <p:column headerText="Codigo">
                     #{anam.idAnamnesis}
                 </p:column>
                 <p:column headerText="Motivo Consulta">
-                    #{anam.anamDescripcion}
+                    #{anam.anamMotivoconsulta}
                 </p:column>
                 <p:column headerText="Ver">
                     <p:commandButton update=":anamPaciente" oncomplete="PF('anamnesisPac').show()" value="Ver">
@@ -54,9 +45,9 @@
             </p:dataTable>
         </h:form>
     </p:dialog>
-    <p:dialog id="anamPaciente" widgetVar="anamnesisPac" width="1250" height="500" resizable="false">
+    <p:dialog id="anamPaciente" widgetVar="anamnesisPac" width="1270" height="500" resizable="false">
         <p:growl id="growl" showDetail="true"/>
-        <h:form>
+        <h:form id="editarAnamnesis">
             <p:accordionPanel multiple="true">
                 <p:tab title="Anamnesis">
                     <p:inputTextarea style="height: 100%; width: 100%" value="#{buscarAnamnesis.anamnesisPaciente.anamDescripcion}"/>
@@ -66,13 +57,13 @@
                         <p:panel>
                             <p:panelGrid columns="2">
                                 <p:outputLabel value="F.U.R. "/>
-                                <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{buscarAnamnesis.anamnesisPaciente.anamFur}"/>
+                                <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{buscarAnamnesis.anamnesisPaciente.anamFur}" styleClass="dateTimeField"/>
                                 <p:outputLabel value="F.U.R.op. "/>
-                                <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{buscarAnamnesis.anamnesisPaciente.anamFurop}"/>
+                                <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{buscarAnamnesis.anamnesisPaciente.anamFurop}" styleClass="dateTimeField"/>
                                 <p:outputLabel value="F.P.P. "/>
-                                <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{buscarAnamnesis.anamnesisPaciente.anamFpp}"/>
+                                <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{buscarAnamnesis.anamnesisPaciente.anamFpp}" styleClass="dateTimeField"/>
                                 <p:outputLabel value="Eco. precoz "/>
-                                <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{buscarAnamnesis.anamnesisPaciente.anamEcoprecoz}"/>
+                                <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{buscarAnamnesis.anamnesisPaciente.anamEcoprecoz}" styleClass="dateTimeField"/>
                                 <p:outputLabel value="EG "/>
                                 <p:inputText style="width: 50px;" value="#{buscarAnamnesis.anamnesisPaciente.anamEg}"/>
                                 <p:outputLabel value="Acorde "/>
@@ -89,7 +80,7 @@
                                     </f:facet>
                                     <p:row>
                                         <p:column colspan="4">
-                                            <p:inputText style="width: 10px;" value="#{buscarAnamnesis.anamnesisPaciente.anamGestas}"/>
+                                            <p:inputText style="width: 15px;" value="#{buscarAnamnesis.anamnesisPaciente.anamGestas}" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos."/>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -102,10 +93,10 @@
                                     </p:row>
                                     <p:row>
                                         <p:column colspan="2">
-                                            <p:inputText style="width: 10px;" value="#{buscarAnamnesis.anamnesisPaciente.anamPartos}"/>
+                                            <p:inputText style="width: 15px;" value="#{buscarAnamnesis.anamnesisPaciente.anamPartos}" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos."/>
                                         </p:column>
                                         <p:column colspan="2">
-                                            <p:inputText style="width: 10px;" value="#{buscarAnamnesis.anamnesisPaciente.anamAbortos}"/>
+                                            <p:inputText style="width: 15px;" value="#{buscarAnamnesis.anamnesisPaciente.anamAbortos}" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos."/>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -118,23 +109,23 @@
                                     </p:row>
                                     <p:row>
                                         <p:column>
-                                            <p:inputText style="width: 10px;" value="#{buscarAnamnesis.anamnesisPaciente.anamVaginales}"/>
+                                            <p:inputText style="width: 15px;" value="#{buscarAnamnesis.anamnesisPaciente.anamVaginales}" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos."/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText style="width: 10px;" value="#{buscarAnamnesis.anamnesisPaciente.anamCesareas}"/>
+                                            <p:inputText style="width: 15px;" value="#{buscarAnamnesis.anamnesisPaciente.anamCesareas}" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos."/>
                                         </p:column>
                                     </p:row>
                                     <p:row>
                                         <p:column colspan="2">Último embarazo: </p:column>
-                                        <p:column colspan="2"><p:calendar pattern="dd/mm/yy" value="#{buscarAnamnesis.anamnesisPaciente.anamUltimoemb}"/></p:column>
+                                        <p:column colspan="2"><p:calendar pattern="dd/mm/yy" value="#{buscarAnamnesis.anamnesisPaciente.anamUltimoemb}" styleClass="dateTimeField"/></p:column>
                                     </p:row>
                                     <p:row>
                                         <p:column colspan="2">RN mayor peso</p:column>
-                                        <p:column colspan="2"><p:inputText style="width: 50px;" value="#{buscarAnamnesis.anamnesisPaciente.anamMayorpeso}"/></p:column>
+                                        <p:column colspan="2"><p:inputText style="width: 50px;" value="#{buscarAnamnesis.anamnesisPaciente.anamMayorpeso}" placeholder="Gramos"/></p:column>
                                     </p:row>
                                     <p:row>
                                         <p:column colspan="2">RN menor peso</p:column>
-                                        <p:column colspan="2"><p:inputText style="width: 50px;" value="#{buscarAnamnesis.anamnesisPaciente.anamMenorpeso}"/></p:column>
+                                        <p:column colspan="2"><p:inputText style="width: 50px;" value="#{buscarAnamnesis.anamnesisPaciente.anamMenorpeso}" placeholder="Gramos"/></p:column>
                                     </p:row>
                                 </p:panelGrid>
                             </div>
@@ -158,11 +149,11 @@
                 <p:tab id="ExamenFisico" title="Exámen Físico">
                     <p:panelGrid columns="2">
                         <p:outputLabel for="PA" value="Presión arterial: "/>
-                        <p:inputText id="PA" value="#{buscarAnamnesis.anamnesisPaciente.anamPa}"/>
+                        <p:inputText id="PA" value="#{buscarAnamnesis.anamnesisPaciente.anamPa}" maxlength="3" validatorMessage="El campo debe ser un numero de a lo más 3 dígitos"/>
                         <p:outputLabel for="Temp" value="Temperatura: "/>
-                        <p:inputText id="Temp" value="#{buscarAnamnesis.anamnesisPaciente.anamTemperatura}"/>
+                        <p:inputText id="Temp" value="#{buscarAnamnesis.anamnesisPaciente.anamTemperatura}" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos"/>
                         <p:outputLabel for="Pulso" value="Pulso: "/>
-                        <p:inputText id="Pulso" value="#{buscarAnamnesis.anamnesisPaciente.anamPulso}"/>
+                        <p:inputText id="Pulso" value="#{buscarAnamnesis.anamnesisPaciente.anamPulso}" maxlength="3" validatorMessage="El campo debe ser un numero de a lo más 3 dígitos"/>
                         <p:outputLabel for="Peso" value="Peso: "/>
                         <p:inputText id="Peso" value="#{buscarAnamnesis.anamnesisPaciente.anamPeso}"/>
                         <p:outputLabel for="Talla" value="Talla: "/>
@@ -174,9 +165,9 @@
                 <p:tab title="Exámen Obstétrico">
                     <p:panelGrid columns="6">
                         <p:outputLabel value="A.U. "/>
-                        <p:inputText style="width: 15px;" value="#{buscarAnamnesis.anamnesisPaciente.anamAu}"/>
+                        <p:inputText style="width: 15px;" value="#{buscarAnamnesis.anamnesisPaciente.anamAu}" placeholder="cm."/>
                         <p:outputLabel value="L.C.F. "/>
-                        <p:inputText style="width: 15px;" value="#{buscarAnamnesis.anamnesisPaciente.anamLcf}"/>
+                        <p:inputText style="width: 15px;" value="#{buscarAnamnesis.anamnesisPaciente.anamLcf}" placeholder="lpm"/>
                         <p:outputLabel value="D.U. "/>
                         <p:inputText style="width: 15px;" value="#{buscarAnamnesis.anamnesisPaciente.anamDu}"/>
                     </p:panelGrid>
@@ -255,7 +246,7 @@
                         <p:outputLabel value="Motivo"/>
                         <p:inputText value="#{buscarAnamnesis.anamnesisPaciente.anamMotivoultima}"/>
                         <p:outputLabel value="Último control"/>
-                        <p:inputText value="#{buscarAnamnesis.anamnesisPaciente.anamUltimocontrol}"/>
+                        <p:inputText value="#{buscarAnamnesis.anamnesisPaciente.anamUltimocontrol}" styleClass="dateTimeField"/>
                     </p:panelGrid>
                 </p:tab>
                 <p:tab title="Diagnósticos">
@@ -267,7 +258,9 @@
             </p:accordionPanel>
             <br/>
             <p:commandButton value="Guardar Cambios" action="#{buscarAnamnesis.guardarCambios()}" update=":anamPaciente"/>
-            <p:commandButton value="Imprimir" icon="ui-icon-save" />
+            <p:commandButton value="Imprimir" icon="ui-icon-save" update="editarAnamnesis">
+                <p:printer target="editarAnamnesis"/>
+            </p:commandButton>
         </h:form>
     </p:dialog>
 </html>

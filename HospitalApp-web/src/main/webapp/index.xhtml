@@ -24,6 +24,11 @@
             .companyHeaderGrid tr, .companyHeaderGrid td {
                 border: none;
             }
+            .dateTimeField input {
+                vertical-align: middle;
+                margin-right: 1px;
+                width: 60px;
+            }
         </style>
     </h:head>
 
@@ -79,15 +84,15 @@
         </p:dialog>
 
         <p:dialog id="anamnesisPaciente" maximizable="true" header="Anamnesis" widgetVar="anamPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
-                  minimizable="true" height="540" width="1250">
+                  minimizable="true" height="540" width="1270">
             <ui:include src="Anamnesis.xhtml"/>
         </p:dialog>
 
         <p:dialog id="verAnamnesisPaciente" maximizable="true" header="Anamnesis" widgetVar="verAnamPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
-                  minimizable="true" height="540" width="1250">
+                  minimizable="true" height="540" width="800">
             <ui:include src="VisualizarAnamnesis.xhtml"/>
         </p:dialog>
-        
+
         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
             <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>     

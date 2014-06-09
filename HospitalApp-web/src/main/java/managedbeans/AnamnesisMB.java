@@ -178,12 +178,13 @@ public class AnamnesisMB {
         
         anamnesisFacade.edit(anamnesisPaciente);
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", null));
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", "Se ha guardado exitosamente la anamnesis"));
         
     }
 
     /**
-     * Calcular Índice de Masa Corporal (IMC). Calcula el IMC a partir de los
+     * Calcular Índice de Masa Corporal (IMC). 
+     * Calcula el IMC a partir de los
      * datos de peso y talla indicados en el formulario correspondiente.
      *
      * @param actionEvent
@@ -193,8 +194,10 @@ public class AnamnesisMB {
             float temp = peso / (talla * talla);
             DecimalFormat df = new DecimalFormat("#.##");
             imc = df.format(temp);
-            System.out.println(imc);
         }
+        else
+           FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Debe ingresar el peso y la talla deben ser valores positivos distintos de cero.")); 
     }
     
     public void imprimir() {
