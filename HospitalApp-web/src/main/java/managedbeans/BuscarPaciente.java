@@ -91,9 +91,10 @@ public class BuscarPaciente {
     int estadoConyugalId;
     int puebloOriginarioId;
     
-    String interversion = "Interversion";
-    String vih = "VIH";
-    String esterilizacion = "Esterilizacion";
+    private String interversion = "Interversion";
+    private String vih = "VIH";
+    private String esterilizacion = "Esterilizacion";
+    private String tipoAux;
     
     public BuscarPaciente() {
     }
@@ -420,7 +421,8 @@ public class BuscarPaciente {
     }
 
     public void setConsentimientoInformadoSeleccionado(ConsentimientoInformado consentimientoInformadoSeleccionado) {
-        this.consentimientoInformadoSeleccionado = consentimientoInformadoSeleccionado;        
+        this.consentimientoInformadoSeleccionado = consentimientoInformadoSeleccionado;
+        tipoAux = consentimientoInformadoSeleccionado.getConsentTipo();
     }
 
     public String getEstadoConsentimiento() {
@@ -429,6 +431,14 @@ public class BuscarPaciente {
 
     public void setEstadoConsentimiento(String estadoConsentimiento) {
         this.estadoConsentimiento = estadoConsentimiento;
+    }
+
+    public String getTipoAux() {
+        return tipoAux;
+    }
+
+    public void setTipoAux(String tipoAux) {
+        this.tipoAux = tipoAux;
     }
 
     

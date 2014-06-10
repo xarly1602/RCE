@@ -346,7 +346,7 @@
                 </p:panel>
 
             </p:panelGrid>
-            <p:commandButton  value="Guardar Cambios" action="#{buscarPaciente.editarConsentimiento()}" update="actualizarConsentimiento" />
+            <p:commandButton  value="Guardar Cambios" disabled="#{!buscarPaciente.tipoAux.equals(buscarPaciente.interversion)}" action="#{buscarPaciente.editarConsentimiento()}" update="actualizarConsentimiento" />
         </h:form>
     </p:dialog>
 
@@ -411,7 +411,7 @@
 
 
             </p:panelGrid>
-            <p:commandButton  value="Guardar Cambios" action="#{buscarPaciente.editarConsentimientoVIH()}" update="actualizarConsentimientoVIH" />
+            <p:commandButton  value="Guardar Cambios" disabled="#{!buscarPaciente.tipoAux.equals(buscarPaciente.vih)}" action="#{buscarPaciente.editarConsentimientoVIH()}" update="actualizarConsentimientoVIH" />
         </h:form>
     </p:dialog>
     
@@ -521,7 +521,7 @@
                 </p:panel>
 
             </p:panelGrid>
-            <p:commandButton  value="Guardar Cambios" action="#{buscarPaciente.editarConsentimientoEst()}" update="actualizarConsentimientoEst" />
+            <p:commandButton  value="Guardar Cambios" disabled="#{!buscarPaciente.tipoAux.equals(buscarPaciente.esterilizacion)}" action="#{buscarPaciente.editarConsentimientoEst()}" update="actualizarConsentimientoEst" />
         </h:form>
     </p:dialog>
 
