@@ -6,6 +6,8 @@
 
 package managedbeans;
 
+import cl.RCE.www.anamnesis.AnamnesisNegocioLocal;
+import cl.RCE.www.entities.Anamnesis;
 import cl.RCE.www.entities.ConsentimientoInformado;
 import cl.RCE.www.entities.Paciente;
 import cl.RCE.www.entities.Persona;
@@ -15,11 +17,10 @@ import cl.RCE.www.persona.PersonaNegocioLocal;
 import cl.RCE.www.profesional.ProfesionalNegocioLocal;
 import cl.RCE.www.sessionbeans.ConsentimientoInformadoFacadeLocal;
 import java.awt.event.ActionEvent;
-
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -34,6 +35,8 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 
 public class ConsentimientoInf  {
+    @EJB
+    private AnamnesisNegocioLocal anamnesisNegocio;
     @EJB
     private ConsentimientoInformadoFacadeLocal consentimientoInformadoFacade;
     @EJB
@@ -75,6 +78,7 @@ public class ConsentimientoInf  {
     private Paciente paciente;
     private Profesional profesional;
     private ConsentimientoInformado consentimientoInformado;
+    private List<Anamnesis> anamnesis;
     
     private boolean guardado;
     private boolean guardadoVIH;
@@ -111,6 +115,8 @@ public class ConsentimientoInf  {
             this.fechaNacimiento = persona.getPersFnacimiento();
             this.numeroFicha = paciente.getPaciNficha();
             this.consultorio = paciente.getIdConsultorio().getConsNombre();
+            this.anamnesis = anamnesisNegocio.buscaAnamnesisPaciente(paciente.getIdPaciente());
+            this.fpp = anamnesis.get(0).getAnamFpp();
             
             
             
@@ -153,6 +159,7 @@ public class ConsentimientoInf  {
             consentimientoInformado.setConsentNombreresponsable(nombreApellidoRepresentante);
             consentimientoInformado.setConsentRutresponsable(rutRepresentante);
             consentimientoInformado.setConsentTexto(texto);
+            consentimientoInformado.setConsentFecha(fecha);
             consentimientoInformado.setConsentTipo("Intervension");
             consentimientoInformado.setIdPaciente(paciente);
             consentimientoInformado.setIdProfesional(profesional);
@@ -180,8 +187,9 @@ public class ConsentimientoInf  {
             consentimientoInformado.setConsentNombreresponsable(nombreApellidoRepresentante);
             consentimientoInformado.setConsentRutresponsable(rutRepresentante);
             consentimientoInformado.setConsentTipo("VIH");
-            consentimientoInformado.setIdPaciente(paciente);        
-            consentimientoInformadoFacade.edit(consentimientoInformado);
+            consentimientoInformado.setConsentFecha(fecha);
+            consentimientoInformado.setIdPaciente(paciente);             
+            consentimientoInformadoFacade.create(consentimientoInformado);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingresado.", "Consentimiento informado ingresado correctamente"));
             guardadoVIH = true;
             System.out.println(" guardadoVIH: " + guardadoVIH);
@@ -193,6 +201,33 @@ public class ConsentimientoInf  {
     }
     
     public void guardarConsentimientoEst(){
+        if (rut == 0 || rutProf == 0) {
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Debe Llenar rut de paciente y de profesional."));
+            //this.resetDataPaciente();
+            //this.resetDataProfesional();
+        }
+        else{
+            
+            consentimientoInformado = new ConsentimientoInformado();
+            consentimientoInformado.setConsentEstado(estado);
+            consentimientoInformado.setConsentNombreresponsable(nombreApellidoRepresentante);
+            consentimientoInformado.setConsentRutresponsable(rutRepresentante);
+            consentimientoInformado.setConsentTexto(texto);
+            consentimientoInformado.setConsentTipo("Esterilizacion");
+            consentimientoInformado.setConsentEmbarazada(embarazada);
+            consentimientoInformado.setConsentFecha(fecha);
+            consentimientoInformado.setConsentFechaparto(fpp);
+            consentimientoInformado.setConsentFo(fo);
+            consentimientoInformado.setConsentHijosvivos(hijosVivos);
+            consentimientoInformado.setConsentParidad(paridad);           
+            consentimientoInformado.setIdPaciente(paciente);
+            consentimientoInformado.setIdProfesional(profesional);            
+            consentimientoInformadoFacade.create(consentimientoInformado);            
+            guardadoEst = true;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingresado.", "Consentimiento informado ingresado correctamente"));
+            
+        }
         
     }
     
@@ -434,6 +469,8 @@ public class ConsentimientoInf  {
 
     public void setRut(int rut) {
         this.rut = rut;
+        
+        
     }
     
 }

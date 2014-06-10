@@ -252,9 +252,9 @@
                         <f:setPropertyActionListener value="#{concentimiento}" target="#{buscarPaciente.consentimientoInformadoSeleccionado}" />  
                     </p:commandButton>
 
-                    <!--<p:commandButton update=":actualizarConsentimiento"  onclick="PF('dialogEditarConsentimiento').show()"  icon="ui-icon-pencil" title="Editar" >
+                    <p:commandButton update=":actualizarConsentimientoEst"  onclick="PF('dialogEditarConsentimientoEst').show()"  icon="ui-icon-pencil" title="Editar Consentimiento Esterilizacion" >
                         <f:setPropertyActionListener value="#{concentimiento}" target="#{buscarPaciente.consentimientoInformadoSeleccionado}" />  
-                    </p:commandButton> --> 
+                    </p:commandButton> 
                 </p:column> 
             </p:dataTable>
 
@@ -412,6 +412,116 @@
 
             </p:panelGrid>
             <p:commandButton  value="Guardar Cambios" action="#{buscarPaciente.editarConsentimientoVIH()}" update="actualizarConsentimientoVIH" />
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog maximizable="true" minimizable="true" id="dialogEditarConsentimientoEst" header="Consentimientos Informados" widgetVar="dialogEditarConsentimientoEst" height="600" width="950"> 
+        <h:form id="actualizarConsentimientoEst">
+            <p:growl id="growl1" showDetail="true" sticky="true" />
+            <p:panelGrid columns="1" id="panelEditarConsentimientoEst" styleClass="companyHeaderGrid">
+                <p:panel id="InformacionPersonalEst" header="Datos del Paciente y/o Representante">
+                    <p:panelGrid columns="6">
+                        <p:outputLabel for="RutCons" value="Rut: "/>
+                        <p:inputText readonly="true" id="RutCons" value="#{buscarPaciente.consentimientoInformadoSeleccionado.idPaciente.idPersona.persRut}" /> 
+                        <p:message for="RutCons" showDetail="true"/>
+
+                        <p:outputLabel for="Nombres" value="Nombres: " />
+                        <p:inputText readonly="true" id="Nombres" value="#{buscarPaciente.consentimientoInformadoSeleccionado.idPaciente.idPersona.persNombres}" />                   
+                        <p:message for="Nombres" display="icon"/>
+
+                        <p:outputLabel for="Paterno" value="Apellido Paterno: " />
+                        <p:inputText readonly="true" id="Paterno" value="#{buscarPaciente.consentimientoInformadoSeleccionado.idPaciente.idPersona.persApepaterno}" />                  
+                        <p:message for="Paterno" display="icon"/>
+
+                        <p:outputLabel for="Materno" value="Apellido Materno: "/>
+                        <p:inputText readonly="true" id="Materno" value="#{buscarPaciente.consentimientoInformadoSeleccionado.idPaciente.idPersona.persApematerno}" />              
+                        <p:message for="Materno" display="icon"/>
+
+                        <p:outputLabel for="numFicha" value="Numero de Ficha: "/>
+                        <p:inputText readonly="true" id="numFicha" value="#{buscarPaciente.consentimientoInformadoSeleccionado.idPaciente.paciNficha}" />
+                        <p:message for="numFicha" display="icon"/>
+
+                        <p:outputLabel  value=" "/>
+                        <p:outputLabel  value=" "/>
+                        <p:outputLabel  value=" "/>
+
+                        <p:outputLabel for="domicilio" value="Domicilio: "/>
+                        <p:inputText readonly="true" id="domicilio" value="#{buscarPaciente.consentimientoInformadoSeleccionado.idPaciente.idPersona.persDireccion}" />              
+                    <p:message for="domicilio" display="icon"/>
+                    
+                    <p:outputLabel for="consultorio" value="Consultorio: "/>
+                    <p:inputText readonly="true" id="consultorio" value="#{buscarPaciente.consentimientoInformadoSeleccionado.idPaciente.idConsultorio.consNombre}" />              
+                    <p:message for="consultorio" display="icon"/>
+                    
+                    <p:outputLabel for="FechaNaci" value="Fecha de Nacimiento: " />
+                    <p:calendar readonly="true" id="FechaNaci" effect="explode" yearRange="c-100:c" navigator="true" value="#{buscarPaciente.consentimientoInformadoSeleccionado.idPaciente.idPersona.persFnacimiento}">                        
+                        
+                    </p:calendar>
+                    <p:message for="FechaNaci" display="icon"/>                   
+                    
+                    
+                    <p:outputLabel for="paridad" value="Paridad: "/>
+                    <p:inputText id="paridad" value="#{buscarPaciente.consentimientoInformadoSeleccionado.consentParidad}" />              
+                    <p:message for="paridad" display="icon"/>
+                    
+                    <p:outputLabel value="F.O: "/>
+                    <p:inputText id="estFO" value="#{buscarPaciente.consentimientoInformadoSeleccionado.consentFo}" />              
+                    <p:message for="estFO" display="icon"/>
+                    
+                    <p:outputLabel for="hijosVivos" value="Hijos Vivos Actualmente: "/>
+                    <p:inputText id="hijosVivos" value="#{buscarPaciente.consentimientoInformadoSeleccionado.consentHijosvivos}" />              
+                    <p:message for="hijosVivos" display="icon"/>
+                    
+                    <h:outputText value="Embarazada Actualmente: " />  
+                    <p:selectBooleanCheckbox id = "id1" value="#{buscarPaciente.consentimientoInformadoSeleccionado.consentEmbarazada}"  >                            
+                    </p:selectBooleanCheckbox>
+                    <p:message id="msgMaq" for="id1"  /> 
+                    
+                    <p:outputLabel for="FechaParto" value="Fecha Probable de Parto: " />
+                    <p:calendar readonly="true" id="FechaParto" effect="explode" yearRange="c-100:c" navigator="true" value="#{consentimientoInf.fpp}">                        
+                    </p:calendar>
+                    <p:message for="FechaParto" display="icon"/>
+
+                    </p:panelGrid>
+                </p:panel>
+
+                <p:panel id="InformacionProfesionalEst" header="Datos del Médico o Profesional Responsable">
+                    <p:panelGrid columns="6">
+                        <p:outputLabel for="RutProfCons" value="Rut: "/>
+                        <p:inputText readonly="true" id="RutProfCons" value="#{buscarPaciente.consentimientoInformadoSeleccionado.idProfesional.idPersona.persRut}" />
+                        <p:message for="RutProfCons" showDetail="true"/>
+
+                        <p:outputLabel for="NombresProf" value="Nombres: " />
+                        <p:inputText readonly="true" id="NombresProf" value="#{buscarPaciente.consentimientoInformadoSeleccionado.idProfesional.idPersona.persNombres}" />                   
+                        <p:message for="NombresProf" display="icon"/>
+
+                        <p:outputLabel for="PaternoProf" value="Apellido Paterno: " />
+                        <p:inputText readonly="true" id="PaternoProf" value="#{buscarPaciente.consentimientoInformadoSeleccionado.idProfesional.idPersona.persApepaterno}" />                  
+                        <p:message for="PaternoProf" display="icon"/>
+
+                        <p:outputLabel for="MaternoProf" value="Apellido Materno: "/>
+                        <p:inputText readonly="true" id="MaternoProf" value="#{buscarPaciente.consentimientoInformadoSeleccionado.idProfesional.idPersona.persApematerno}" />              
+                        <p:message for="MaternoProf" display="icon"/>
+
+                        <p:outputLabel for="Fecha" value="Fecha: " />
+                        <p:calendar readonly="true" id="Fecha" effect="explode" yearRange="c-100:c" navigator="true" value="#{buscarPaciente.consentimientoInformadoSeleccionado.consentFecha}" >                        
+                        </p:calendar>
+                        <p:message for="Fecha" display="icon"/>          
+                    </p:panelGrid>
+                </p:panel>                
+
+                <p:panel id="ConsentimientoEst" toggleable="true" header="Consentimiento">          
+                    <p:outputLabel value="Estado: "/>
+                    <p:selectOneMenu id="estEst" value="#{buscarPaciente.estadoConsentimientoEst}" >
+                        <f:selectItem itemLabel="#{buscarPaciente.consentimientoInformadoSeleccionado.consentEstado}" itemValue="#{buscarPaciente.consentimientoInformadoSeleccionado.consentEstado}" />
+                        <f:selectItem itemLabel="Pendiente" itemValue="Pendiente" />
+                        <f:selectItem itemLabel="Confirmado" itemValue="Confirmado" />
+                        <f:selectItem itemLabel="Revoco" itemValue="Revoco" />                        
+                    </p:selectOneMenu>
+                </p:panel>
+
+            </p:panelGrid>
+            <p:commandButton  value="Guardar Cambios" action="#{buscarPaciente.editarConsentimientoEst()}" update="actualizarConsentimientoEst" />
         </h:form>
     </p:dialog>
 

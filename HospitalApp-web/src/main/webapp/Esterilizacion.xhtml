@@ -11,8 +11,8 @@
 
             <p:panel id="InformacionPersonalEst" header="Datos del Paciente">
                 <p:panelGrid columns="6">
-                    <p:outputLabel for="Rut" value="Rut: "/>
-                    <p:autoComplete id="Rut" value="#{consentimientoInf.rut}" completeMethod="#{busquedaMB.completarRut}" 
+                    <p:outputLabel  for="Rut" value="Rut: " />
+                    <p:autoComplete requiredMessage="Rut Invalido" id="Rut" value="#{consentimientoInf.rut}" completeMethod="#{busquedaMB.completarRutMujer}" 
                                     var="rut" itemLabel="#{rut}" itemValue="#{rut}">
                         <!--<f:validator validatorId="Validator.RutValidator"/>-->
                         <p:ajax event="blur" listener="#{consentimientoInf.buscarPaciente(actionEvent)}" update="InformacionPersonalEst"/>
@@ -49,13 +49,11 @@
                     
                     <p:outputLabel for="FechaNaci" value="Fecha de Nacimiento: " />
                     <p:calendar readonly="true" id="FechaNaci" effect="explode" yearRange="c-100:c" navigator="true" value="#{consentimientoInf.fechaNacimiento}">                        
-                        <p:ajax event="dateSelect" listener="#{pacienteMB.calculaEdad}" update="Edad"/>
+                        
                     </p:calendar>
                     <p:message for="FechaNaci" display="icon"/>
                     
-                    <p:outputLabel value="Edad: "/>
-                    <p:inputText readonly="true" id="Edad" value="#{pacienteMB.edad}"/>
-                    <p:message for="Edad" display="icon"/>
+                    
                     
                     <p:outputLabel for="paridad" value="Paridad: "/>
                     <p:inputText id="paridad" value="#{consentimientoInf.paridad}" />              
@@ -111,7 +109,7 @@
                     <p:message for="MaternoProf" display="icon"/>                    
                     
                     <p:outputLabel for="Fecha" value="Fecha : " />
-                    <p:calendar readonly="true" id="Fecha" effect="explode" yearRange="c-100:c" navigator="true" value="#{consentimientoInf.fecha}">                        
+                    <p:calendar id="Fecha" readonly="true"  value="#{consentimientoInf.fecha}">                        
                     </p:calendar>
                     <p:message for="Fecha" display="icon"/>
                     

@@ -99,6 +99,22 @@ public class busquedaMB {
                 listaFiltrada.add(persona.getPersRut().toString());
             }
         }
+        return listaFiltrada;  }
+    
+    /**
+     * Autocompletar ruts para la búsqueda de pacientes
+     * Función para realizar la lista que se muestra mientras se va escribiendo
+     * un rut en el campo de búsqueda correspondiente.
+     * @param query String correspondiente al inicio del rut que se busca.
+     * @return Lista con los resultados encontrados.
+     */
+    public List<String> completarRutMujer(String query){
+        List<String> listaFiltrada = new ArrayList<String>();
+        for (Persona persona : listaPersonas) {
+            if (persona.getPersRut().toString().startsWith(query) && !listaFiltrada.contains(persona.getPersRut().toString()) && persona.getIdGenero().getIdGenero() == 2) {
+                listaFiltrada.add(persona.getPersRut().toString());
+            }
+        }
         return listaFiltrada;
     }
     /**

@@ -50,6 +50,11 @@
                         <f:validator validatorId="Validator.RutValidator"/>                        
                     </p:inputText>
                     <p:message for="rutRep" display="icon"/>
+                    
+                    <p:outputLabel for="Fecha" value="Fecha: " />
+                    <p:calendar readonly="true" id="Fecha" effect="explode" yearRange="c-100:c" navigator="true" value="#{consentimientoInf.fecha}">                        
+                    </p:calendar>
+                    <p:message for="Fecha" display="icon"/>
 
                 </p:panelGrid>
             </p:panel>    

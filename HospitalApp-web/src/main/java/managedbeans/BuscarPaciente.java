@@ -66,6 +66,7 @@ public class BuscarPaciente {
   
     private String estadoConsentimiento;
     private String estadoConsentimientoVIH;
+    private String estadoConsentimientoEst;
     
     private Educacion educacion;
     private PuebloOriginario puebloOriginario;
@@ -222,6 +223,12 @@ public class BuscarPaciente {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Estado actualizado."));
         
     }
+    public void editarConsentimientoEst(){
+        consentimientoInformadoSeleccionado.setConsentEstado(estadoConsentimientoEst);
+        consentimientoInformadoFacade.edit(consentimientoInformadoSeleccionado);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Estado actualizado."));
+        
+    }
      /**
      * Buscar la lista de los tipos de prevision.
      * Se buscará la lista de tipos de prevision según el id de la previsión que ingreso el usuario,
@@ -241,6 +248,14 @@ public class BuscarPaciente {
 
     public void setEstadoConsentimientoVIH(String estadoConsentimientoVIH) {
         this.estadoConsentimientoVIH = estadoConsentimientoVIH;
+    }
+
+    public String getEstadoConsentimientoEst() {
+        return estadoConsentimientoEst;
+    }
+
+    public void setEstadoConsentimientoEst(String estadoConsentimientoEst) {
+        this.estadoConsentimientoEst = estadoConsentimientoEst;
     }
 
     public String getInterversion() {
