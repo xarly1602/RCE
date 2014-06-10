@@ -251,6 +251,8 @@ public class ConsentimientoInf  {
         consultorio = "";
         hijosVivos = 0;
         embarazada = false;
+        direccion = "";
+        paridad = "";
         
          
     }
