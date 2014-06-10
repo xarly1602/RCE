@@ -7,6 +7,7 @@
 package cl.RCE.www.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -36,7 +39,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ConsentimientoInformado.findByConsentRutresponsable", query = "SELECT c FROM ConsentimientoInformado c WHERE c.consentRutresponsable = :consentRutresponsable"),
     @NamedQuery(name = "ConsentimientoInformado.findByConsentTipo", query = "SELECT c FROM ConsentimientoInformado c WHERE c.consentTipo = :consentTipo"),
     @NamedQuery(name = "ConsentimientoInformado.findByConsentTexto", query = "SELECT c FROM ConsentimientoInformado c WHERE c.consentTexto = :consentTexto"),
-    @NamedQuery(name = "ConsentimientoInformado.findByConsentExamen", query = "SELECT c FROM ConsentimientoInformado c WHERE c.consentExamen = :consentExamen")})
+    @NamedQuery(name = "ConsentimientoInformado.findByConsentExamen", query = "SELECT c FROM ConsentimientoInformado c WHERE c.consentExamen = :consentExamen"),
+    @NamedQuery(name = "ConsentimientoInformado.findByConsentFecha", query = "SELECT c FROM ConsentimientoInformado c WHERE c.consentFecha = :consentFecha"),
+    @NamedQuery(name = "ConsentimientoInformado.findByConsentParidad", query = "SELECT c FROM ConsentimientoInformado c WHERE c.consentParidad = :consentParidad"),
+    @NamedQuery(name = "ConsentimientoInformado.findByConsentFo", query = "SELECT c FROM ConsentimientoInformado c WHERE c.consentFo = :consentFo"),
+    @NamedQuery(name = "ConsentimientoInformado.findByConsentHijosvivos", query = "SELECT c FROM ConsentimientoInformado c WHERE c.consentHijosvivos = :consentHijosvivos"),
+    @NamedQuery(name = "ConsentimientoInformado.findByConsentEmbarazada", query = "SELECT c FROM ConsentimientoInformado c WHERE c.consentEmbarazada = :consentEmbarazada"),
+    @NamedQuery(name = "ConsentimientoInformado.findByConsentFechaparto", query = "SELECT c FROM ConsentimientoInformado c WHERE c.consentFechaparto = :consentFechaparto")})
 public class ConsentimientoInformado implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -62,6 +71,22 @@ public class ConsentimientoInformado implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "consent_examen")
     private String consentExamen;
+    @Column(name = "consent_fecha")
+    @Temporal(TemporalType.DATE)
+    private Date consentFecha;
+    @Size(max = 20)
+    @Column(name = "consent_paridad")
+    private String consentParidad;
+    @Size(max = 5)
+    @Column(name = "consent_fo")
+    private String consentFo;
+    @Column(name = "consent_hijosvivos")
+    private Integer consentHijosvivos;
+    @Column(name = "consent_embarazada")
+    private Boolean consentEmbarazada;
+    @Column(name = "consent_fechaparto")
+    @Temporal(TemporalType.DATE)
+    private Date consentFechaparto;
     @JoinColumn(name = "id_profesional", referencedColumnName = "id_profesional")
     @ManyToOne
     private Profesional idProfesional;
@@ -130,6 +155,54 @@ public class ConsentimientoInformado implements Serializable {
 
     public void setConsentExamen(String consentExamen) {
         this.consentExamen = consentExamen;
+    }
+
+    public Date getConsentFecha() {
+        return consentFecha;
+    }
+
+    public void setConsentFecha(Date consentFecha) {
+        this.consentFecha = consentFecha;
+    }
+
+    public String getConsentParidad() {
+        return consentParidad;
+    }
+
+    public void setConsentParidad(String consentParidad) {
+        this.consentParidad = consentParidad;
+    }
+
+    public String getConsentFo() {
+        return consentFo;
+    }
+
+    public void setConsentFo(String consentFo) {
+        this.consentFo = consentFo;
+    }
+
+    public Integer getConsentHijosvivos() {
+        return consentHijosvivos;
+    }
+
+    public void setConsentHijosvivos(Integer consentHijosvivos) {
+        this.consentHijosvivos = consentHijosvivos;
+    }
+
+    public Boolean getConsentEmbarazada() {
+        return consentEmbarazada;
+    }
+
+    public void setConsentEmbarazada(Boolean consentEmbarazada) {
+        this.consentEmbarazada = consentEmbarazada;
+    }
+
+    public Date getConsentFechaparto() {
+        return consentFechaparto;
+    }
+
+    public void setConsentFechaparto(Date consentFechaparto) {
+        this.consentFechaparto = consentFechaparto;
     }
 
     public Profesional getIdProfesional() {

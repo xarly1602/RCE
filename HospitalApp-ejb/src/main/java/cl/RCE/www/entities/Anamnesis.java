@@ -75,8 +75,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Anamnesis.findByAnamPeso", query = "SELECT a FROM Anamnesis a WHERE a.anamPeso = :anamPeso"),
     @NamedQuery(name = "Anamnesis.findByAnamTalla", query = "SELECT a FROM Anamnesis a WHERE a.anamTalla = :anamTalla"),
     @NamedQuery(name = "Anamnesis.findByAnamDiagnostico", query = "SELECT a FROM Anamnesis a WHERE a.anamDiagnostico = :anamDiagnostico"),
-    @NamedQuery(name = "Anamnesis.findByIdPaciente", query = "SELECT a FROM Anamnesis a WHERE a.idPaciente.idPaciente = :idPaciente"),
-    @NamedQuery(name = "Anamnesis.findByAnamIndicaciones", query = "SELECT a FROM Anamnesis a WHERE a.anamIndicaciones = :anamIndicaciones")})
+    @NamedQuery(name = "Anamnesis.findByAnamIndicaciones", query = "SELECT a FROM Anamnesis a WHERE a.anamIndicaciones = :anamIndicaciones"),
+    @NamedQuery(name = "Anamnesis.findByAnamFechacreacion", query = "SELECT a FROM Anamnesis a WHERE a.anamFechacreacion = :anamFechacreacion"),
+    @NamedQuery(name = "Anamnesis.findByAnamAcorde", query = "SELECT a FROM Anamnesis a WHERE a.anamAcorde = :anamAcorde"),
+    @NamedQuery(name = "Anamnesis.findByAnamPatologias", query = "SELECT a FROM Anamnesis a WHERE a.anamPatologias = :anamPatologias")})
 public class Anamnesis implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -194,6 +196,14 @@ public class Anamnesis implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "anam_indicaciones")
     private String anamIndicaciones;
+    @Column(name = "anam_fechacreacion")
+    @Temporal(TemporalType.DATE)
+    private Date anamFechacreacion;
+    @Column(name = "anam_acorde")
+    private Boolean anamAcorde;
+    @Size(max = 2147483647)
+    @Column(name = "anam_patologias")
+    private String anamPatologias;
     @JoinColumn(name = "id_paciente", referencedColumnName = "id_paciente")
     @ManyToOne
     private Paciente idPaciente;
@@ -547,6 +557,30 @@ public class Anamnesis implements Serializable {
 
     public void setAnamIndicaciones(String anamIndicaciones) {
         this.anamIndicaciones = anamIndicaciones;
+    }
+
+    public Date getAnamFechacreacion() {
+        return anamFechacreacion;
+    }
+
+    public void setAnamFechacreacion(Date anamFechacreacion) {
+        this.anamFechacreacion = anamFechacreacion;
+    }
+
+    public Boolean getAnamAcorde() {
+        return anamAcorde;
+    }
+
+    public void setAnamAcorde(Boolean anamAcorde) {
+        this.anamAcorde = anamAcorde;
+    }
+
+    public String getAnamPatologias() {
+        return anamPatologias;
+    }
+
+    public void setAnamPatologias(String anamPatologias) {
+        this.anamPatologias = anamPatologias;
     }
 
     public Paciente getIdPaciente() {
