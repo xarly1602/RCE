@@ -15,7 +15,9 @@ import cl.RCE.www.persona.PersonaNegocioLocal;
 import cl.RCE.www.profesional.ProfesionalNegocioLocal;
 import cl.RCE.www.sessionbeans.PersonaFacadeLocal;
 import cl.RCE.www.sessionbeans.ProfesionalFacadeLocal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -34,6 +36,7 @@ import javax.validation.constraints.Size;
 @ManagedBean
 @SessionScoped
 public class IngresoProfesional {
+
     @EJB
     private ProfesionalNegocioLocal profesionalNegocio;
     @EJB
@@ -57,6 +60,7 @@ public class IngresoProfesional {
     private String nacionalidad;
     private String direccion;
     private String telefonoContacto;
+    private String rutString;
     @NotNull(message = "Debe indicar una fecha")
     private Date fechaDesde;
     private Date fechaHasta;
@@ -75,6 +79,7 @@ public class IngresoProfesional {
     private int especialidadId;
     private int subEspecialidadId;
     private int rut;
+    private List<Profesional> listaProfesionales;
 
     /**
      * Constructor de la clase.
@@ -83,8 +88,7 @@ public class IngresoProfesional {
     }
 
     /**
-     * Postconstructor.
-     * Inicializar algunos datos del profesional.
+     * Postconstructor. Inicializar algunos datos del profesional.
      */
     @PostConstruct
     public void init() {
@@ -93,13 +97,14 @@ public class IngresoProfesional {
         nombres = "";
         apellidoMaterno = "";
         apellidoPaterno = "";
+        listaProfesionales = profesionalFacade.findAll();
     }
 
     /**
-     * Agregar un profesional.
-     * Agrega un profesional al sistema con los datos ingresados en el 
-     * formulario correspondiente, arrojando los mensajes respectivos ya sea 
-     * cuando ocurra algún error de validación o cuando el ingreso sea exitoso.
+     * Agregar un profesional. Agrega un profesional al sistema con los datos
+     * ingresados en el formulario correspondiente, arrojando los mensajes
+     * respectivos ya sea cuando ocurra algún error de validación o cuando el
+     * ingreso sea exitoso.
      */
     public void agregarProfesional() {
         rutCompleto = rutCompleto.toUpperCase();
@@ -108,14 +113,13 @@ public class IngresoProfesional {
         if (rutCompleto.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error de registro.", "Debe indicar un rut."));
             return;
-        }
-        else if (rutCompleto.length() < 8){
+        } else if (rutCompleto.length() < 8) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error de registro.", "Ingrese un rut válido."));
             return;
         }
         rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length() - 1));
         digitoVerificador = rutCompleto.charAt(rutCompleto.length() - 1) + "";
-        if (personaNegocio.busquedaPersonaRut(rut,2).size() > 0) {
+        if (personaNegocio.busquedaPersonaRut(rut, 2).size() > 0) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registro ya existe.", "El rut indicado ya está registrado."));
         } else {
             //setear activo a true
@@ -139,8 +143,8 @@ public class IngresoProfesional {
                 profesional.setProIdProfesional(new Profesional(medicoReferenciaId));
             }
             profesional.setProfActivo(true);
-            if(fechaDesde != null && fechaHasta != null){
-                if(fechaDesde.before(fechaHasta)){
+            if (fechaDesde != null && fechaHasta != null) {
+                if (fechaDesde.before(fechaHasta)) {
                     profesional.setProfFechadesde(fechaDesde);
                     profesional.setProfeFechahasta(fechaHasta);
 
@@ -148,29 +152,63 @@ public class IngresoProfesional {
                     profesionalFacade.create(profesional);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + nombres + " " + apellidoPaterno + " " + apellidoMaterno));
                     this.resetData();
-                }
-                else{
+                } else {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Las fechas no coinciden, ingrese una correcta."));
                 }
-            }           
-            else{
+            } else {
                 profesional.setProfFechadesde(fechaDesde);
                 profesional.setProfeFechahasta(fechaHasta);
 
                 personaFacade.create(persona);
                 profesionalFacade.create(profesional);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + nombres + " " + apellidoPaterno + " " + apellidoMaterno));
-                this.resetData();                
+                this.resetData();
             }
-            
 
         }
     }
 
+    public void buscar(ActionEvent actionEvent) {
+        rut = Integer.parseInt(rutCompleto);
+        if (personaNegocio.busquedaPersonaRut(rut, 2).size() > 0) {
+            persona = personaNegocio.busquedaPersonaRut(rut, 2).get(0);
+            profesional = profesionalNegocio.busquedaProfesionalIdPersona(persona.getIdPersona());
+            this.apellidoMaterno = persona.getPersApematerno();
+            this.apellidoPaterno = persona.getPersApepaterno();
+            this.nombres = persona.getPersNombres();
+            this.cargoId = profesional.getIdCargo().getIdCargo();
+            this.digitoVerificador = persona.getPersDv();
+            this.direccion = persona.getPersDireccion();
+            this.email = persona.getPersEmail();
+            this.especialidadId = profesional.getIdSubespecialidad().getIdEspecialidad().getIdEspecialidad();
+            this.fechaDesde = profesional.getProfFechadesde();
+            this.fechaHasta = profesional.getProfeFechahasta();
+            this.fechaNacimiento = persona.getPersFnacimiento();
+            this.medicoReferenciaId = profesional.getProIdProfesional().getIdProfesional();
+            this.localId = profesional.getIdLocal().getIdLocal();
+            this.grupoId = profesional.getIdGrupoprofesional().getIdGrupoprofesional();
+            this.subEspecialidadId = profesional.getIdSubespecialidad().getIdSubespecialidad();
+            this.digitoVerificador = persona.getPersDv();
+            this.rutCompleto = rutCompleto.concat(this.digitoVerificador);
+        }
+        
+    }
+
+    public List<String> completarRut(String query) {
+        List<String> listaFiltrada = new ArrayList<String>();
+        for (Profesional profesional1 : listaProfesionales) {
+            if (profesional1.getIdPersona().getPersRut().toString().startsWith(query) && !listaFiltrada.contains(profesional1.getIdPersona().getPersRut().toString())) {
+                listaFiltrada.add(profesional1.getIdPersona().getPersRut().toString());
+            }
+        }
+        return listaFiltrada;
+    }
+
     /**
-     * Actualizar descripción.
-     * Concatena el nombre con los apellidos mientras estos se escriben para 
-     * mostrarlos en el campo correspondiente del formulario.
+     * Actualizar descripción. Concatena el nombre con los apellidos mientras
+     * estos se escriben para mostrarlos en el campo correspondiente del
+     * formulario.
+     *
      * @param actionEvent Evento en la página xhtml que acciona la función.
      */
     public void actualizarDescripcion(ActionEvent actionEvent) {
@@ -178,8 +216,8 @@ public class IngresoProfesional {
     }
 
     /**
-     * Resetear información.
-     * Se reinician los datos para poder hacer un nuevo ingreso.
+     * Resetear información. Se reinician los datos para poder hacer un nuevo
+     * ingreso.
      */
     private void resetData() {
         persona = new Persona();
@@ -397,6 +435,22 @@ public class IngresoProfesional {
 
     public void setRut(int rut) {
         this.rut = rut;
+    }
+
+    public List<Profesional> getListaProfesionales() {
+        return listaProfesionales;
+    }
+
+    public void setListaProfesionales(List<Profesional> listaProfesionales) {
+        this.listaProfesionales = listaProfesionales;
+    }
+
+    public String getRutString() {
+        return rutString;
+    }
+
+    public void setRutString(String rutString) {
+        this.rutString = rutString;
     }
 
 }

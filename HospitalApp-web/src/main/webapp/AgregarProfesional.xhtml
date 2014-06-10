@@ -12,9 +12,10 @@
                 <p:panel header="Detalle Principal">
                     <p:panelGrid columns="3">
                         <p:outputLabel for="Rut" value="Rut: " style="font-weight: bold"/>
-                        <p:inputText id="Rut" value="#{ingresoProfesional.rutCompleto}" required="true" requiredMessage="Debe indicar un rut.">
-                            <f:validator validatorId="Validator.RutValidator"/>
-                        </p:inputText>
+                        <p:autoComplete id="Rut" value="#{ingresoProfesional.rutCompleto}" completeMethod="#{ingresoProfesional.completarRut}" 
+                                        var="rut" itemLabel="#{rut}" itemValue="#{rut}" placeholder="Rut sin dv">
+                            <p:ajax event="blur" listener="#{ingresoProfesional.buscar(actionEvent)}" update="formulProfesional"/>
+                        </p:autoComplete>
                         <p:message for="Rut" display="icon"/>
                         <p:outputLabel for="Descripcion" value="Descripción: "/>
                         <p:inputText id="Descripcion" value="#{ingresoProfesional.descripcion}" readonly="true"/>
@@ -89,8 +90,6 @@
 
             <p:dialog id="DatosContacto" header="Datos de contacto" widgetVar="contacto" showEffect="fade" hideEffect="fade">
                 <p:panelGrid id="Contacto" columns="3" styleClass="companyHeaderGrid">
-                    <p:inputText id="Nacio" required="true" requiredMessage="Ingrese Nacionalidad" value="#{ingresoProfesional.nacionalidad}"/>                        
-                    <p:message for="Nacio" display="icon"/>
                     <p:outputLabel for="DireccionPro" value="Dirección: "/>
                     <p:inputText id="DireccionPro" value="#{ingresoProfesional.direccion}"/>
                     <p:message for="DireccionPro" display="icon"/>

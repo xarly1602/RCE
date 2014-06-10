@@ -95,20 +95,24 @@
                                 <f:selectItems value="#{listasMB.listaConsultorio}" var="cons" itemLabel="#{cons.consNombre}" itemValue="#{cons.idConsultorio}" />
                             </p:selectOneMenu>
                             <p:message for="Consultorio" display="icon"/>
+
                             <p:outputLabel for="Prevision" value="Previsión de salud: "/>
                             <p:selectOneMenu id="Prevision" value="#{pacienteMB.previsionId}">
                                 <p:ajax event="change" listener="#{pacienteMB.buscaTipo}" update="Tipo"/>
                                 <f:selectItems value="#{listasMB.listaPrevision}" var="prev" itemLabel="#{prev.previNombre}" itemValue="#{prev.idPrevision}" />
                             </p:selectOneMenu>
                             <p:message for="Prevision" display="icon"/>
+
                             <p:outputLabel for="Tipo" value="Tipo previsión: "/>
                             <p:selectOneMenu id="Tipo" value="#{pacienteMB.tipoPrevisionId}">
                                 <f:selectItems value="#{pacienteMB.listaTipos}" var="tipo" itemLabel="#{tipo.clasNombre}" itemValue="#{tipo.idTipoprevision}" />
                             </p:selectOneMenu>
                             <p:message for="Tipo" display="icon"/>
+
                             <p:outputLabel for="OtraPrevision" value="Otra previsión: "/>
                             <p:inputText id="OtraPrevision" value="#{pacienteMB.otraPrevision}"/>
                             <p:message for="OtraPrevision"/>
+
                             <p:outputLabel for="Leyes" value="Leyes sociales: "/>
                             <p:selectOneMenu id="Leyes" value="#{pacienteMB.leyesSocialesId}" >
                                 <f:selectItem itemLabel="Seleccionar una" itemValue="" />
