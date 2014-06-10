@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:form id="ConsentimientoGral">
+        <p:growl id="growl" showDetail="true"/>
+        <p:panelGrid columns="1" styleClass="companyHeaderGrid">
+
+            <p:panel id="InformacionPersonal" header="Datos del Paciente y/o Representante">
+                <p:panelGrid columns="6">
+                    <p:outputLabel for="Rut" value="Rut: "/>
+                    <p:autoComplete id="Rut" value="#{consentimientoInf.rut}" completeMethod="#{busquedaMB.completarRut}" 
+                                    var="rut" itemLabel="#{rut}" itemValue="#{rut}">
+                        <!--<f:validator validatorId="Validator.RutValidator"/>-->
+                        <p:ajax event="blur" listener="#{consentimientoInf.buscarPaciente(actionEvent)}" update="InformacionPersonal"/>
+                    </p:autoComplete>
+                    <p:message for="Rut" display="icon"/>
+
+                    <p:outputLabel for="Nombres" value="Nombres: " />
+                    <p:inputText readonly="true" id="Nombres" value="#{consentimientoInf.nombres}" />                   
+                    <p:message for="Nombres" display="icon"/>
+
+                    <p:outputLabel for="Paterno" value="Apellido Paterno: " />
+                    <p:inputText readonly="true" id="Paterno" value="#{consentimientoInf.apellidoPaterno}" />                  
+                    <p:message for="Paterno" display="icon"/>
+
+                    <p:outputLabel for="Materno" value="Apellido Materno: "/>
+                    <p:inputText readonly="true" id="Materno" value="#{consentimientoInf.apellidoMaterno}" />              
+                    <p:message for="Materno" display="icon"/>
+
+                    <p:outputLabel for="numFicha" value="Numero de Ficha: "/>
+                    <p:inputText readonly="true" id="numFicha" value="#{consentimientoInf.numeroFicha}" />
+                    <p:message for="numFicha" display="icon"/>
+
+                    <p:outputLabel  value=" "/>
+                    <p:outputLabel  value=" "/>
+                    <p:outputLabel  value=" "/>
+
+                    <p:outputLabel for="NombresRep" value="Nombre y Apellido del Representante (Si corresponde): " />
+                    <p:inputText id="NombresRep" value="#{consentimientoInf.nombreApellidoRepresentante}">
+                        <f:validator validatorId="Validator.NameValidator"/>
+                    </p:inputText>
+                    <p:message for="NombresRep" display="icon"/>
+
+                    <p:outputLabel for="rutRep" value="Rut: "/>
+                    <p:inputText id="rutRep" value="#{consentimientoInf.rutRepresentante}">
+                        <f:validator validatorId="Validator.RutValidator"/>                        
+                    </p:inputText>
+                    <p:message for="rutRep" display="icon"/>
+
+                </p:panelGrid>
+
+
+            </p:panel>
+
+            <p:panel id="InformacionProfesional" header="Datos del Médico o Profesional Responsable">
+                <p:panelGrid columns="6">
+                    <p:outputLabel for="RutProf" value="Rut: "/>
+                    <p:autoComplete id="RutProf" value="#{consentimientoInf.rutProf}" completeMethod="#{busquedaMB.completarRutProf}" 
+                                    var="rut" itemLabel="#{rut}" itemValue="#{rut}">
+                        <!--<f:validator validatorId="Validator.RutValidator"/>-->
+                        <p:ajax event="blur" listener="#{consentimientoInf.buscarProfesional(actionEvent)}" update="InformacionProfesional"/>
+                    </p:autoComplete>
+                    <p:message for="RutProf" display="icon"/>
+
+                    <p:outputLabel for="NombresProf" value="Nombres: " />
+                    <p:inputText readonly="true" id="NombresProf" value="#{consentimientoInf.nombresProf}" />                   
+                    <p:message for="NombresProf" display="icon"/>
+
+                    <p:outputLabel for="PaternoProf" value="Apellido Paterno: " />
+                    <p:inputText readonly="true" id="PaternoProf" value="#{consentimientoInf.apellidoPaternoProf}" />                  
+                    <p:message for="PaternoProf" display="icon"/>
+
+                    <p:outputLabel for="MaternoProf" value="Apellido Materno: "/>
+                    <p:inputText readonly="true" id="MaternoProf" value="#{consentimientoInf.apellidoMaternoProf}" />              
+                    <p:message for="MaternoProf" display="icon"/>
+
+                    <p:outputLabel for="Fecha" value="Fecha: " />
+                    <p:calendar readonly="true" id="Fecha" effect="explode" yearRange="c-100:c" navigator="true" value="#{consentimientoInf.fecha}">                        
+                    </p:calendar>
+                    <p:message for="Fecha" display="icon"/>
+
+                    <p:outputLabel value="Firma: " />
+                    <p:outputLabel value="____________________" /> 
+
+
+                </p:panelGrid>
+            </p:panel>
+            <p:panel id="Procedimiento" toggleable="true" header="Intervención o Procedimiento Indicado">
+                <p:inputTextarea id="editor" widgetVar="editor" value="#{consentimientoInf.texto}" style="width: 100%" />
+            </p:panel>
+
+            <p:panel id="Consentimiento" toggleable="true" header="Consentimiento">
+                <div align="justify">
+                    Yo, anteriormente identificado, declaro que he sido informado
+                    del procedimiento o la intervención indicada y me han explicado
+                    en qué consiste, el objetivo de su ejecución, como se realiza,
+                    los beneficios y potenciales riesgos, complicaciones y secuelas
+                    que tiene en general y para mi condición de salud (o presenta mi
+                    representado). He podido preguntar y aclarar todas mis dudas
+                    libremente. También me han explicado que puedo revocar este
+                    consentimiento antes de que se realice la intervención o 
+                    procedimiento. Mi decisión tomada libre y consientemente es:
+                </div>
+                <p:panelGrid columns="2" >
+                    <p:outputLabel  value="Si: ______" />                 
+                    <p:outputLabel  value="No: ______ " />
+
+                </p:panelGrid>
+                <p:panelGrid columns="1" >
+                    <p:outputLabel value=" " />                    
+                    <p:outputLabel  value="Autorizo a que se realice(n) las intervención(es) y Procedimiento(s) indicado(s)" style="font-weight: bold" />
+                    <p:outputLabel value=" " />
+                    <p:outputLabel value=" " />
+                </p:panelGrid>
+
+                <p:outputLabel value="Estado: "/>
+                <p:selectOneMenu id="est" value="#{consentimientoInf.estado}" > 
+                    <f:selectItem itemLabel="Pendiente" itemValue="Pendiente" />
+                    <f:selectItem itemLabel="Confirmado" itemValue="Confirmado" />
+                    <f:selectItem itemLabel="Revoco" itemValue="Revoco" />                        
+                </p:selectOneMenu>
+                <p:panelGrid columns="1" >
+                    <p:outputLabel value=" "/>
+                    <p:outputLabel value=" "/>
+                    <p:outputLabel value=" "/>
+                    <p:outputLabel value=" "/>
+                    <p:outputLabel value="______________________ "/>
+                    <div align="center">
+                        Firma del paciente
+                    </div>
+
+                </p:panelGrid>
+            </p:panel>
+        </p:panelGrid>
+        <p:commandButton   value="Imprimir" disabled="#{consentimientoInf.guardado == false}"   update="ConsentimientoGral" >
+            <p:printer target="ConsentimientoGral"  />
+        </p:commandButton>
+        <p:commandButton  value="Guardar" actionListener="#{consentimientoInf.guardarConsentimientoExamen()}" disabled="#{consentimientoInf.guardado == true}"  update=":ConsentimientoGral" />
+        <p:commandButton  value="Limpiar Datos" actionListener="#{consentimientoInf.limpiarDatos()}" update=":ConsentimientoGral" />
+        
+    </h:form>
+
+</html>
+

@@ -23,7 +23,7 @@ import javax.faces.context.FacesContext;
 
 /**
  *
- * @author G3
+ * @author Xarly1602
  */
 @ManagedBean
 @RequestScoped
@@ -48,6 +48,7 @@ public class busquedaMB {
     private Date fechaNacimiento;
 
     private List<Persona> listaPersonas;
+    private List<Persona> listaPersonaProf;
     private Paciente paciente;
     
     /**
@@ -70,15 +71,22 @@ public class busquedaMB {
         fechaNacimiento = null;
         etapa = 0;
         listaPersonas = personaFacade.findAll();
+        listaPersonaProf = personaFacade.findAll();
         for (int i = listaPersonas.size() - 1; i >= 0; i--) {
             if (listaPersonas.get(i).getPersTipopersona() != 1) {
                 listaPersonas.remove(i);
             }
         }
+        
+        for (int i = listaPersonaProf.size() - 1; i >= 0; i--) {
+            if (listaPersonaProf.get(i).getPersTipopersona() == 1) {
+                listaPersonaProf.remove(i);
+            }
+        }
     }
 
     /**
-     * Autocompletar ruts para la búsqueda.
+     * Autocompletar ruts para la búsqueda de pacientes
      * Función para realizar la lista que se muestra mientras se va escribiendo
      * un rut en el campo de búsqueda correspondiente.
      * @param query String correspondiente al inicio del rut que se busca.
@@ -93,9 +101,25 @@ public class busquedaMB {
         }
         return listaFiltrada;
     }
+    /**
+     * Autocompletar ruts para la búsqueda de profesionales
+     * Función para realizar la lista que se muestra mientras se va escribiendo
+     * un rut en el campo de búsqueda correspondiente.
+     * @param query String correspondiente al inicio del rut que se busca.
+     * @return Lista con los resultados encontrados.
+     */
+    public List<String> completarRutProf(String query){
+        List<String> listaFiltrada = new ArrayList<String>();
+        for (Persona persona : listaPersonaProf) {
+            if (persona.getPersRut().toString().startsWith(query) && !listaFiltrada.contains(persona.getPersRut().toString())) {
+                listaFiltrada.add(persona.getPersRut().toString());
+            }
+        }
+        return listaFiltrada;
+    }
     
     /**
-     * Autocompletar nombres para la búsqueda.
+     * Autocompletar nombres para la búsqueda
      * Función para realizar la lista que se muestra mientras se va escribiendo
      * un nombre en el campo de búsqueda correspondiente.
      * @param query String correspondiente al inicio del nombre buscado.
@@ -112,7 +136,7 @@ public class busquedaMB {
     }
     
     /**
-     * Autocompletar apellido paterno para la búsqueda.
+     * Autocompletar apellido paterno para la búsqueda
      * Función para realizar la lista que se muestra mientras se va escribiendo
      * un apellido en el campo de búsqueda correspondiente al apellido paterno.
      * @param query String correspondiente al inicio del apellido buscado.
@@ -129,7 +153,7 @@ public class busquedaMB {
     }
     
     /**
-     * Autocompletar apellido para la búsqueda.
+     * Autocompletar apellido para la búsqueda
      * Función para realizar la lista que se muestra mientras se va escribiendo
      * un apellido en el campo de búsqueda correspondiente al apellido materno.
      * @param query String correspondiente al inicio del apellido buscado.
@@ -156,6 +180,8 @@ public class busquedaMB {
             listaPersonas = personaNegocio.busquedaPersonaFechaNacimiento(fechaNacimiento, 1);
             etapa = 1;
         } else if (!nombres.isEmpty()) {
+            System.out.println("BuscaNombres");
+            // listaPersonas = personaNegocio.busquedaPersonaNombre(nombres, 1);
             for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                 if (!listaPersonas.get(i).getPersNombres().startsWith(nombres)) {
                     listaPersonas.remove(i);
@@ -163,6 +189,8 @@ public class busquedaMB {
             }
             etapa = 2;
         } else if (!apePaterno.isEmpty()) {
+            System.out.println("BuscaApellido");
+            // listaPersonas = personaNegocio.busquedaPersonaApellidoPaterno(apePaterno, 1);
             for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                 if (!listaPersonas.get(i).getPersApepaterno().startsWith(apePaterno)) {
                     listaPersonas.remove(i);
@@ -170,6 +198,8 @@ public class busquedaMB {
             }
             etapa = 3;
         } else if (!apeMaterno.isEmpty()) {
+            System.out.println("BuscaMaterno");
+            // listaPersonas = personaNegocio.busquedaPersonaApellidoPaterno(apeMaterno, 1);
             for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                 if (!listaPersonas.get(i).getPersApematerno().startsWith(apeMaterno)) {
                     listaPersonas.remove(i);
@@ -196,8 +226,7 @@ public class busquedaMB {
                 listaPersonas = personaNegocio.busquedaPersonaRut(rutTemp, 1);
                 etapa = 7;
             } catch (NumberFormatException e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Rut invalido", "Ingrese un rut válido"));
-                throw e;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Rut invalido", "Ingrese un rut válido"));
             }
         }
         switch (etapa) {

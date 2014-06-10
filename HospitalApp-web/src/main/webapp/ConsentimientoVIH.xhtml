@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:form id="ConsentimientoVIH">
+        <p:growl id="growl" showDetail="true"/>
+        <p:panelGrid columns="1" styleClass="companyHeaderGrid">
+
+            <p:panel id="InformacionPersonalVIH" header="Datos del Paciente y/o Representante">
+                <p:panelGrid columns="6">
+                    <p:outputLabel for="Rut" value="Rut: "/>
+                    <p:autoComplete id="Rut" value="#{consentimientoInf.rut}" completeMethod="#{busquedaMB.completarRut}" 
+                                    var="rut" itemLabel="#{rut}" itemValue="#{rut}">
+                        <!--<f:validator validatorId="Validator.RutValidator"/>-->
+                        <p:ajax event="blur" listener="#{consentimientoInf.buscarPaciente(actionEvent)}" update="InformacionPersonalVIH"/>
+                    </p:autoComplete>
+                    <p:message for="Rut" display="icon"/>
+
+                    <p:outputLabel for="Nombres" value="Nombres: " />
+                    <p:inputText readonly="true" id="Nombres" value="#{consentimientoInf.nombres}" />                   
+                    <p:message for="Nombres" display="icon"/>
+
+                    <p:outputLabel for="Paterno" value="Apellido Paterno: " />
+                    <p:inputText readonly="true" id="Paterno" value="#{consentimientoInf.apellidoPaterno}" />                  
+                    <p:message for="Paterno" display="icon"/>
+
+                    <p:outputLabel for="Materno" value="Apellido Materno: "/>
+                    <p:inputText readonly="true" id="Materno" value="#{consentimientoInf.apellidoMaterno}" />              
+                    <p:message for="Materno" display="icon"/>
+
+                    <p:outputLabel for="numFicha" value="Numero de Ficha: "/>
+                    <p:inputText readonly="true" id="numFicha" value="#{consentimientoInf.numeroFicha}" />
+                    <p:message for="numFicha" display="icon"/>
+
+                    <p:outputLabel  value=" "/>
+                    <p:outputLabel  value=" "/>
+                    <p:outputLabel  value=" "/>
+
+                    <p:outputLabel for="NombresRep" value="Nombre y Apellido del Representante (Si corresponde): " />
+                    <p:inputText id="NombresRep" value="#{consentimientoInf.nombreApellidoRepresentante}">
+                        <f:validator validatorId="Validator.NameValidator"/>
+                    </p:inputText>
+                    <p:message for="NombresRep" display="icon"/>
+
+                    <p:outputLabel for="rutRep" value="Rut: "/>
+                    <p:inputText id="rutRep" value="#{consentimientoInf.rutRepresentante}">
+                        <f:validator validatorId="Validator.RutValidator"/>                        
+                    </p:inputText>
+                    <p:message for="rutRep" display="icon"/>
+
+                </p:panelGrid>
+            </p:panel>    
+            <p:panel id="verConsentimientoVIH" toggleable="true" header="Consentimiento">
+                <div align="justify">
+                    TEXTO.....
+                </div>
+
+                <br/>
+                <br/>
+                <br/>
+                <br/>                  
+
+                <p:outputLabel value="Estado: "/>
+                <p:selectOneMenu id="est" value="#{consentimientoInf.estado}" > 
+                    <f:selectItem itemLabel="Pendiente" itemValue="Pendiente" />
+                    <f:selectItem itemLabel="Confirmado" itemValue="Confirmado" />
+                    <f:selectItem itemLabel="Revoco" itemValue="Revoco" />                        
+                </p:selectOneMenu>
+                <br/>
+                <br/>
+                <p:panelGrid columns="2" > 
+
+                    <p:outputLabel value="Si Acepto: _____" />
+                    <p:outputLabel value="No Acepto______ " />                                                                                         
+
+                </p:panelGrid>
+                <br/>
+                <br/>
+                <p:panelGrid columns="4" >
+                    <div align="left" >
+                        ____________________________                            
+                    </div>
+                    <div align="center">
+                        Firma del Paciente
+                    </div>
+                    <p:outputLabel value=" "/>
+                    <p:outputLabel value=" "/>
+
+                    <div align="left" >
+                        ____________________________                            
+                    </div>                    
+                    <div align="center">
+                        Firma del Representante
+                    </div>
+
+
+
+                </p:panelGrid>
+            </p:panel>
+        </p:panelGrid>
+        <p:commandButton   value="Imprimir" disabled="#{consentimientoInf.guardadoVIH == false}"   update="ConsentimientoVIH" >
+            <p:printer target="ConsentimientoVIH"  />
+        </p:commandButton>
+        <p:commandButton  value="Guardar" disabled="#{consentimientoInf.guardadoVIH == true}" actionListener="#{consentimientoInf.guardarConsentimientoVIH()}" update=":ConsentimientoVIH" />
+        <p:commandButton  value="Limpiar Datos" actionListener="#{consentimientoInf.limpiarDatos()}" update=":ConsentimientoVIH" />
+
+    </h:form>
+
+</html>
+
+
+

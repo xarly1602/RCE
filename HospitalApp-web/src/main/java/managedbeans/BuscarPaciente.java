@@ -7,11 +7,8 @@
 package managedbeans;
 
 
-import cl.RCE.www.paciente.PacienteNegocioLocal;
-import cl.RCE.www.persona.PersonaNegocioLocal;
-import cl.RCE.www.tipoprevision.TipoPrevisionNegocioLocal;
-
 import cl.RCE.www.entities.Comuna;
+import cl.RCE.www.entities.ConsentimientoInformado;
 import cl.RCE.www.entities.Consultorio;
 import cl.RCE.www.entities.Educacion;
 import cl.RCE.www.entities.EstadoConyugal;
@@ -22,6 +19,13 @@ import cl.RCE.www.entities.Prevision;
 import cl.RCE.www.entities.PuebloOriginario;
 import cl.RCE.www.entities.Religion;
 import cl.RCE.www.entities.TipoPrevision;
+import cl.RCE.www.paciente.PacienteNegocioLocal;
+import cl.RCE.www.persona.PersonaNegocioLocal;
+import cl.RCE.www.sessionbeans.ConsentimientoInformadoFacadeLocal;
+import cl.RCE.www.sessionbeans.PacienteFacadeLocal;
+import cl.RCE.www.sessionbeans.PersonaFacadeLocal;
+import cl.RCE.www.tipoprevision.TipoPrevisionNegocioLocal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -30,8 +34,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import cl.RCE.www.sessionbeans.PacienteFacadeLocal;
-import cl.RCE.www.sessionbeans.PersonaFacadeLocal;
 
 /**
  *
@@ -41,6 +43,8 @@ import cl.RCE.www.sessionbeans.PersonaFacadeLocal;
 @SessionScoped
 
 public class BuscarPaciente {
+    @EJB
+    private ConsentimientoInformadoFacadeLocal consentimientoInformadoFacade;
     @EJB
     private TipoPrevisionNegocioLocal tipoPrevisionNegocio;
     @EJB
@@ -53,10 +57,16 @@ public class BuscarPaciente {
     private PersonaNegocioLocal personaNegocio;
     
     List<Persona> personasObject;
+    List<ConsentimientoInformado> consentimientos;
+    List<ConsentimientoInformado> consentimientosSeleccionados;
     
-    Persona personaSeleccionada;
-    Paciente pacienteSeleccionado;
+    private Persona personaSeleccionada;
+    private Paciente pacienteSeleccionado;
+    private ConsentimientoInformado consentimientoInformadoSeleccionado;
   
+    private String estadoConsentimiento;
+    private String estadoConsentimientoVIH;
+    
     private Educacion educacion;
     private PuebloOriginario puebloOriginario;
     private Religion religion;
@@ -80,6 +90,10 @@ public class BuscarPaciente {
     int estadoConyugalId;
     int puebloOriginarioId;
     
+    String interversion = "Interversion";
+    String vih = "VIH";
+    String esterilizacion = "Esterilizacion";
+    
     public BuscarPaciente() {
     }
     
@@ -92,6 +106,8 @@ public class BuscarPaciente {
     @PostConstruct
     public void init(){
         personaSeleccionada = new Persona();
+        consentimientos = consentimientoInformadoFacade.findAll();
+        consentimientosSeleccionados = new ArrayList<ConsentimientoInformado>();
         personasObject = personaFacade.findAll();
         for (int i = personasObject.size() - 1; i >= 0; i--) {
             if (personasObject.get(i).getPersTipopersona() != 1) {
@@ -174,6 +190,38 @@ public class BuscarPaciente {
         
 
     }
+    private List<ConsentimientoInformado> filtrarConsentimiento(List<ConsentimientoInformado> consentimientosAux, int idPaciente){
+        /*System.out.println("El id buscado es: " + idPaciente);
+        for (int i = consentimientosAux.size() - 1; i >= 0; i--) {
+            System.out.println("Consentimientos: " + consentimientosAux.get(i).getIdPaciente().getIdPersona().getPersNombres()); 
+            System.out.println("Awuiii ctmwmmsmajdfnhskjdnfskjdfnskj");  
+        }*/
+        System.out.println("ESTOY AQUI CTMMMMMMM: " + consentimientosAux.size());
+        for (int i = consentimientosAux.size() - 1; i >= 0; i--) {
+            System.out.println(i);
+            if (consentimientosAux.get(i).getIdPaciente().getIdPaciente() != idPaciente) {
+                System.out.println("estoy en el IFFFFFFF");
+                consentimientosAux.remove(i);
+            }
+            System.out.println("Estoy en el FOR");
+        }
+        System.out.println("Sali de la funcion");
+        return consentimientosAux;
+        
+    }
+    public void editarConsentimiento(){
+        System.out.println("estado: " + estadoConsentimiento);
+        consentimientoInformadoSeleccionado.setConsentEstado(estadoConsentimiento);
+        consentimientoInformadoFacade.edit(consentimientoInformadoSeleccionado);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Estado actualizado."));
+        
+    }
+    public void editarConsentimientoVIH(){        
+        consentimientoInformadoSeleccionado.setConsentEstado(estadoConsentimientoVIH);
+        consentimientoInformadoFacade.edit(consentimientoInformadoSeleccionado);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Estado actualizado."));
+        
+    }
      /**
      * Buscar la lista de los tipos de prevision.
      * Se buscará la lista de tipos de prevision según el id de la previsión que ingreso el usuario,
@@ -185,7 +233,40 @@ public class BuscarPaciente {
         pacienteSeleccionado.setIdTipoprevision(new TipoPrevision(0));
         
     }
-    // Setters y getters. 
+
+    // Setters y getters.
+    public String getEstadoConsentimientoVIH() {
+        return estadoConsentimientoVIH;
+    }
+
+    public void setEstadoConsentimientoVIH(String estadoConsentimientoVIH) {
+        this.estadoConsentimientoVIH = estadoConsentimientoVIH;
+    }
+
+    public String getInterversion() {
+        return interversion;
+    }
+
+    public void setInterversion(String interversion) {
+        this.interversion = interversion;
+    }
+
+    public String getVih() {
+        return vih;
+    }
+
+    public void setVih(String vih) {
+        this.vih = vih;
+    }
+
+    public String getEsterilizacion() {
+        return esterilizacion;
+    }
+
+    public void setEsterilizacion(String esterilizacion) {
+        this.esterilizacion = esterilizacion;
+    }
+     
     public boolean isPacienteFallecidoAux() {
         return pacienteFallecidoAux;
     }
@@ -228,9 +309,31 @@ public class BuscarPaciente {
      */
     public void setPersonaSeleccionada(Persona personaSeleccionada) {
         this.personaSeleccionada = personaSeleccionada;
+        consentimientos = consentimientoInformadoFacade.findAll();
         pacienteSeleccionado = pacienteNegocio.busquedaPacienteIdPersona(personaSeleccionada.getIdPersona());
-        pacienteFallecidoAux = pacienteSeleccionado.getPaciFallecido();        
+        pacienteFallecidoAux = pacienteSeleccionado.getPaciFallecido();
+        //System.out.println("La persona seleccionada es: " + personaSeleccionada.toString());
+        //System.out.println(" ");
+        //System.out.println("El paciente seleccionado es: " + pacienteSeleccionado.toString());
+        consentimientosSeleccionados = filtrarConsentimiento(consentimientos, pacienteSeleccionado.getIdPaciente());
+        
     } 
+
+    public List<ConsentimientoInformado> getConsentimientosSeleccionados() {
+        return consentimientosSeleccionados;
+    }
+
+    public void setConsentimientosSeleccionados(List<ConsentimientoInformado> consentimientosSeleccionados) {
+        this.consentimientosSeleccionados = consentimientosSeleccionados;
+    }
+
+    public List<ConsentimientoInformado> getConsentimientos() {
+        return consentimientos;
+    }
+
+    public void setConsentimientos(List<ConsentimientoInformado> consentimientos) {
+        this.consentimientos = consentimientos;
+    }
 
     public List<TipoPrevision> getListaTipos() {
         return listaTipos;
@@ -296,6 +399,22 @@ public class BuscarPaciente {
     public void setPuebloOriginarioId(int puebloOriginarioId) {
         this.puebloOriginarioId = puebloOriginarioId;
     }         
+
+    public ConsentimientoInformado getConsentimientoInformadoSeleccionado() {
+        return consentimientoInformadoSeleccionado;
+    }
+
+    public void setConsentimientoInformadoSeleccionado(ConsentimientoInformado consentimientoInformadoSeleccionado) {
+        this.consentimientoInformadoSeleccionado = consentimientoInformadoSeleccionado;        
+    }
+
+    public String getEstadoConsentimiento() {
+        return estadoConsentimiento;
+    }
+
+    public void setEstadoConsentimiento(String estadoConsentimiento) {
+        this.estadoConsentimiento = estadoConsentimiento;
+    }
 
     
 

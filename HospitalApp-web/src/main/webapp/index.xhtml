@@ -50,6 +50,12 @@
             </p:submenu>
             <p:menuitem value="Buscar Paciente" url="#" onclick="PF('searchPac').show()"/>
             <p:menuitem value="Anamnesis" url="#" onclick="PF('verAnamPac').show()"/>
+            
+            <p:submenu label="Consentimiento Informado" >
+                <p:menuitem value="VIH" url="#" onclick="PF('consVIH').show()" />
+                <p:menuitem value="Esterilización Quirurgica" url="#" onclick="PF('consEst').show()" />
+                <p:menuitem value="Intervención o Procedimiento" url="#" onclick="PF('consGral').show()" />
+            </p:submenu>
         </p:menubar>
         <p:dialog id='admisionPacientes' maximizable="true" header="Admision Pacientes" widgetVar="addPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800">
@@ -85,6 +91,20 @@
             <ui:include src="VisualizarAnamnesis.xhtml"/>
         </p:dialog>
 
+        <p:dialog id="consentimientoGral" maximizable="true" header="Consentimiento Informado" widgetVar="consGral" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
+                  minimizable="true" height="540" width="800" >
+            <ui:include src="ConsentimientoGral.xhtml"/>
+        </p:dialog>
+        
+        <p:dialog id="consentimientoVIH" maximizable="true" header="Consentimiento Informado" widgetVar="consVIH" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
+                  minimizable="true" height="540" width="800" >
+            <ui:include src="ConsentimientoVIH.xhtml"/>
+        </p:dialog>
+        
+        <p:dialog id="consentimientoEst" maximizable="true" header="Consentimiento Informado" widgetVar="consEst" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
+                  minimizable="true" height="540" width="800" >
+            <ui:include src="Esterilizacion.xhtml"/>
+        </p:dialog>
         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
             <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>     
