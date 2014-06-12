@@ -204,11 +204,10 @@ public class ConsentimientoInf  {
         if (rut == 0 || rutProf == 0) {
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Debe Llenar rut de paciente y de profesional."));
-            //this.resetDataPaciente();
-            //this.resetDataProfesional();
-        }
-        else{
             
+        }
+        
+        else{            
             consentimientoInformado = new ConsentimientoInformado();
             consentimientoInformado.setConsentEstado(estado);
             consentimientoInformado.setConsentNombreresponsable(nombreApellidoRepresentante);
@@ -218,8 +217,8 @@ public class ConsentimientoInf  {
             consentimientoInformado.setConsentEmbarazada(embarazada);
             consentimientoInformado.setConsentFecha(fecha);
             consentimientoInformado.setConsentFechaparto(fpp);
-            consentimientoInformado.setConsentFo(fo);
-            consentimientoInformado.setConsentHijosvivos(hijosVivos);
+            consentimientoInformado.setConsentFo(fo);            
+            consentimientoInformado.setConsentHijosvivos(hijosVivos);                       
             consentimientoInformado.setConsentParidad(paridad);           
             consentimientoInformado.setIdPaciente(paciente);
             consentimientoInformado.setIdProfesional(profesional);            
@@ -246,6 +245,7 @@ public class ConsentimientoInf  {
         rutRepresentante = "";
         guardado = false;
         guardadoVIH = false;
+        guardadoEst = false;
         texto = "";
         fechaNacimiento = null;
         consultorio = "";

@@ -67,9 +67,9 @@
                     </p:selectOneMenu>
                     <p:message for="estFO" display="icon"/>
                     
-                    <p:outputLabel for="hijosVivos" value="Hijos Vivos Actualmente: "/>
-                    <p:inputText id="hijosVivos" value="#{consentimientoInf.hijosVivos}" />              
-                    <p:message for="hijosVivos" display="icon"/>
+                    <p:outputLabel for="hijosVivos"  value="Hijos Vivos Actualmente: " />
+                    <p:inputText required="true" requiredMessage="El campo debe ser numérico" id="hijosVivos" value="#{consentimientoInf.hijosVivos}" />              
+                    <p:message for ="hijosVivos"   display="icon"/>
                     
                     <h:outputText value="Embarazada Actualmente: " />  
                     <p:selectBooleanCheckbox id = "id1" value="#{consentimientoInf.embarazada}"  >                            
