@@ -77,7 +77,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Anamnesis.findByAnamDiagnostico", query = "SELECT a FROM Anamnesis a WHERE a.anamDiagnostico = :anamDiagnostico"),
     @NamedQuery(name = "Anamnesis.findByAnamIndicaciones", query = "SELECT a FROM Anamnesis a WHERE a.anamIndicaciones = :anamIndicaciones"),
     @NamedQuery(name = "Anamnesis.findByAnamFechacreacion", query = "SELECT a FROM Anamnesis a WHERE a.anamFechacreacion = :anamFechacreacion"),
-    @NamedQuery(name = "Anamnesis.findByIdPaciente", query = "SELECT a FROM Anamnesis a WHERE a.idPaciente = :idPaciente"),
+    @NamedQuery(name = "Anamnesis.findByIdPaciente", query = "SELECT a FROM Anamnesis a WHERE a.idPaciente.idPaciente = :idPaciente"),
     @NamedQuery(name = "Anamnesis.findByAnamAcorde", query = "SELECT a FROM Anamnesis a WHERE a.anamAcorde = :anamAcorde"),
     @NamedQuery(name = "Anamnesis.findByAnamPatologias", query = "SELECT a FROM Anamnesis a WHERE a.anamPatologias = :anamPatologias")})
 public class Anamnesis implements Serializable {

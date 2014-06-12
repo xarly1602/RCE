@@ -86,7 +86,7 @@
                     </p:panelGrid>
                 </p:panel>
             </p:panelGrid>
-            <p:commandButton value="Ingresar Profesional" actionListener="#{ingresoProfesional.agregarProfesional()}" update="formulProfesional"/>
+            <p:commandButton value="Ingresar Profesional" actionListener="#{ingresoProfesional.agregarProfesional()}" update="formulProfesional" icon="ui-icon-disk"/>
 
             <p:dialog id="DatosContacto" header="Datos de contacto" widgetVar="contacto" showEffect="fade" hideEffect="fade">
                 <p:panelGrid id="Contacto" columns="3" styleClass="companyHeaderGrid">
@@ -104,7 +104,7 @@
                     </p:inputText>
                     <p:message for="TelefonoPro" display="icon"/>
                 </p:panelGrid>
-                <p:commandButton value="Aceptar" onclick="PF('contacto').hide()"/>
+                <p:commandButton value="Aceptar" onclick="PF('contacto').hide()" icon="ui-icon-check"/>
             </p:dialog>
         </div>
     </h:form>

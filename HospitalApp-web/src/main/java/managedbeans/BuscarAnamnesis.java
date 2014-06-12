@@ -13,8 +13,11 @@ import cl.RCE.www.entities.Profesional;
 import cl.RCE.www.sessionbeans.AnamnesisFacadeLocal;
 import cl.RCE.www.sessionbeans.PacienteFacadeLocal;
 import cl.RCE.www.sessionbeans.ProfesionalFacadeLocal;
+import java.awt.event.ActionEvent;
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -102,11 +105,15 @@ public class BuscarAnamnesis implements Serializable {
 
     @PostConstruct
     public void init(){
-        System.out.println("INIT");
+        ingresoPor = 1;
+        presentacion = "Cefálica";
+        tactoVag = 1;
+        controlCarop = 2;
         paciente = new Paciente();
         anamnesisPaciente = new Anamnesis();
         listaAnamnesis = new ArrayList<Anamnesis>();
         listaPacientes = pacienteFacade.findAll();
+        patologiasMat = new ArrayList<String>();
     }
     
     public void buscarAnamnesis(int idPaciente){
@@ -118,8 +125,24 @@ public class BuscarAnamnesis implements Serializable {
     }
     
     public void guardarCambios(){
+        String temp = "";
+        for (String patologia : patologiasMat) {
+            temp = temp.concat(patologia);
+        }
+        anamnesisPaciente.setAnamPatologias(temp);
         anamnesisFacade.edit(anamnesisPaciente);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Se han guardado los cambios exitosamente."));
+    }
+    
+    public void calcularIMC(ActionEvent actionEvent) {
+        if (anamnesisPaciente.getAnamTalla() > 0 && anamnesisPaciente.getAnamPeso() > 0) {
+            double temp = anamnesisPaciente.getAnamPeso() / (anamnesisPaciente.getAnamTalla() * anamnesisPaciente.getAnamTalla());
+            DecimalFormat df = new DecimalFormat("#.##");
+            anamnesisPaciente.setAnamImc(df.format(temp));
+        }
+        else
+           FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Debe ingresar el peso y la talla deben ser valores positivos distintos de cero.")); 
     }
     
     public Paciente getPaciente() {
@@ -143,6 +166,8 @@ public class BuscarAnamnesis implements Serializable {
     }
 
     public void setAnamnesisPaciente(Anamnesis anamnesisPaciente) {
+        String[] temp = anamnesisPaciente.getAnamPatologias().split(";");
+        patologiasMat.addAll(Arrays.asList(temp));
         this.anamnesisPaciente = anamnesisPaciente;
     }
 

@@ -60,7 +60,7 @@
 
             <p:column headerText="Acción" style="width:20px"> 
 
-                <p:commandButton update=":actualizarPersonaProf" onclick="PF('dialogEditarPersonaProf').show()"  icon="ui-icon-pencil" title="Editar" >
+                <p:commandButton update=":actualizarPersonaProf" onclick="PF('dialogEditarPersonaProf').show()"  icon="ui-icon-pencil" title="Editar Paciente">
                     <f:setPropertyActionListener value="#{profesional}" target="#{buscarProfesional.personaSeleccionada}" />  
                 </p:commandButton>
 
@@ -178,7 +178,7 @@
                 </p:panelGrid>
             </p:panel>
 
-            <p:commandButton id="editarPersProf" value="Actualizar Datos" disabled="#{buscarProfesional.activoAux == false}" update="actualizarPersonaProf"  actionListener="#{buscarProfesional.actualizar()}" >
+            <p:commandButton id="editarPersProf" value="Actualizar Datos" icon="ui-icon-refresh" disabled="#{buscarProfesional.activoAux == false}" update="actualizarPersonaProf"  actionListener="#{buscarProfesional.actualizar()}">
                 <p:confirm  header="Atención" message="¿Está seguro que desea actualizar los datos?" icon="ui-icon-alert" />
             </p:commandButton>
         </h:form>

@@ -42,7 +42,7 @@
                 </p:commandButton>
             </p:column>
             <f:facet name="footer">
-                <p:commandButton id="nuevaSubesp" value="Agregar Nueva" update=":subespecialidades" icon="ui-icon-plus" oncomplete="PF('addSubespec').show()"/>                   
+                <p:commandButton id="nuevaSubesp" value="Agregar Nueva" update=":subespecialidades" icon="ui-icon-plus" oncomplete="PF('addSubespec').show()"/>
                 <p:commandButton value="Actualizar Tabla" icon="ui-icon-refresh" update="listaSubespecialidades"/>
             </f:facet>
         </p:dataTable>
@@ -59,7 +59,7 @@
                     <f:selectItem itemLabel="Seleccionar una" itemValue=""/>
                     <f:selectItems value="#{listasMB.listaEspecialidades}" var="especialidad" itemLabel="#{especialidad.espeNombre}" itemValue="#{especialidad.idEspecialidad}"/> 
                 </h:selectOneMenu>
-                <p:commandButton value="Aceptar" actionListener="#{subespecialidadMB.editar(actionEvent)}" update=":subespecialidades" icon="ui-icon-check"/>
+                <p:commandButton value="Guardar" actionListener="#{subespecialidadMB.editar(actionEvent)}" update=":subespecialidades" icon="ui-icon-disk"/>
                 <p:commandButton value="Cancelar" oncomplete="PF('editSubespec').hide()" icon="ui-icon-close"/>
             </h:panelGrid>
         </p:dialog>
@@ -76,7 +76,7 @@
                     <f:selectItem itemLabel="Seleccionar una" itemValue=""/>
                     <f:selectItems value="#{listasMB.listaEspecialidades}" var="especialidad2" itemLabel="#{especialidad2.espeNombre}" itemValue="#{especialidad2.idEspecialidad}"/> 
                 </h:selectOneMenu>
-                <p:commandButton value="Guardar" update=":subespecialidades" actionListener="#{subespecialidadMB.nuevaSubespecialidad(actionEvent)}" icon="ui-icon-check"/>
+                <p:commandButton value="Guardar" update=":subespecialidades" actionListener="#{subespecialidadMB.nuevaSubespecialidad(actionEvent)}" icon="ui-icon-disk"/>
                 <p:commandButton value="Cancelar" onclick="PF('addSubespec').hide()" icon="ui-icon-close"/>
             </h:panelGrid>
         </p:dialog>

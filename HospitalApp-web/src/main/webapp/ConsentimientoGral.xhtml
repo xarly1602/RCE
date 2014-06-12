@@ -136,10 +136,10 @@
                 </p:panelGrid>
             </p:panel>
         </p:panelGrid>
-        <p:commandButton   value="Imprimir" disabled="#{consentimientoInf.guardado == false}"   update="ConsentimientoGral" >
+        <p:commandButton   value="Imprimir" disabled="#{consentimientoInf.guardado == false}" update="ConsentimientoGral" icon="ui-icon-print">
             <p:printer target="ConsentimientoGral"  />
         </p:commandButton>
-        <p:commandButton  value="Guardar" actionListener="#{consentimientoInf.guardarConsentimientoExamen()}" disabled="#{consentimientoInf.guardado == true}"  update=":ConsentimientoGral" />
+        <p:commandButton  value="Guardar" actionListener="#{consentimientoInf.guardarConsentimientoExamen()}" disabled="#{consentimientoInf.guardado == true}"  update=":ConsentimientoGral" icon="ui-icon-disk"/>
         <p:commandButton  value="Limpiar Datos" actionListener="#{consentimientoInf.limpiarDatos()}" update=":ConsentimientoGral" />
         
     </h:form>

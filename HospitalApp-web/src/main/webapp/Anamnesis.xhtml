@@ -30,17 +30,19 @@
                     <p:panel>
                         <p:panelGrid columns="2">
                             <p:outputLabel value="F.U.R. "/>
-                            <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{anamnesisMB.fur}" styleClass="dateTimeField"/>
+                            <p:calendar style="width: 50px;" value="#{anamnesisMB.fur}" styleClass="dateTimeField"/>
                             <p:outputLabel value="F.U.R.op. "/>
-                            <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{anamnesisMB.furop}" styleClass="dateTimeField"/>
+                            <p:calendar style="width: 50px;" value="#{anamnesisMB.furop}" styleClass="dateTimeField"/>
                             <p:outputLabel value="F.P.P. "/>
-                            <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{anamnesisMB.fpp}" styleClass="dateTimeField"/>
+                            <p:calendar id="FPP" style="width: 50px;" value="#{anamnesisMB.fpp}" styleClass="dateTimeField"/>
                             <p:outputLabel value="Eco. precoz "/>
-                            <p:calendar pattern="dd/mm/yy" style="width: 50px;" value="#{anamnesisMB.ecoPrecoz}" styleClass="dateTimeField"/>
+                            <p:calendar style="width: 50px;" value="#{anamnesisMB.ecoPrecoz}" styleClass="dateTimeField"/>
                             <p:outputLabel value="EG "/>
                             <p:inputText style="width: 50px;" value="#{anamnesisMB.eg}"/>
                             <p:outputLabel value="Acorde "/>
                             <p:selectBooleanCheckbox value="#{anamnesisMB.acorde}"/>
+                            <p:commandButton value="Calcular FPP" title="Con FUR" icon="ui-icon-calculator" action="#{anamnesisMB.calcularFppFur()}" update="FPP"/>
+                            <p:commandButton value="Calcular FPP" title="Con FURop" icon="ui-icon-calculator" action="#{anamnesisMB.calcularFppFurop()}" update="FPP"/>
                         </p:panelGrid>
                     </p:panel>
                     <p:panel>
@@ -90,7 +92,7 @@
                                 </p:row>
                                 <p:row>
                                     <p:column colspan="2">Último embarazo: </p:column>
-                                    <p:column colspan="2"><p:calendar pattern="dd/mm/yy" value="#{anamnesisMB.ultimoEmbarazo}" styleClass="dateTimeField"/></p:column>
+                                    <p:column colspan="2"><p:calendar value="#{anamnesisMB.ultimoEmbarazo}" styleClass="dateTimeField"/></p:column>
                                 </p:row>
                                 <p:row>
                                     <p:column colspan="2">RN mayor peso</p:column>
@@ -134,7 +136,7 @@
                     <p:outputLabel for="IMC" value="IMC: "/>
                     <p:inputText id="IMC" value="#{anamnesisMB.imc}" readonly="true"/>
                 </p:panelGrid>
-                <p:commandButton action="#{anamnesisMB.calcularIMC(actionEvent)}" value="Calcular IMC" update="IMC, :Anamnesis:growl"/>
+                <p:commandButton action="#{anamnesisMB.calcularIMC(actionEvent)}" value="Calcular IMC" update="IMC, :Anamnesis:growl" icon="ui-icon-calculator"/>
             </p:tab>
             <p:tab title="Exámen Obstétrico">
                 <p:panelGrid columns="6">
@@ -220,7 +222,7 @@
                     <p:outputLabel value="Motivo"/>
                     <p:inputText value="#{anamnesisMB.motivoUltimaConsulta}"/>
                     <p:outputLabel value="Último control"/>
-                    <p:calendar value="#{anamnesisMB.ultimoControl}" pattern="dd/mm/yy" styleClass="dateTimeField"/>
+                    <p:calendar value="#{anamnesisMB.ultimoControl}" styleClass="dateTimeField"/>
                 </p:panelGrid>
             </p:tab>
             <p:tab title="Diagnósticos">
@@ -230,7 +232,7 @@
                 <p:inputTextarea style="height: 100%; width: 100%" value="#{anamnesisMB.indicaciones}"/>
             </p:tab>
         </p:tabView>
-        <p:commandButton value="Guardar" icon="ui-icon-save" action="#{anamnesisMB.guardarAnamnesis()}" update="Anamnesis"/>        
+        <p:commandButton value="Guardar" icon="ui-icon-disk" action="#{anamnesisMB.guardarAnamnesis()}" update="Anamnesis"/>
     </h:form>
 </html>
 

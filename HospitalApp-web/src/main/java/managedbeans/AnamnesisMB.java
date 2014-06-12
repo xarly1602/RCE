@@ -155,11 +155,13 @@ public class AnamnesisMB {
         anamnesisPaciente.setAnamPa(presionArterial);
         anamnesisPaciente.setAnamPartoprem(partoPrem);
         anamnesisPaciente.setAnamPartos(partos);
-//        String patologias = "";
-//        for (String string : patologiasMat) {
-//            patologias = patologias.concat(string).concat(";");
-//        }
-//        anamnesisPaciente.setAnamListapatologias(patologias);
+        String patologias = "";
+        for (String string : patologiasMat) {
+            patologias = patologias.concat(string).concat(";");
+        }
+        anamnesisPaciente.setAnamPatologias(patologias);
+        anamnesisPaciente.setAnamAcorde(acorde);
+        anamnesisPaciente.setAnamFechacreacion(Calendar.getInstance().getTime());
         anamnesisPaciente.setAnamPeso((double) peso);
         if (tactoVag == 1) {
             anamnesisPaciente.setAnamBorramiento(borramiento);
@@ -185,6 +187,36 @@ public class AnamnesisMB {
         
     }
 
+    public void calcularFppFur(){
+        if (fur != null) {
+            Calendar today = Calendar.getInstance();
+            long milisToday = today.getTimeInMillis();
+            Calendar furC = Calendar.getInstance();
+            furC.setTime(fur);
+            long milisFur = furC.getTimeInMillis();
+            long diferencia = milisToday - milisFur;
+            long dias = diferencia / (24 * 60 * 60 * 1000);
+            //furC = Calendar.getInstance();
+            furC.add(Calendar.DATE,280);
+            fpp = furC.getTime();
+        }
+    }
+    
+    public void calcularFppFurop(){
+        if (furop != null) {
+            Calendar today = Calendar.getInstance();
+            long milisToday = today.getTimeInMillis();
+            Calendar furC = Calendar.getInstance();
+            furC.setTime(furop);
+            long milisFur = furC.getTimeInMillis();
+            long diferencia = milisToday - milisFur;
+            long dias = diferencia / (24 * 60 * 60 * 1000);
+            //furC = Calendar.getInstance();
+            furC.add(Calendar.DATE,280);
+            fpp = furC.getTime();
+        }
+    }
+    
     /**
      * Calcular Índice de Masa Corporal (IMC). 
      * Calcula el IMC a partir de los
@@ -203,43 +235,6 @@ public class AnamnesisMB {
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Debe ingresar el peso y la talla deben ser valores positivos distintos de cero.")); 
     }
     
-    public void imprimir() {
-        try {
-            //Generamos el archivo PDF
-            String directorioArchivos;
-            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            directorioArchivos = ctx.getRealPath("/") + "reports";
-            String name = "C:/document-report.pdf";
-            Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream(name));
-            document.open();
-            document.add(new Paragraph("Visita http://rolandopalermo.blogspot.com"));
-            document.add(new Paragraph("Nombre: " + paciente.getIdPersona().getPersNombres()));
-            document.add(new Paragraph("Tipo: "));
-            document.add(new Paragraph("Precio neto: "));
-            document.add(new Paragraph("Valor neto: "));
-            document.add(new Paragraph("Síguenos en http://facebook.com/blog.rolandopalermo"));
-            document.close();
-            //----------------------------
-            //Abrimos el archivo PDF
-            FacesContext context = FacesContext.getCurrentInstance();
-            HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-            response.setContentType("application/pdf");
-            response.setHeader("Content-disposition",
-                    "inline=filename=" + name);
-            try {
-                response.getOutputStream().write(1);                
-                response.getOutputStream().flush();
-                response.getOutputStream().close();
-                context.responseComplete();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     //Getters y Setters.
     public Paciente getPaciente() {
         return paciente;

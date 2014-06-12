@@ -11,19 +11,19 @@
             <p:panelGrid columns="3" id="datosPaciente" styleClass="companyHeaderGrid">
                 <p:outputLabel for="Rut" value="Rut: "/>
                 <p:autoComplete id="Rut" value="#{busquedaMB.rut}" completeMethod="#{busquedaMB.completarRut}" 
-                                var="rut" itemLabel="#{rut}" itemValue="#{rut}"/>
+                                var="rut" itemLabel="#{rut}" itemValue="#{rut}" dropdown="true"/>
                 <p:message for="Rut" showDetail="true"/>
                 <p:outputLabel for="Nombres" value="Nombre: "/>
                 <p:autoComplete id="Nombres" value="#{busquedaMB.nombres}" completeMethod="#{busquedaMB.completarNombre}" 
-                                var="nombre" itemLabel="#{nombre}" itemValue="#{nombre}"/>
+                                var="nombre" itemLabel="#{nombre}" itemValue="#{nombre}" dropdown="true"/>
                 <p:message for="Nombres" showDetail="true"/>
                 <p:outputLabel for="ApePaterno" value="Apellido Paterno: "/>
                 <p:autoComplete id="ApePaterno" value="#{busquedaMB.apePaterno}" completeMethod="#{busquedaMB.completarApePaterno}" 
-                                var="paterno" itemLabel="#{paterno}" itemValue="#{paterno}"/>
+                                var="paterno" itemLabel="#{paterno}" itemValue="#{paterno}" dropdown="true"/>
                 <p:message for="ApePaterno" showDetail="true"/>
                 <p:outputLabel for="ApeMaterno" value="Apellido Materno: "/>
                 <p:autoComplete id="ApeMaterno" value="#{busquedaMB.apeMaterno}" completeMethod="#{busquedaMB.completarApeMaterno}" 
-                                var="materno" itemLabel="#{materno}" itemValue="#{materno}"/>
+                                var="materno" itemLabel="#{materno}" itemValue="#{materno}" dropdown="true"/>
                 <p:message for="ApeMaterno" showDetail="true"/>
                 <p:outputLabel for="NumeroFicha"  value="Numero de Ficha: "/>
                 <p:inputText id="NumeroFicha" value="#{busquedaMB.numeroFicha}"/>

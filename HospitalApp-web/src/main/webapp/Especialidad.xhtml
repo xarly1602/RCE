@@ -45,7 +45,7 @@
                 <h:inputText value="#{especialidadMB.especialidad.idEspecialidad}" readonly="true"/>
                 <h:outputText value="Nombre Especialidad:" />
                 <h:inputText value="#{especialidadMB.especialidad.espeNombre}" />                
-                <p:commandButton value="Aceptar" actionListener="#{especialidadMB.editar(actionEvent)}" update=":especialidades" icon="ui-icon-check"/>
+                <p:commandButton value="Guardar" actionListener="#{especialidadMB.editar(actionEvent)}" update=":especialidades" icon="ui-icon-disk"/>
                 <p:commandButton value="Cancelar" oncomplete="PF('editEspec').hide()" icon="ui-icon-close"/>
             </h:panelGrid>
         </p:dialog>
@@ -57,7 +57,7 @@
                 <h:inputText id="codigo" value="#{especialidadMB.espeId}"/>
                 <h:outputText value="Nombre Especialidad:" />
                 <h:inputText value="#{especialidadMB.espeNombre}"/>
-                <p:commandButton value="Guardar" update=":subespecialidades" actionListener="#{especialidadMB.nuevaEspecialidad(actionEvent)}" icon="ui-icon-check"/>
+                <p:commandButton value="Guardar" update=":subespecialidades" actionListener="#{especialidadMB.nuevaEspecialidad(actionEvent)}" icon="ui-icon-disk"/>
                 <p:commandButton value="Cancelar" onclick="PF('addEspec').hide()" icon="ui-icon-close"/>
             </h:panelGrid>
         </p:dialog>
