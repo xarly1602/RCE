@@ -13,7 +13,8 @@
                      rowsPerPageTemplate="5,10,20">            
             <f:facet name="header">
                 <p:outputPanel>                    
-                    <p:inputText id="buscarEsp" value="#{listasMB.elementoBuscado}" style="width:150px" placeholder="Buscar Especialidad"/>
+                    <p:autoComplete id="buscarEsp" value="#{listasMB.elementoBuscado}" completeMethod="#{listasMB.completeEsp}" 
+                                    var="esp" itemLabel="#{esp}" itemValue="#{esp}" dropdown="true" placeholder="Buscar Especialidad"/>
                     <p:commandButton value="Buscar" icon="ui-icon-search" update="listaEspecialidades" action="#{listasMB.buscarEspecialidad()}"/>
                 </p:outputPanel>
             </f:facet>

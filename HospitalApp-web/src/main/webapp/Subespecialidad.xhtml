@@ -17,12 +17,9 @@
                                     var="sub" itemLabel="#{sub}" itemValue="#{sub}" dropdown="true" placeholder="Buscar Subespecialidad"/>
                     <p:commandButton value="Buscar" icon="ui-icon-search" update="listaSubespecialidades" action="#{listasMB.buscarSubespecialidad()}"/>
                     <br/>
-                    <p:outputLabel value="Especialidad: "/>
-                    <p:selectOneMenu value="#{listasMB.especialidadSeleccionadaId}">
-                        <p:ajax event="change" listener="#{listasMB.filtrarEspecialidad}" update="listaSubespecialidades"/>
-                        <f:selectItem itemLabel="Todas" itemValue="0"/>
-                        <f:selectItems value="#{listasMB.listaEspecialidades}" var="espec" itemLabel="#{espec.espeNombre}" itemValue="#{espec.idEspecialidad}"/>
-                    </p:selectOneMenu>
+                    <p:autoComplete id="buscarEsp" value="#{listasMB.filtro}" completeMethod="#{listasMB.completeEsp}" 
+                                    var="esp" itemLabel="#{esp}" itemValue="#{esp}" dropdown="true" placeholder="Buscar Especialidad"/>
+                    <p:commandButton value="Filtrar" icon="ui-icon-search" update="listaSubespecialidades" action="#{listasMB.filtrarSubespecialidad(event)}"/>
                 </p:outputPanel>
             </f:facet>
             <p:column headerText="Codigo">

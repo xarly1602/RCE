@@ -112,6 +112,7 @@ public class ListasMB {
     private List<ServicioSalud> listaServicios;
 
     private String elementoBuscado;
+    private String filtro;
     private int i;
     private int especialidadSeleccionadaId;
     
@@ -129,6 +130,7 @@ public class ListasMB {
     public void init(){
         System.out.println("ARMANDO LISTAS");
         elementoBuscado = "";
+        filtro = "";
         listaEspecialidades = especialidadFacade.findAll();
         listaComuna = comunaFacade.findAll();
         listaConsultorio = consultorioFacade.findAll();
@@ -226,8 +228,8 @@ public class ListasMB {
      * @param event Evento en la página xhtml que acciona la función.
      */
     public void filtrarSubespecialidad(SelectEvent event){
-        if(especialidadNegocio.busquedaEspecialidadNombre(elementoBuscado) != null){
-            especialidadSeleccionadaId = especialidadNegocio.busquedaEspecialidadNombre(elementoBuscado).get(0).getIdEspecialidad();
+        if(especialidadNegocio.busquedaEspecialidadNombre(filtro) != null){
+            especialidadSeleccionadaId = especialidadNegocio.busquedaEspecialidadNombre(filtro).get(0).getIdEspecialidad();
             this.filtrarEspecialidad(event);
         }
     }
@@ -451,6 +453,14 @@ public class ListasMB {
 
     public void setElementoBuscado(String elementoBuscado) {
         this.elementoBuscado = elementoBuscado;
+    }
+
+    public String getFiltro() {
+        return filtro;
+    }
+
+    public void setFiltro(String filtro) {
+        this.filtro = filtro;
     }
     
 }

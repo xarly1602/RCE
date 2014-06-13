@@ -74,11 +74,11 @@
             <ui:include src="VisualizarPaciente.xhtml"/>
         </p:dialog>
         <p:dialog id="agregarProfesional" maximizable="true" header="Profesionales" widgetVar="addPro" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
-                  minimizable="true" height="540" width="800" onShow="#{ingresoProfesional.init}">
+                  minimizable="true" height="540" width="800" onShow="#{ingresoProfesional.init()}">
             <ui:include src="AgregarProfesional.xhtml"/>
         </p:dialog>
         <p:dialog id="ingresarProfesional" maximizable="true" header="Profesionales" widgetVar="viewPro" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
-                  minimizable="true" height="540" width="800" onShow="#{buscarProfesional.init}">
+                  minimizable="true" height="540" width="800" onShow="#{buscarProfesional.init()}">
             <ui:include src="VisualizarProfesional.xhtml"/>
         </p:dialog>
         <p:dialog id="buscarPaciente" maximizable="true" header="Buscar Pacientes" widgetVar="searchPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
