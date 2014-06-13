@@ -145,6 +145,7 @@ public class SubespecialidadMB {
             subespecialidadSeleccionada.setIdEspecialidad(new Especialidad(especialidadSeleccionadaId));
             subespecialidadSeleccionada.setIdSubespecialidad(subespecialidadSeleccionadaId);
             subespecialidadFacade.edit(subespecialidadSeleccionada);
+            System.out.println("EDITADA");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Subespecialidad " + subespeNombre + " editada exitosamente"));
         }
         this.resetData();

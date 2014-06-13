@@ -6,17 +6,9 @@
 
 package managedbeans;
 
-import cl.RCE.www.especialidad.EspecialidadNegocioLocal;
-import cl.RCE.www.subespecialidad.SubespecialidadNegocioLocal;
 import cl.RCE.www.entities.*;
+import cl.RCE.www.especialidad.EspecialidadNegocioLocal;
 import cl.RCE.www.sessionbeans.CargoFacadeLocal;
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.event.AjaxBehaviorEvent;
 import cl.RCE.www.sessionbeans.ComunaFacadeLocal;
 import cl.RCE.www.sessionbeans.ConsultorioFacadeLocal;
 import cl.RCE.www.sessionbeans.EducacionFacadeLocal;
@@ -36,6 +28,15 @@ import cl.RCE.www.sessionbeans.SectorFacadeLocal;
 import cl.RCE.www.sessionbeans.ServicioSaludFacadeLocal;
 import cl.RCE.www.sessionbeans.SubespecialidadFacadeLocal;
 import cl.RCE.www.sessionbeans.TipoPrevisionFacadeLocal;
+import cl.RCE.www.subespecialidad.SubespecialidadNegocioLocal;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.event.AjaxBehaviorEvent;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -126,6 +127,8 @@ public class ListasMB {
      */
     @PostConstruct
     public void init(){
+        System.out.println("ARMANDO LISTAS");
+        elementoBuscado = "";
         listaEspecialidades = especialidadFacade.findAll();
         listaComuna = comunaFacade.findAll();
         listaConsultorio = consultorioFacade.findAll();
@@ -217,22 +220,52 @@ public class ListasMB {
     }
     
     /**
+     * Filtrar especialidades.
+     * Mostrar solo las subespecialidades que correspondan a la especialidad 
+     * seleccionada.
+     * @param event Evento en la página xhtml que acciona la función.
+     */
+    public void filtrarSubespecialidad(SelectEvent event){
+        if(especialidadNegocio.busquedaEspecialidadNombre(elementoBuscado) != null){
+            especialidadSeleccionadaId = especialidadNegocio.busquedaEspecialidadNombre(elementoBuscado).get(0).getIdEspecialidad();
+            this.filtrarEspecialidad(event);
+        }
+    }
+    
+    /**
      * Completar subespecialidades.
      * Función para realizar la búsqueda de subespecialidades con autocompletar.
      * @param query Nombre completo o inicio de la subespecialidad buscada.
      * @return Lista de resultados encontrados.
      */
-    public List<Subespecialidad> completeSub(String query) {
-        List<Subespecialidad> suggestions = new ArrayList<Subespecialidad>();
+    public List<String> completeSub(String query) {
+        List<String> listaFiltrada = new ArrayList<String>();
          
         for(Subespecialidad p : listaSubespecialidad) {
             if(p.getSubespeNombre().startsWith(query))
-                suggestions.add(p);
+                listaFiltrada.add(p.getSubespeNombre());
         }
          
-        return suggestions;
+        return listaFiltrada;
     }
 
+    /**
+     * Completar especialidades.
+     * Función para realizar la búsqueda de especialidades con autocompletar.
+     * @param query Nombre completo o inicio de la especialidad buscada.
+     * @return Lista de resultados encontrados.
+     */
+    public List<String> completeEsp(String query) {
+        List<String> listaFiltrada = new ArrayList<String>();
+         
+        for(Especialidad p : listaEspecialidades) {
+            if(p.getEspeNombre().startsWith(query))
+                listaFiltrada.add(p.getEspeNombre());
+        }
+         
+        return listaFiltrada;
+    }
+    
     // Getters y Setters
     public List<Cargo> getListaCargos() {
         return listaCargos;
@@ -251,6 +284,8 @@ public class ListasMB {
     }
 
     public List<Persona> getListaProfesionales() {
+        listaProfesionales = personaFacade.findAll();
+        this.filtrarListas();
         return listaProfesionales;
     }
 
@@ -275,6 +310,10 @@ public class ListasMB {
     }
      
     public List<Especialidad> getListaEspecialidades() {
+        if (elementoBuscado.isEmpty()) {
+            listaEspecialidades = especialidadFacade.findAll();
+            this.filtrarListas();
+        }
         return listaEspecialidades;
     }
 
@@ -307,6 +346,10 @@ public class ListasMB {
     }
 
     public List<Subespecialidad> getListaSubespecialidad() {
+        if (especialidadSeleccionadaId == 0 && elementoBuscado.isEmpty()) {
+            listaSubespecialidad = subespecialidadFacade.findAll();
+            this.filtrarListas();
+        }
         return listaSubespecialidad;
     }
 

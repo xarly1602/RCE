@@ -13,12 +13,14 @@
                      rowsPerPageTemplate="5,10,20">            
             <f:facet name="header">
                 <p:outputPanel>                    
-                    <p:inputText id="buscarSubesp" value="#{listasMB.elementoBuscado}" style="width:150px" placeholder="Buscar Subespecialidad"/>
+                    <p:autoComplete id="buscarSubesp" value="#{listasMB.elementoBuscado}" completeMethod="#{listasMB.completeSub}" 
+                                    var="sub" itemLabel="#{sub}" itemValue="#{sub}" dropdown="true" placeholder="Buscar Subespecialidad"/>
                     <p:commandButton value="Buscar" icon="ui-icon-search" update="listaSubespecialidades" action="#{listasMB.buscarSubespecialidad()}"/>
                     <br/>
                     <p:outputLabel value="Especialidad: "/>
                     <p:selectOneMenu value="#{listasMB.especialidadSeleccionadaId}">
-                        <p:ajax event="change" listener="#{listasMB.filtrarEspecialidad}" update="listaSubespecialidades"/>                        
+                        <p:ajax event="change" listener="#{listasMB.filtrarEspecialidad}" update="listaSubespecialidades"/>
+                        <f:selectItem itemLabel="Todas" itemValue="0"/>
                         <f:selectItems value="#{listasMB.listaEspecialidades}" var="espec" itemLabel="#{espec.espeNombre}" itemValue="#{espec.idEspecialidad}"/>
                     </p:selectOneMenu>
                 </p:outputPanel>
@@ -59,7 +61,7 @@
                     <f:selectItem itemLabel="Seleccionar una" itemValue=""/>
                     <f:selectItems value="#{listasMB.listaEspecialidades}" var="especialidad" itemLabel="#{especialidad.espeNombre}" itemValue="#{especialidad.idEspecialidad}"/> 
                 </h:selectOneMenu>
-                <p:commandButton value="Guardar" actionListener="#{subespecialidadMB.editar(actionEvent)}" update=":subespecialidades" icon="ui-icon-disk"/>
+                <p:commandButton value="Guardar" actionListener="#{subespecialidadMB.editar(actionEvent)}" update=":subespecialidades, :subespecialidades:listaSubespecialidades" icon="ui-icon-disk"/>
                 <p:commandButton value="Cancelar" oncomplete="PF('editSubespec').hide()" icon="ui-icon-close"/>
             </h:panelGrid>
         </p:dialog>
@@ -76,7 +78,7 @@
                     <f:selectItem itemLabel="Seleccionar una" itemValue=""/>
                     <f:selectItems value="#{listasMB.listaEspecialidades}" var="especialidad2" itemLabel="#{especialidad2.espeNombre}" itemValue="#{especialidad2.idEspecialidad}"/> 
                 </h:selectOneMenu>
-                <p:commandButton value="Guardar" update=":subespecialidades" actionListener="#{subespecialidadMB.nuevaSubespecialidad(actionEvent)}" icon="ui-icon-disk"/>
+                <p:commandButton value="Guardar" update=":subespecialidades, :subespecialidades:listaSubespecialidades" actionListener="#{subespecialidadMB.nuevaSubespecialidad(actionEvent)}" icon="ui-icon-disk"/>
                 <p:commandButton value="Cancelar" onclick="PF('addSubespec').hide()" icon="ui-icon-close"/>
             </h:panelGrid>
         </p:dialog>

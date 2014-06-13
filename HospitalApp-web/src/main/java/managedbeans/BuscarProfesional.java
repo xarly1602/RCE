@@ -15,6 +15,7 @@ import cl.RCE.www.persona.PersonaNegocioLocal;
 import cl.RCE.www.profesional.ProfesionalNegocioLocal;
 import cl.RCE.www.sessionbeans.PersonaFacadeLocal;
 import cl.RCE.www.sessionbeans.ProfesionalFacadeLocal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -111,6 +112,34 @@ public class BuscarProfesional {
                 break;
         }
     }
+
+    
+    public List<String> completarBusqueda(String query) {
+        List<String> listaFiltrada = new ArrayList<String>();
+        if (opcion.equals("1")) {
+            for (Persona persona : personasObject) {
+                if (persona.getPersRut().toString().startsWith(query) && !listaFiltrada.contains(persona.getPersRut().toString())) {
+                    listaFiltrada.add(persona.getPersRut().toString());
+                }
+            }
+        }
+        else if (opcion.equals("2")) {
+            for (Persona persona : personasObject) {
+                if (persona.getPersNombres().startsWith(query) && !listaFiltrada.contains(persona.getPersNombres())) {
+                    listaFiltrada.add(persona.getPersNombres());
+                }
+            }
+        }        
+        else if (opcion.equals("3")) {
+            for (Persona persona : personasObject) {
+                if (persona.getPersApepaterno().startsWith(query) && !listaFiltrada.contains(persona.getPersApepaterno())) {
+                    listaFiltrada.add(persona.getPersApepaterno());
+                }
+            }
+        }
+        return listaFiltrada;
+    }
+    
     /**
      * Buscar Por Especialidad.
      * Se busca a todos los profesionales que coincidan con la especialidad solicitada.

@@ -3,9 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package managedbeans;
-
 
 import cl.RCE.www.entities.Comuna;
 import cl.RCE.www.entities.ConsentimientoInformado;
@@ -43,6 +41,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 @SessionScoped
 
 public class BuscarPaciente {
+
     @EJB
     private ConsentimientoInformadoFacadeLocal consentimientoInformadoFacade;
     @EJB
@@ -55,30 +54,30 @@ public class BuscarPaciente {
     private PersonaFacadeLocal personaFacade;
     @EJB
     private PersonaNegocioLocal personaNegocio;
-    
+
     List<Persona> personasObject;
     List<ConsentimientoInformado> consentimientos;
     List<ConsentimientoInformado> consentimientosSeleccionados;
-    
+
     private Persona personaSeleccionada;
     private Paciente pacienteSeleccionado;
     private ConsentimientoInformado consentimientoInformadoSeleccionado;
-  
+
     private String estadoConsentimiento;
     private String estadoConsentimientoVIH;
     private String estadoConsentimientoEst;
-    
+
     private Educacion educacion;
     private PuebloOriginario puebloOriginario;
     private Religion religion;
     private EstadoConyugal estadoConyugal;
     private Comuna comuna;
     private LeyesSociales leyesSociales;
-    private Consultorio consultorio;    
+    private Consultorio consultorio;
     private Prevision prevision;
     private TipoPrevision tipoPrevision;
     private List<TipoPrevision> listaTipos;
-    private String buscado;    
+    private String buscado;
     private String opcion;
     private boolean pacienteFallecidoAux;
     int leyesSocialesId;
@@ -90,23 +89,22 @@ public class BuscarPaciente {
     int educacionId;
     int estadoConyugalId;
     int puebloOriginarioId;
-    
+
     private String interversion = "Interversion";
     private String vih = "VIH";
     private String esterilizacion = "Esterilizacion";
     private String tipoAux;
-    
+
     public BuscarPaciente() {
     }
-    
-     /**
-     * Postconstructor.
-     * Se crea a la persona que será seleccionada para poder editarla, se obtiene
-     * una lista de todos los pacientes que hay en el sistema y se iniciliza 
-     * la opcion de busqueda en 1 (busqueda por rut).
+
+    /**
+     * Postconstructor. Se crea a la persona que será seleccionada para poder
+     * editarla, se obtiene una lista de todos los pacientes que hay en el
+     * sistema y se iniciliza la opcion de busqueda en 1 (busqueda por rut).
      */
     @PostConstruct
-    public void init(){
+    public void init() {
         personaSeleccionada = new Persona();
         consentimientos = consentimientoInformadoFacade.findAll();
         consentimientosSeleccionados = new ArrayList<ConsentimientoInformado>();
@@ -118,86 +116,117 @@ public class BuscarPaciente {
         }
         opcion = "1";
     }
-    
-     /**
-     * Buscar a una Paciente.
-     * Dependiendo la opción que eliga el usuario se buscará al paciente,
-     * puede ser por rut, nombre o apellido paterno.
-     * Finalmente la función tendrá la lista con los pacientes que 
-     * coincidan con lo buscado.
+
+    /**
+     * Buscar a una Paciente. Dependiendo la opción que eliga el usuario se
+     * buscará al paciente, puede ser por rut, nombre o apellido paterno.
+     * Finalmente la función tendrá la lista con los pacientes que coincidan con
+     * lo buscado.
      */
-    public void buscarPersona(){
-        switch(Integer.parseInt(opcion)){
+    public void buscarPersona() {
+        if (buscado.isEmpty()) {
+            personasObject = personaFacade.findAll();
+        for (int i = personasObject.size() - 1; i >= 0; i--) {
+            if (personasObject.get(i).getPersTipopersona() != 1) {
+                personasObject.remove(i);
+            }
+        }
+        return;
+        }
+        switch (Integer.parseInt(opcion)) {
             case 1:
-                try{
-                    personasObject =  personaNegocio.busquedaPersonaRut(Integer.parseInt(buscado),1);
-                }
-                catch(NumberFormatException ex){
-                    personasObject =  personaNegocio.busquedaPersonaRut(-1,0);
+                try {
+                    personasObject = personaNegocio.busquedaPersonaRut(Integer.parseInt(buscado), 1);
+                } catch (NumberFormatException ex) {
+                    personasObject = personaNegocio.busquedaPersonaRut(-1, 0);
                 }
                 break;
             case 2:
-                personasObject = personaNegocio.busquedaPersonaNombre(buscado,1);           
+                personasObject = personaNegocio.busquedaPersonaNombre(buscado, 1);
                 break;
             case 3:
-                personasObject = personaNegocio.busquedaPersonaApellidoPaterno(buscado,1);
+                personasObject = personaNegocio.busquedaPersonaApellidoPaterno(buscado, 1);
                 break;
             default:
                 break;
-        }       
+        }
     }
-    
-     /**
-     * Actualizar datos.
-     * Función que actualiza los datos del paciente, se crean las entidades relacionadas con el paciente
-     * como la comuna, eduación, entre otros.
-     * Se setean los datos para la persona y para el paciente según corresponda.
-     * Finalmente se actualizan los datos de la persona y del paciente.
+
+    public List<String> completarBusqueda(String query) {
+        List<String> listaFiltrada = new ArrayList<String>();
+        if (opcion.equals("1")) {
+            for (Persona persona : personasObject) {
+                if (persona.getPersRut().toString().startsWith(query) && !listaFiltrada.contains(persona.getPersRut().toString())) {
+                    listaFiltrada.add(persona.getPersRut().toString());
+                }
+            }
+        }
+        else if (opcion.equals("2")) {
+            for (Persona persona : personasObject) {
+                if (persona.getPersNombres().startsWith(query) && !listaFiltrada.contains(persona.getPersNombres())) {
+                    listaFiltrada.add(persona.getPersNombres());
+                }
+            }
+        }        
+        else if (opcion.equals("3")) {
+            for (Persona persona : personasObject) {
+                if (persona.getPersApepaterno().startsWith(query) && !listaFiltrada.contains(persona.getPersApepaterno())) {
+                    listaFiltrada.add(persona.getPersApepaterno());
+                }
+            }
+        }
+        return listaFiltrada;
+    }
+
+    /**
+     * Actualizar datos. Función que actualiza los datos del paciente, se crean
+     * las entidades relacionadas con el paciente como la comuna, eduación,
+     * entre otros. Se setean los datos para la persona y para el paciente según
+     * corresponda. Finalmente se actualizan los datos de la persona y del
+     * paciente.
      */
-    public void actualizar(){   
+    public void actualizar() {
         comuna = new Comuna(comunaId);
         educacion = new Educacion(educacionId);
-        puebloOriginario =  new PuebloOriginario(puebloOriginarioId);
+        puebloOriginario = new PuebloOriginario(puebloOriginarioId);
         religion = new Religion(religionId);
         estadoConyugal = new EstadoConyugal(estadoConyugalId);
         prevision = new Prevision(previsionId);
         tipoPrevision = new TipoPrevision(tipoPrevisionId);
         leyesSociales = new LeyesSociales(leyesSocialesId);
         consultorio = new Consultorio(consultorioId);
-        
+
         personaSeleccionada.setIdComuna(comuna);
         personaSeleccionada.setIdEducacion(educacion);
         personaSeleccionada.setIdPueblooriginario(puebloOriginario);
         personaSeleccionada.setIdReligion(religion);
         personaSeleccionada.setIdEstadoconyugal(estadoConyugal);
-        
+
         pacienteSeleccionado.setIdPrevision(prevision);
         pacienteSeleccionado.setIdConsultorio(consultorio);
         pacienteSeleccionado.setIdLeyessociales(leyesSociales);
         pacienteSeleccionado.setIdTipoprevision(tipoPrevision);
-        if(pacienteFallecidoAux == true){
+        if (pacienteFallecidoAux == true) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "El paciente esta registrado como fallecido."));
-        }        
-        else{
-            if(pacienteSeleccionado.getIdTipoprevision().getIdTipoprevision() == 0 && (pacienteSeleccionado.getIdPrevision().getIdPrevision() == 1 || pacienteSeleccionado.getIdPrevision().getIdPrevision() == 2 )){
+        } else {
+            if (pacienteSeleccionado.getIdTipoprevision().getIdTipoprevision() == 0 && (pacienteSeleccionado.getIdPrevision().getIdPrevision() == 1 || pacienteSeleccionado.getIdPrevision().getIdPrevision() == 2)) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Debe poner un tipo de previsión."));
-            }
-            else{
+            } else {
                 personaFacade.edit(personaSeleccionada);
                 pacienteFacade.edit(pacienteSeleccionado);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Datos Actualizados"));
             }
-            
-        }        
-        
+
+        }
 
     }
-    private List<ConsentimientoInformado> filtrarConsentimiento(List<ConsentimientoInformado> consentimientosAux, int idPaciente){
+
+    private List<ConsentimientoInformado> filtrarConsentimiento(List<ConsentimientoInformado> consentimientosAux, int idPaciente) {
         /*System.out.println("El id buscado es: " + idPaciente);
-        for (int i = consentimientosAux.size() - 1; i >= 0; i--) {
-            System.out.println("Consentimientos: " + consentimientosAux.get(i).getIdPaciente().getIdPersona().getPersNombres()); 
-            System.out.println("Awuiii ctmwmmsmajdfnhskjdnfskjdfnskj");  
-        }*/
+         for (int i = consentimientosAux.size() - 1; i >= 0; i--) {
+         System.out.println("Consentimientos: " + consentimientosAux.get(i).getIdPaciente().getIdPersona().getPersNombres()); 
+         System.out.println("Awuiii ctmwmmsmajdfnhskjdnfskjdfnskj");  
+         }*/
         System.out.println("ESTOY AQUI CTMMMMMMM: " + consentimientosAux.size());
         for (int i = consentimientosAux.size() - 1; i >= 0; i--) {
             System.out.println(i);
@@ -209,37 +238,42 @@ public class BuscarPaciente {
         }
         System.out.println("Sali de la funcion");
         return consentimientosAux;
-        
+
     }
-    public void editarConsentimiento(){
+
+    public void editarConsentimiento() {
         System.out.println("estado: " + estadoConsentimiento);
         consentimientoInformadoSeleccionado.setConsentEstado(estadoConsentimiento);
         consentimientoInformadoFacade.edit(consentimientoInformadoSeleccionado);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Estado actualizado."));
-        
+
     }
-    public void editarConsentimientoVIH(){        
+
+    public void editarConsentimientoVIH() {
         consentimientoInformadoSeleccionado.setConsentEstado(estadoConsentimientoVIH);
         consentimientoInformadoFacade.edit(consentimientoInformadoSeleccionado);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Estado actualizado."));
-        
+
     }
-    public void editarConsentimientoEst(){
+
+    public void editarConsentimientoEst() {
         consentimientoInformadoSeleccionado.setConsentEstado(estadoConsentimientoEst);
         consentimientoInformadoFacade.edit(consentimientoInformadoSeleccionado);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Estado actualizado."));
-        
+
     }
-     /**
-     * Buscar la lista de los tipos de prevision.
-     * Se buscará la lista de tipos de prevision según el id de la previsión que ingreso el usuario,
-     * luego al tipo de previsión se le seteará una prevision de id cero (que no existe), para que
-     * no muestre un tipo de previsión que no corresponda a la previsión correcta.
+
+    /**
+     * Buscar la lista de los tipos de prevision. Se buscará la lista de tipos
+     * de prevision según el id de la previsión que ingreso el usuario, luego al
+     * tipo de previsión se le seteará una prevision de id cero (que no existe),
+     * para que no muestre un tipo de previsión que no corresponda a la
+     * previsión correcta.
      */
-     public void buscaTipo(AjaxBehaviorEvent event) {
+    public void buscaTipo(AjaxBehaviorEvent event) {
         listaTipos = tipoPrevisionNegocio.busquedaTipoIdPrevision(previsionId);
         pacienteSeleccionado.setIdTipoprevision(new TipoPrevision(0));
-        
+
     }
 
     // Setters y getters.
@@ -282,7 +316,7 @@ public class BuscarPaciente {
     public void setEsterilizacion(String esterilizacion) {
         this.esterilizacion = esterilizacion;
     }
-     
+
     public boolean isPacienteFallecidoAux() {
         return pacienteFallecidoAux;
     }
@@ -314,14 +348,15 @@ public class BuscarPaciente {
     public void setPacienteSeleccionado(Paciente pacienteSeleccionado) {
         this.pacienteSeleccionado = pacienteSeleccionado;
     }
-    
+
     public Persona getPersonaSeleccionada() {
         return personaSeleccionada;
     }
-     /**
-     * Setear Persona seleccionada.
-     * Luego de setear a la persona seleccionada, se buscará al paciente que corresponda 
-     * a la busqueda y se guardará en una variable auxiliar el estado del paciente (fallecido o no).
+
+    /**
+     * Setear Persona seleccionada. Luego de setear a la persona seleccionada,
+     * se buscará al paciente que corresponda a la busqueda y se guardará en una
+     * variable auxiliar el estado del paciente (fallecido o no).
      */
     public void setPersonaSeleccionada(Persona personaSeleccionada) {
         this.personaSeleccionada = personaSeleccionada;
@@ -332,8 +367,8 @@ public class BuscarPaciente {
         //System.out.println(" ");
         //System.out.println("El paciente seleccionado es: " + pacienteSeleccionado.toString());
         consentimientosSeleccionados = filtrarConsentimiento(consentimientos, pacienteSeleccionado.getIdPaciente());
-        
-    } 
+
+    }
 
     public List<ConsentimientoInformado> getConsentimientosSeleccionados() {
         return consentimientosSeleccionados;
@@ -374,8 +409,7 @@ public class BuscarPaciente {
     public void setPrevisionId(int previsionId) {
         this.previsionId = previsionId;
     }
-  
-    
+
     public int getComunaId() {
         return comunaId;
     }
@@ -414,7 +448,7 @@ public class BuscarPaciente {
 
     public void setPuebloOriginarioId(int puebloOriginarioId) {
         this.puebloOriginarioId = puebloOriginarioId;
-    }         
+    }
 
     public ConsentimientoInformado getConsentimientoInformadoSeleccionado() {
         return consentimientoInformadoSeleccionado;
@@ -441,15 +475,13 @@ public class BuscarPaciente {
         this.tipoAux = tipoAux;
     }
 
-    
-
     public List<Persona> getPersonasObject() {
         return personasObject;
     }
 
     public void setPersonasObject(List<Persona> personasObject) {
         this.personasObject = personasObject;
-    } 
+    }
 
     public String getBuscado() {
         return buscado;
@@ -466,8 +498,5 @@ public class BuscarPaciente {
     public void setOpcion(String opcion) {
         this.opcion = opcion;
     }
-            
-    
-            
-    
+
 }

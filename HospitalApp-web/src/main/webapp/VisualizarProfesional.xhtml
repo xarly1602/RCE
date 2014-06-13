@@ -13,11 +13,13 @@
                 <p:outputPanel>
                     <h:panelGrid columns="3" id="panelCampoProf" styleClass="companyHeaderGrid">
                         <p:outputLabel value="Buscar"></p:outputLabel>
-                        <p:inputText value="#{buscarProfesional.buscado}"/>
+                        <p:autoComplete id="completePaciente" value="#{buscarProfesional.buscado}" completeMethod="#{buscarProfesional.completarBusqueda}" 
+                                var="pro" itemLabel="#{pro}" itemValue="#{pro}" dropdown="true"/>
                         <p:commandButton update="PersonasProf, :formBuscarProfesional:growl" action="#{buscarProfesional.buscarPersona()}" value="Buscar" icon="ui-icon-search"/>
                     </h:panelGrid>
 
                     <p:selectOneRadio requiredMessage="Campo requerido" required ="true"  id="buscadoProf" value="#{buscarProfesional.opcion}">  
+                        <p:ajax event="change" update="completePaciente"/>
                         <f:selectItem itemLabel="Rut" itemValue="1" />  
                         <f:selectItem itemLabel="Nombre" itemValue="2" />  
                         <f:selectItem itemLabel="Apellido Paterno" itemValue="3" />  
