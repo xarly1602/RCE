@@ -6,12 +6,12 @@
 
 package managedbeans;
 
-import cl.RCE.www.entities.Anamnesis;
-import cl.RCE.www.entities.Paciente;
-import cl.RCE.www.entities.Profesional;
-import cl.RCE.www.sessionbeans.AnamnesisFacadeLocal;
-import cl.RCE.www.sessionbeans.PacienteFacadeLocal;
-import cl.RCE.www.sessionbeans.ProfesionalFacadeLocal;
+import cl.rcehblt.entities.Anamnesis;
+import cl.rcehblt.entities.Paciente;
+import cl.rcehblt.entities.Profesional;
+import cl.rcehblt.sessionbeans.AnamnesisFacadeLocal;
+import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
+import cl.rcehblt.sessionbeans.ProfesionalFacadeLocal;
 import java.awt.event.ActionEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;

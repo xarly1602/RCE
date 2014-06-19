@@ -5,24 +5,24 @@
  */
 package managedbeans;
 
-import cl.RCE.www.entities.Comuna;
-import cl.RCE.www.entities.Consultorio;
-import cl.RCE.www.entities.Educacion;
-import cl.RCE.www.entities.Establecimiento;
-import cl.RCE.www.entities.EstadoConyugal;
-import cl.RCE.www.entities.Genero;
-import cl.RCE.www.entities.LeyesSociales;
-import cl.RCE.www.entities.Paciente;
-import cl.RCE.www.entities.Persona;
-import cl.RCE.www.entities.Prevision;
-import cl.RCE.www.entities.PuebloOriginario;
-import cl.RCE.www.entities.Religion;
-import cl.RCE.www.entities.Sector;
-import cl.RCE.www.entities.ServicioSalud;
-import cl.RCE.www.entities.TipoPrevision;
-import cl.RCE.www.persona.PersonaNegocioLocal;
-import cl.RCE.www.sessionbeans.EstadoConyugalFacadeLocal;
-import cl.RCE.www.tipoprevision.TipoPrevisionNegocioLocal;
+import cl.rcehblt.entities.Comuna;
+import cl.rcehblt.entities.Consultorio;
+import cl.rcehblt.entities.Educacion;
+import cl.rcehblt.entities.Establecimiento;
+import cl.rcehblt.entities.EstadoConyugal;
+import cl.rcehblt.entities.Genero;
+import cl.rcehblt.entities.LeyesSociales;
+import cl.rcehblt.entities.Paciente;
+import cl.rcehblt.entities.Persona;
+import cl.rcehblt.entities.Prevision;
+import cl.rcehblt.entities.PuebloOriginario;
+import cl.rcehblt.entities.Religion;
+import cl.rcehblt.entities.Sector;
+import cl.rcehblt.entities.ServicioSalud;
+import cl.rcehblt.entities.TipoPrevision;
+import cl.rcehblt.persona.PersonaNegocioLocal;
+import cl.rcehblt.sessionbeans.EstadoConyugalFacadeLocal;
+import cl.rcehblt.tipoprevision.TipoPrevisionNegocioLocal;
 import java.awt.event.ActionEvent;
 import java.util.Calendar;
 import java.util.Date;
@@ -37,8 +37,8 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import org.primefaces.event.SelectEvent;
-import cl.RCE.www.sessionbeans.PacienteFacadeLocal;
-import cl.RCE.www.sessionbeans.PersonaFacadeLocal;
+import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
+import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
 
 /**
  *

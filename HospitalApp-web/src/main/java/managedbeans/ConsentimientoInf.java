@@ -6,16 +6,16 @@
 
 package managedbeans;
 
-import cl.RCE.www.anamnesis.AnamnesisNegocioLocal;
-import cl.RCE.www.entities.Anamnesis;
-import cl.RCE.www.entities.ConsentimientoInformado;
-import cl.RCE.www.entities.Paciente;
-import cl.RCE.www.entities.Persona;
-import cl.RCE.www.entities.Profesional;
-import cl.RCE.www.paciente.PacienteNegocioLocal;
-import cl.RCE.www.persona.PersonaNegocioLocal;
-import cl.RCE.www.profesional.ProfesionalNegocioLocal;
-import cl.RCE.www.sessionbeans.ConsentimientoInformadoFacadeLocal;
+import cl.rcehblt.anamnesis.AnamnesisNegocioLocal;
+import cl.rcehblt.entities.Anamnesis;
+import cl.rcehblt.entities.ConsentimientoInformado;
+import cl.rcehblt.entities.Paciente;
+import cl.rcehblt.entities.Persona;
+import cl.rcehblt.entities.Profesional;
+import cl.rcehblt.paciente.PacienteNegocioLocal;
+import cl.rcehblt.persona.PersonaNegocioLocal;
+import cl.rcehblt.profesional.ProfesionalNegocioLocal;
+import cl.rcehblt.sessionbeans.ConsentimientoInformadoFacadeLocal;
 import java.awt.event.ActionEvent;
 import java.util.Date;
 import java.util.List;

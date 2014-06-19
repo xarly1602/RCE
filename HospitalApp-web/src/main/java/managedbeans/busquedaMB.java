@@ -5,12 +5,12 @@
  */
 package managedbeans;
 
-import cl.RCE.www.entities.Paciente;
-import cl.RCE.www.entities.Persona;
-import cl.RCE.www.paciente.PacienteNegocioLocal;
-import cl.RCE.www.persona.PersonaNegocioLocal;
-import cl.RCE.www.sessionbeans.PacienteFacadeLocal;
-import cl.RCE.www.sessionbeans.PersonaFacadeLocal;
+import cl.rcehblt.entities.Paciente;
+import cl.rcehblt.entities.Persona;
+import cl.rcehblt.paciente.PacienteNegocioLocal;
+import cl.rcehblt.persona.PersonaNegocioLocal;
+import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
+import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

@@ -5,8 +5,8 @@
  */
 package managedbeans;
 
-import cl.RCE.www.entities.Especialidad;
-import cl.RCE.www.entities.Subespecialidad;
+import cl.rcehblt.entities.Especialidad;
+import cl.rcehblt.entities.Subespecialidad;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import cl.RCE.www.sessionbeans.SubespecialidadFacadeLocal;
+import cl.rcehblt.sessionbeans.SubespecialidadFacadeLocal;
 
 /**
  *
