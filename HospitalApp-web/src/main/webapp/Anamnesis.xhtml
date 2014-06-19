@@ -30,13 +30,13 @@
                     <p:panel>
                         <p:panelGrid columns="2">
                             <p:outputLabel value="F.U.R. "/>
-                            <p:calendar style="width: 50px;" value="#{anamnesisMB.fur}" styleClass="dateTimeField"/>
+                            <p:calendar style="width: 50px;" value="#{anamnesisMB.fur}" styleClass="dateTimeField" required="true" requiredMessage="Debe indicar la FUR"/>
                             <p:outputLabel value="F.U.R.op. "/>
-                            <p:calendar style="width: 50px;" value="#{anamnesisMB.furop}" styleClass="dateTimeField"/>
+                            <p:calendar style="width: 50px;" value="#{anamnesisMB.furop}" styleClass="dateTimeField" required="true" requiredMessage="Debe indicar la FURop"/>
                             <p:outputLabel value="F.P.P. "/>
-                            <p:calendar id="FPP" style="width: 50px;" value="#{anamnesisMB.fpp}" styleClass="dateTimeField"/>
+                            <p:calendar id="FPP" style="width: 50px;" value="#{anamnesisMB.fpp}" styleClass="dateTimeField" required="true" requiredMessage="La FPP no puede ser vacía"/>
                             <p:outputLabel value="Eco. precoz "/>
-                            <p:calendar style="width: 50px;" value="#{anamnesisMB.ecoPrecoz}" styleClass="dateTimeField"/>
+                            <p:calendar style="width: 50px;" value="#{anamnesisMB.ecoPrecoz}" styleClass="dateTimeField" required="true" requiredMessage="Debe indicar la fecha de la Eco Precoz."/>
                             <p:outputLabel value="EG "/>
                             <p:inputText style="width: 50px;" value="#{anamnesisMB.eg}"/>
                             <p:outputLabel value="Acorde "/>
@@ -124,15 +124,21 @@
             <p:tab id="ExamenFisico" title="Exámen Físico">
                 <p:panelGrid columns="2">
                     <p:outputLabel for="PA" value="Presión arterial: "/>
-                    <p:inputText id="PA" value="#{anamnesisMB.presionArterial}" maxlength="3" validatorMessage="El campo debe ser un numero de a lo más 3 dígitos"/>
+                    <p:inputText id="PA" value="#{anamnesisMB.presionArterial}" 
+                                 maxlength="3" validatorMessage="El campo debe ser un numero de a lo más 3 dígitos"
+                                 required="true" requiredMessage="Debe ingresar la presión arterial del paciente."/>
                     <p:outputLabel for="Temp" value="Temperatura: "/>
-                    <p:inputText id="Temp" value="#{anamnesisMB.temperatura}" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos"/>
+                    <p:inputText id="Temp" value="#{anamnesisMB.temperatura}" 
+                                 maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos"
+                                 required="true" requiredMessage="Debe ingresar la temperatura del paciente."/>
                     <p:outputLabel for="Pulso" value="Pulso: "/>
-                    <p:inputText id="Pulso" value="#{anamnesisMB.pulso}" maxlength="3" validatorMessage="El campo debe ser un numero de a lo más 3 dígitos"/>
+                    <p:inputText id="Pulso" value="#{anamnesisMB.pulso}" 
+                                 maxlength="3" validatorMessage="El campo debe ser un numero de a lo más 3 dígitos"
+                                 required="true" requiredMessage="Debe ingresar el pulso del paciente."/>
                     <p:outputLabel for="Peso" value="Peso: "/>
-                    <p:inputText id="Peso" value="#{anamnesisMB.peso}"/>
+                    <p:inputText id="Peso" value="#{anamnesisMB.peso}" required="true" requiredMessage="Debe ingresar el peso del paciente."/>
                     <p:outputLabel for="Talla" value="Talla: "/>
-                    <p:inputText id="Talla" value="#{anamnesisMB.talla}"/>
+                    <p:inputText id="Talla" value="#{anamnesisMB.talla}" required="true" requiredMessage="Debe ingresar la talla del paciente."/>
                     <p:outputLabel for="IMC" value="IMC: "/>
                     <p:inputText id="IMC" value="#{anamnesisMB.imc}" readonly="true"/>
                 </p:panelGrid>
