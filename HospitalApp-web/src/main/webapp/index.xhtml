@@ -15,10 +15,8 @@
                 font-size:80%;
             }
             .ui-panelgrid td {
-                background-color: activeborder;
             }
             .ui-panel {
-                background-color: gainsboro;
                 border: none;
             }
             .companyHeaderGrid tr, .companyHeaderGrid td {
@@ -59,50 +57,61 @@
         </p:menubar>
         <p:dialog id='admisionPacientes' maximizable="true" header="Admision Pacientes" widgetVar="addPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800" onShow="#{pacienteMB.init()}">
+            <p:ajax event="close" listener="#{pacienteMB.init()}" update="formul"/>
             <ui:include src="Paciente.xhtml"/>
         </p:dialog>
         <p:dialog id="adminSubespecialidades" maximizable="true" header="Sub-Especialidades" widgetVar="subespec" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800" onShow="#{subespecialidadMB.init()}">
+            <p:ajax event="close" listener="#{subespecialidadMB.init()}" update="subespecialidades"/>
             <ui:include src="Subespecialidad.xhtml"/>
         </p:dialog>
         <p:dialog id="adminEspecialidades" maximizable="true" header="Especialidades" widgetVar="espec" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800" onShow="#{especialidadMB.init()}">
+            <p:ajax event="close" listener="#{especialidadMB.init()}" update="especialidades"/>
             <ui:include src="Especialidad.xhtml"/>
         </p:dialog>
         <p:dialog id="visualizarPaciente" maximizable="true" header="Pacientes" widgetVar="viewPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="1000" onShow="#{buscarPaciente.init()}">
+            <p:ajax event="close" listener="#{buscarPaciente.init()}" update="formBuscar"/>
             <ui:include src="VisualizarPaciente.xhtml"/>
         </p:dialog>
         <p:dialog id="agregarProfesional" maximizable="true" header="Profesionales" widgetVar="addPro" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800" onShow="#{ingresoProfesional.init()}">
+            <p:ajax event="close" listener="#{ingresoProfesional.init()}" update="formulProfesional"/>
             <ui:include src="AgregarProfesional.xhtml"/>
         </p:dialog>
         <p:dialog id="ingresarProfesional" maximizable="true" header="Profesionales" widgetVar="viewPro" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800" onShow="#{buscarProfesional.init()}">
+            <p:ajax event="close" listener="#{buscarProfesional.init()}" update="formBuscarProfesional"/>
             <ui:include src="VisualizarProfesional.xhtml"/>
         </p:dialog>
         <p:dialog id="buscarPaciente" maximizable="true" header="Buscar Pacientes" widgetVar="searchPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" onShow="#{busquedaMB.init()}">
+            <p:ajax event="close" listener="#{busquedaMB.init()}" update="buscaPaciente"/>
             <ui:include src="BuscarPaciente.xhtml"/>
         </p:dialog>
 
         <p:dialog id="verAnamnesisPaciente" maximizable="true" header="Anamnesis" widgetVar="verAnamPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="440" width="900" onShow="#{anamnesisMB.init()}">
+            <p:ajax event="close" listener="#{anamnesisMB.init()}" update="verAnamnesis"/>
             <ui:include src="VisualizarAnamnesis.xhtml"/>
         </p:dialog>
 
         <p:dialog id="consentimientoGral" maximizable="true" header="Consentimiento Informado" widgetVar="consGral" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800" onShow="#{consentimientoInf.init()}">
+            <p:ajax event="close" listener="#{consentimientoInf.init()}" update="ConsentimientoGral"/>
             <ui:include src="ConsentimientoGral.xhtml"/>
         </p:dialog>
         
         <p:dialog id="consentimientoVIH" maximizable="true" header="Consentimiento Informado" widgetVar="consVIH" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800" onShow="#{consentimientoInf.init()}">
+            <p:ajax event="close" listener="#{consentimientoInf.init()}" update="ConsentimientoVIH"/>
             <ui:include src="ConsentimientoVIH.xhtml"/>
         </p:dialog>
         
         <p:dialog id="consentimientoEst" maximizable="true" header="Consentimiento Informado" widgetVar="consEst" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800" onShow="#{consentimientoInf.init()}">
+            <p:ajax event="close" listener="#{consentimientoInf.init()}" update="ConsentimientoEst"/>
             <ui:include src="Esterilizacion.xhtml"/>
         </p:dialog>
         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">

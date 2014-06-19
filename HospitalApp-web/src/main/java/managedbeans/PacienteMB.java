@@ -22,6 +22,8 @@ import cl.rcehblt.entities.ServicioSalud;
 import cl.rcehblt.entities.TipoPrevision;
 import cl.rcehblt.persona.PersonaNegocioLocal;
 import cl.rcehblt.sessionbeans.EstadoConyugalFacadeLocal;
+import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
+import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
 import cl.rcehblt.tipoprevision.TipoPrevisionNegocioLocal;
 import java.awt.event.ActionEvent;
 import java.util.Calendar;
@@ -32,20 +34,19 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import org.primefaces.event.SelectEvent;
-import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
-import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
 
 /**
  *
  * @author DevelUser
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class PacienteMB {
 
     @EJB
@@ -124,7 +125,7 @@ public class PacienteMB {
     }
 
     /**
-     * Postconstructor:
+     * Postconstructor.
      * Inicializar variables y establecer valores por default.
      */
     @PostConstruct
@@ -306,7 +307,7 @@ public class PacienteMB {
      * Se resetean las variables y se restauran las correspondientes a su valor
      * por default.
      */
-    private void resetData() {
+    public void resetData() {
         persona = new Persona();
         paciente = new Paciente();
         nombres = "";
