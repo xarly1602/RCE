@@ -55,7 +55,7 @@
                                 </f:facet>
                                 <p:row>
                                     <p:column colspan="4">
-                                        <p:inputText style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.gestas}"/>
+                                        <p:inputText id="Gestas" style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.gestas}" readonly="true"/>
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -68,10 +68,12 @@
                                 </p:row>
                                 <p:row>
                                     <p:column colspan="2">
-                                        <p:inputText style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.partos}"/>
+                                        <p:inputText id="Partos" style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.partos}" readonly="true"/>
                                     </p:column>
                                     <p:column colspan="2">
-                                        <p:inputText style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.abortos}"/>
+                                        <p:inputText id="Abortos" style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.abortos}" onchange="#{anamnesisMB.calculaGestas()}">
+                                            <p:ajax event="blur" listener="#{anamnesisMB.calculaGestas()}" update="Gestas"/> 
+                                        </p:inputText>
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -84,10 +86,14 @@
                                 </p:row>
                                 <p:row>
                                     <p:column>
-                                        <p:inputText style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.vaginales}"/>
+                                        <p:inputText style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.vaginales}">
+                                            <p:ajax event="blur" listener="#{anamnesisMB.calculaGestas()}" update="Partos"/> 
+                                        </p:inputText>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.cesareas}"/>
+                                        <p:inputText style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.cesareas}">
+                                            <p:ajax event="blur" listener="#{anamnesisMB.calculaGestas()}" update="Partos"/> 
+                                        </p:inputText>
                                     </p:column>
                                 </p:row>
                                 <p:row>

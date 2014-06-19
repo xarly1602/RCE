@@ -217,6 +217,11 @@ public class AnamnesisMB {
         }
     }
     
+    public void calculaGestas(){
+        this.partos = this.vaginales + this.cesareas;
+        this.gestas = this.partos + this.abortos;
+    }
+    
     /**
      * Calcular Índice de Masa Corporal (IMC). 
      * Calcula el IMC a partir de los
