@@ -131,20 +131,17 @@
                 <p:panelGrid columns="2">
                     <p:outputLabel for="PA" value="Presión arterial: "/>
                     <p:inputText id="PA" value="#{anamnesisMB.presionArterial}" 
-                                 maxlength="3" validatorMessage="El campo debe ser un numero de a lo más 3 dígitos"
-                                 required="true" requiredMessage="Debe ingresar la presión arterial del paciente."/>
+                                 maxlength="3"/>
                     <p:outputLabel for="Temp" value="Temperatura: "/>
                     <p:inputText id="Temp" value="#{anamnesisMB.temperatura}" 
-                                 maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos"
-                                 required="true" requiredMessage="Debe ingresar la temperatura del paciente."/>
+                                 maxlength="2"/>
                     <p:outputLabel for="Pulso" value="Pulso: "/>
                     <p:inputText id="Pulso" value="#{anamnesisMB.pulso}" 
-                                 maxlength="3" validatorMessage="El campo debe ser un numero de a lo más 3 dígitos"
-                                 required="true" requiredMessage="Debe ingresar el pulso del paciente."/>
+                                 maxlength="3"/>
                     <p:outputLabel for="Peso" value="Peso: "/>
-                    <p:inputText id="Peso" value="#{anamnesisMB.peso}" required="true" requiredMessage="Debe ingresar el peso del paciente."/>
+                    <p:inputText id="Peso" value="#{anamnesisMB.peso}"/>
                     <p:outputLabel for="Talla" value="Talla: "/>
-                    <p:inputText id="Talla" value="#{anamnesisMB.talla}" required="true" requiredMessage="Debe ingresar la talla del paciente."/>
+                    <p:inputText id="Talla" value="#{anamnesisMB.talla}"/>
                     <p:outputLabel for="IMC" value="IMC: "/>
                     <p:inputText id="IMC" value="#{anamnesisMB.imc}" readonly="true"/>
                 </p:panelGrid>

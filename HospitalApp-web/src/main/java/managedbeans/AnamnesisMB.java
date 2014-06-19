@@ -12,13 +12,7 @@ import cl.RCE.www.entities.Profesional;
 import cl.RCE.www.sessionbeans.AnamnesisFacadeLocal;
 import cl.RCE.www.sessionbeans.PacienteFacadeLocal;
 import cl.RCE.www.sessionbeans.ProfesionalFacadeLocal;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,11 +22,10 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 
 /**
  *
@@ -86,7 +79,9 @@ public class AnamnesisMB {
     private int abortos;
     private int menorPeso;
     private int mayorPeso;
+    @Min(value = 1, message = "Debe ingresar el pulso del paciente.")
     private int pulso;
+    @Min(value = 1, message = "Debe ingresar la presión arterial del paciente.")
     private int presionArterial;
     private int alturaUterina;
     private int lcf;    
@@ -94,8 +89,11 @@ public class AnamnesisMB {
     private int dilatacion;
     private int controlCarop;
     private int edad;
+    @DecimalMin(value = "0.1", message = "Debe ingresar la temperatura del paciente.")
     private float temperatura;
+    @DecimalMin(value = "0.1", message = "Debe ingresar el peso del paciente.")
     private float peso;
+    @DecimalMin(value = "0.1", message = "Debe ingresar la talla del paciente.")
     private float talla;
     // Estas serán entities.
     private String diagnostico;
