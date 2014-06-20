@@ -48,7 +48,7 @@
             </p:submenu>
             <p:menuitem value="Buscar Paciente" url="#" onclick="PF('searchPac').show()"/>
             <p:menuitem value="Anamnesis" url="#" onclick="PF('verAnamPac').show()"/>
-            
+            <p:menuitem value="Episodio Clínico" url="#" onclick="PF('epiCli').show()"/>            
             <p:submenu label="Consentimiento Informado" >
                 <p:menuitem value="VIH" url="#" onclick="PF('consVIH').show()" />
                 <p:menuitem value="Esterilización Quirurgica" url="#" onclick="PF('consEst').show()" />
@@ -102,17 +102,23 @@
             <p:ajax event="close" listener="#{consentimientoInf.init()}" update="ConsentimientoGral"/>
             <ui:include src="ConsentimientoGral.xhtml"/>
         </p:dialog>
-        
+
         <p:dialog id="consentimientoVIH" maximizable="true" header="Consentimiento Informado" widgetVar="consVIH" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800" onShow="#{consentimientoInf.init()}">
             <p:ajax event="close" listener="#{consentimientoInf.init()}" update="ConsentimientoVIH"/>
             <ui:include src="ConsentimientoVIH.xhtml"/>
         </p:dialog>
-        
+
         <p:dialog id="consentimientoEst" maximizable="true" header="Consentimiento Informado" widgetVar="consEst" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800" onShow="#{consentimientoInf.init()}">
             <p:ajax event="close" listener="#{consentimientoInf.init()}" update="ConsentimientoEst"/>
             <ui:include src="Esterilizacion.xhtml"/>
+        </p:dialog>
+
+        <p:dialog id="episodio" maximizable="true" header="Consentimiento Informado" widgetVar="epiCli" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
+                  minimizable="true" height="540" width="800" onShow="#{episodioMB.init()}">
+            <p:ajax event="close" listener="#{episodioMB.init()}" update="ConsentimientoEst"/>
+            <ui:include src="Episodio.xhtml"/>
         </p:dialog>
         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
             <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
