@@ -103,6 +103,10 @@ public class BuscarAnamnesis implements Serializable {
     public BuscarAnamnesis() {
     }
 
+    /**
+     * Postconstructor.
+     * Inicializar variables y establecer valores por default.
+     */
     @PostConstruct
     public void init(){
         ingresoPor = 1;
@@ -115,15 +119,21 @@ public class BuscarAnamnesis implements Serializable {
         listaPacientes = pacienteFacade.findAll();
         patologiasMat = new ArrayList<String>();
     }
-    
+
+    /**
+     * Buscar anamnesis.
+     * Método que obtiene una lista de las anamnesis pertenecientes a un 
+     * determinado paciente.
+     * @param idPaciente Id del paciente que se desea buscar.
+     */
     public void buscarAnamnesis(int idPaciente){
-        System.out.println(idPaciente);
         this.setListaAnamnesis(anamnesisNegocio.buscaAnamnesisPaciente(idPaciente));
-        for (Anamnesis anamnesis1 : listaAnamnesis) {
-            System.out.println(anamnesis1.getIdAnamnesis());
-        }
     }
-    
+
+    /**
+     * Guardar cambios.
+     * Método que guarda los cambios realizados en una anamnesis determinada.
+     */
     public void guardarCambios(){
         String temp = "";
         for (String patologia : patologiasMat) {
@@ -134,6 +144,13 @@ public class BuscarAnamnesis implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Se han guardado los cambios exitosamente."));
     }
     
+    /**
+     * Calcular Índice de Masa Corporal (IMC). 
+     * Calcula el IMC a partir de los
+     * datos de peso y talla indicados en el formulario correspondiente.
+     *
+     * @param actionEvent Evento en la página xhtml que acciona la función.
+     */
     public void calcularIMC(ActionEvent actionEvent) {
         if (anamnesisPaciente.getAnamTalla() > 0 && anamnesisPaciente.getAnamPeso() > 0) {
             double temp = anamnesisPaciente.getAnamPeso() / (anamnesisPaciente.getAnamTalla() * anamnesisPaciente.getAnamTalla());
@@ -145,6 +162,7 @@ public class BuscarAnamnesis implements Serializable {
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Debe ingresar el peso y la talla deben ser valores positivos distintos de cero.")); 
     }
     
+    // Getters y Setters
     public Paciente getPaciente() {
         return paciente;
     }

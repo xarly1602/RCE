@@ -104,24 +104,27 @@ public class AnamnesisMB {
      */
     public AnamnesisMB() {
     }
-    
+
+    /**
+     * Postconstructor.
+     * Se inicializan algunos datos de importancia.
+     */
     @PostConstruct
     public void init() {
-        try{
-        System.out.println("HOLAAAA!!!!!"+anamnesisPaciente.getAnamDescripcion());}
-        catch (Exception e){}
         //paciente = pacienteFacade.find(3);
         paciente = new Paciente();
-        patologiasMat = new ArrayList<String>();        
+        patologiasMat = new ArrayList<String>();
+        ingresoPor = 1;
+        presentacion = "Cefálica";
+        tactoVag = 1;
+        controlCarop = 2;
         //anamnesisPaciente = new Anamnesis();
-    }
-
-    public void generarAnamnesis(){
-        
     }
     
     /**
      * Guardar anamnesis.
+     * Método que hace la persistencia de los datos indicados en el formulario
+     * correspondiente.
      */
     public void guardarAnamnesis() {
         anamnesisPaciente = new Anamnesis();
@@ -185,6 +188,11 @@ public class AnamnesisMB {
         
     }
 
+    /**
+     * Calcular la FPP mediante la fur.
+     * Método que calcula la fecha probable de parto a partir de la fecha de la
+     * última regla indicada en el formulario.
+     */
     public void calcularFppFur(){
         if (fur != null) {
             Calendar today = Calendar.getInstance();
@@ -200,6 +208,11 @@ public class AnamnesisMB {
         }
     }
     
+    /**
+     * Calcular la FPP mediante la furop.
+     * Método que calcula la fecha probable de parto a partir de la fecha de la
+     * última regla operacional indicada en el formulario.
+     */
     public void calcularFppFurop(){
         if (furop != null) {
             Calendar today = Calendar.getInstance();
@@ -215,6 +228,11 @@ public class AnamnesisMB {
         }
     }
     
+    /**
+     * Calcular gestas.
+     * Método que calcula las gestas a partir de la cantidad de partos vaginales,
+     * cesareas y abortos que haya tenido la paciente.
+     */
     public void calculaGestas(){
         this.partos = this.vaginales + this.cesareas;
         this.gestas = this.partos + this.abortos;
@@ -225,7 +243,7 @@ public class AnamnesisMB {
      * Calcula el IMC a partir de los
      * datos de peso y talla indicados en el formulario correspondiente.
      *
-     * @param actionEvent
+     * @param actionEvent Evento en la página xhtml que acciona la función.
      */
     public void calcularIMC(ActionEvent actionEvent) {
         if (talla > 0 && peso > 0) {
