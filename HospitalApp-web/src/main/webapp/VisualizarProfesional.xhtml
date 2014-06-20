@@ -4,7 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
-    <h:form id="formBuscarProfesional">                    
+    <h:form id="formBuscarProfesional">                     
         <p:growl id="growl" showDetail="true"/>
         <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" id="PersonasProf" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                      rowsPerPageTemplate="5,10,20"   var="profesional" value="#{buscarProfesional.personasObject}">  
@@ -180,7 +180,7 @@
                 </p:panelGrid>
             </p:panel>
 
-            <p:commandButton id="editarPersProf" value="Actualizar Datos" icon="ui-icon-refresh" disabled="#{buscarProfesional.activoAux == false}" update="actualizarPersonaProf"  actionListener="#{buscarProfesional.actualizar()}">
+            <p:commandButton id="editarPersProf" value="Actualizar Datos" icon="ui-icon-refresh" disabled="#{buscarProfesional.activoAux == false}" update=":formBuscarProfesional:PersonasProf, :dialogEditarProf"  actionListener="#{buscarProfesional.actualizar()}">
                 <p:confirm  header="Atención" message="¿Está seguro que desea actualizar los datos?" icon="ui-icon-alert" />
             </p:commandButton>
         </h:form>

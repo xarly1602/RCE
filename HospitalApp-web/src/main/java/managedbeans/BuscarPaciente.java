@@ -57,7 +57,8 @@ public class BuscarPaciente {
 
     List<Persona> personasObject;
     List<ConsentimientoInformado> consentimientos;
-    List<ConsentimientoInformado> consentimientosSeleccionados;
+    List<ConsentimientoInformado> consentimientosSeleccionadosEst;
+    List<ConsentimientoInformado> consentimientosSeleccionadosInter;
 
     private Persona personaSeleccionada;
     private Paciente pacienteSeleccionado;
@@ -106,8 +107,7 @@ public class BuscarPaciente {
     @PostConstruct
     public void init() {
         personaSeleccionada = new Persona();
-        consentimientos = consentimientoInformadoFacade.findAll();
-        consentimientosSeleccionados = new ArrayList<ConsentimientoInformado>();
+        consentimientos = consentimientoInformadoFacade.findAll();        
         personasObject = personaFacade.findAll();
         for (int i = personasObject.size() - 1; i >= 0; i--) {
             if (personasObject.get(i).getPersTipopersona() != 1) {
@@ -221,22 +221,76 @@ public class BuscarPaciente {
 
     }
 
-    private List<ConsentimientoInformado> filtrarConsentimiento(List<ConsentimientoInformado> consentimientosAux, int idPaciente) {
-        /*System.out.println("El id buscado es: " + idPaciente);
-         for (int i = consentimientosAux.size() - 1; i >= 0; i--) {
-         System.out.println("Consentimientos: " + consentimientosAux.get(i).getIdPaciente().getIdPersona().getPersNombres()); 
-         System.out.println("Awuiii ctmwmmsmajdfnhskjdnfskjdfnskj");  
-         }*/
-        System.out.println("ESTOY AQUI CTMMMMMMM: " + consentimientosAux.size());
+    private List<ConsentimientoInformado> filtrarConsentimientoInt(List<ConsentimientoInformado> consentimientosAuxInt, int idPaciente) {        
+        System.out.println("Estoy en filtrar por intervencion");
+        for (int i = consentimientosAuxInt.size() - 1; i >= 0; i--) {             
+            
+                System.out.println("En el inicio: "+ consentimientosAuxInt.get(i).getIdPaciente().getIdPersona().getPersNombres());
+                      
+            
+        }
+        
+        for (int i = consentimientosAuxInt.size() - 1; i >= 0; i--) {
+            System.out.println(i);
+            
+            
+            if (consentimientosAuxInt.get(i).getIdPaciente().getIdPaciente() != idPaciente  ) {                
+                consentimientosAuxInt.remove(i);
+            }
+            
+            
+        }
+        
+        for (int i = consentimientosAuxInt.size() - 1; i >= 0; i--) {             
+            if ( !(consentimientosAuxInt.get(i).getConsentTipo().compareTo("Intervension") == 0) ) {
+                System.out.println("ADIOS: "+ consentimientosAuxInt.get(i).getIdPaciente().getIdPersona().getPersNombres());
+                consentimientosAuxInt.remove(i);
+            }
+            
+            
+        }
+         for (int i = consentimientosAuxInt.size() - 1; i >= 0; i--) {             
+            
+                System.out.println("Queda: "+ consentimientosAuxInt.get(i).getIdPaciente().getIdPersona().getPersNombres());
+                      
+            
+        }
+        return consentimientosAuxInt;
+
+    }
+    
+    private List<ConsentimientoInformado> filtrarConsentimientoEst(List<ConsentimientoInformado> consentimientosAux, int idPaciente) {        
+        System.out.println("Estoy en filtrar esterilizacion.");
+        for (int i = consentimientosAux.size() - 1; i >= 0; i--) {             
+            
+                System.out.println("En el inicio: "+ consentimientosAux.get(i).getIdPaciente().getIdPersona().getPersNombres());
+                      
+            
+        }
         for (int i = consentimientosAux.size() - 1; i >= 0; i--) {
             System.out.println(i);
-            if (consentimientosAux.get(i).getIdPaciente().getIdPaciente() != idPaciente) {
-                System.out.println("estoy en el IFFFFFFF");
+            System.out.println("El tipo es: " + consentimientosAux.get(i).getConsentTipo());
+            
+            if (consentimientosAux.get(i).getIdPaciente().getIdPaciente() != idPaciente  ) {                
                 consentimientosAux.remove(i);
             }
-            System.out.println("Estoy en el FOR");
+            
         }
-        System.out.println("Sali de la funcion");
+        for (int i = consentimientosAux.size() - 1; i >= 0; i--) {             
+            if ( !(consentimientosAux.get(i).getConsentTipo().compareTo("Esterilizacion") == 0) ) {
+                System.out.println("ADIOS: "+ consentimientosAux.get(i).getIdPaciente().getIdPersona().getPersNombres());
+                consentimientosAux.remove(i);
+            }           
+            
+        }
+        
+        for (int i = consentimientosAux.size() - 1; i >= 0; i--) {             
+            
+                System.out.println("Queda: "+ consentimientosAux.get(i).getIdPaciente().getIdPersona().getPersNombres());
+                      
+            
+        }
+        
         return consentimientosAux;
 
     }
@@ -362,20 +416,26 @@ public class BuscarPaciente {
         this.personaSeleccionada = personaSeleccionada;
         consentimientos = consentimientoInformadoFacade.findAll();
         pacienteSeleccionado = pacienteNegocio.busquedaPacienteIdPersona(personaSeleccionada.getIdPersona());
-        pacienteFallecidoAux = pacienteSeleccionado.getPaciFallecido();
-        //System.out.println("La persona seleccionada es: " + personaSeleccionada.toString());
-        //System.out.println(" ");
-        //System.out.println("El paciente seleccionado es: " + pacienteSeleccionado.toString());
-        consentimientosSeleccionados = filtrarConsentimiento(consentimientos, pacienteSeleccionado.getIdPaciente());
-
+        pacienteFallecidoAux = pacienteSeleccionado.getPaciFallecido();        
+        consentimientosSeleccionadosEst = filtrarConsentimientoEst(consentimientos, pacienteSeleccionado.getIdPaciente());
+        consentimientos = consentimientoInformadoFacade.findAll();
+        consentimientosSeleccionadosInter = filtrarConsentimientoInt(consentimientos, pacienteSeleccionado.getIdPaciente());
     }
 
-    public List<ConsentimientoInformado> getConsentimientosSeleccionados() {
-        return consentimientosSeleccionados;
+    public List<ConsentimientoInformado> getConsentimientosSeleccionadosInter() {
+        return consentimientosSeleccionadosInter;
     }
 
-    public void setConsentimientosSeleccionados(List<ConsentimientoInformado> consentimientosSeleccionados) {
-        this.consentimientosSeleccionados = consentimientosSeleccionados;
+    public void setConsentimientosSeleccionadosInter(List<ConsentimientoInformado> consentimientosSeleccionadosInter) {
+        this.consentimientosSeleccionadosInter = consentimientosSeleccionadosInter;
+    }
+
+    public List<ConsentimientoInformado> getConsentimientosSeleccionadosEst() {
+        return consentimientosSeleccionadosEst;
+    }
+
+    public void setConsentimientosSeleccionados(List<ConsentimientoInformado> consentimientosSeleccionadosEst) {
+        this.consentimientosSeleccionadosEst = consentimientosSeleccionadosEst;
     }
 
     public List<ConsentimientoInformado> getConsentimientos() {
