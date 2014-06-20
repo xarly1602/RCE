@@ -4,7 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
-    <h:form id="formBuscar">  
+    <h:form id="formBuscar">   
         <p:growl id="growl" showDetail="true"/>
 
         <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" id="Personas" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
@@ -55,7 +55,11 @@
                     <f:setPropertyActionListener value="#{paciente}" target="#{buscarPaciente.personaSeleccionada}" />  
                 </p:commandButton>
 
-                <p:commandButton update=":verConsentimientos" onclick="PF('dialogVerConsentimiento').show()"  value ="Ver consentimientos" >
+                <p:commandButton update=":verConsentimientosInter" onclick="PF('dialogVerConsentimientoInter').show()" value ="Consentimiento Intervención" >
+                    <f:setPropertyActionListener value="#{paciente}" target="#{buscarPaciente.personaSeleccionada}" />  
+                </p:commandButton>
+                
+                <p:commandButton update=":verConsentimientosEst" onclick="PF('dialogVerConsentimientoEst').show()"  value ="Consentimiento Esterilización" >
                     <f:setPropertyActionListener value="#{paciente}" target="#{buscarPaciente.personaSeleccionada}" />  
                 </p:commandButton> 
             </p:column> 
@@ -223,45 +227,72 @@
                     </p:panelGrid>
                 </p:panel>
             </p:panelGrid>
-            <p:commandButton id="editarPers" value="Actualizar Datos" disabled="#{buscarPaciente.pacienteFallecidoAux}" update="actualizarPersona"  actionListener="#{buscarPaciente.actualizar()}" >
+            <p:commandButton id="editarPers" value="Actualizar Datos" disabled="#{buscarPaciente.pacienteFallecidoAux}" update=":formBuscar:Personas, :dialogEditar"  actionListener="#{buscarPaciente.actualizar()}" >
                 <p:confirm  header="Atención" message="¿Está seguro que desea actualizar los datos?" icon="ui-icon-alert" />
             </p:commandButton> 
         </h:form>
     </p:dialog>
 
-    <p:dialog maximizable="true" minimizable="true" id="dialogVerConsentimientos" header="Consentimientos Informados" widgetVar="dialogVerConsentimiento" height="600" width="950"> 
-        <h:form id="verConsentimientos">
+    <p:dialog maximizable="true" minimizable="true" id="dialogVerConsentimientosInter" header="Consentimientos Informados" widgetVar="dialogVerConsentimientoInter" height="600" width="950"> 
+        <h:form id="verConsentimientosInter">
             <p:growl id="growl1" showDetail="true" sticky="true" />
-            <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" id="Personas" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                         rowsPerPageTemplate="5,10,20"   var="concentimiento" value="#{buscarPaciente.consentimientosSeleccionados}">  
+            <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" id="PersonasInter" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="5,10,20"   var="concentimientoInter" value="#{buscarPaciente.consentimientosSeleccionadosInter}">  
 
 
-                <p:column headerText="Profesional Encargado">  
-                    #{concentimiento.idProfesional.idPersona.persApepaterno}  
+                <p:column headerText="Fecha">  
+                    #{concentimientoInter.consentFecha}  
                 </p:column>  
 
                 <p:column headerText="Estado">  
-                    #{concentimiento.consentEstado}  
+                    #{concentimientoInter.consentEstado}  
                 </p:column>                      
 
 
                 <p:column headerText="Acción"  >
                     <p:commandButton update=":actualizarConsentimiento"   onclick= "PF('dialogEditarConsentimiento').show()"  icon="ui-icon-pencil" title="Editar Consentimiento Examen" >
-                        <f:setPropertyActionListener value="#{concentimiento}" target="#{buscarPaciente.consentimientoInformadoSeleccionado}" />  
+                        <f:setPropertyActionListener value="#{concentimientoInter}" target="#{buscarPaciente.consentimientoInformadoSeleccionado}" />  
                     </p:commandButton>
+                    
+                </p:column> 
+            </p:dataTable>
 
-                    <p:commandButton update=":actualizarConsentimientoVIH"    onclick="PF('dialogEditarConsentimientoVIH').show()"  icon="ui-icon-pencil" title="Editar Consentimiento VIH" >
+        </h:form>
+    </p:dialog>
+    
+    
+    <p:dialog maximizable="true" minimizable="true" id="dialogVerConsentimientosEst" header="Consentimientos Informados Esterilización" widgetVar="dialogVerConsentimientoEst" height="600" width="950"> 
+        <h:form id="verConsentimientosEst">
+            <p:growl id="growl1" showDetail="true" sticky="true" />
+            <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" id="PersonasEst" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="5,10,20"   var="concentimientoEst" value="#{buscarPaciente.consentimientosSeleccionadosEst}">  
+
+
+                <p:column headerText="Fecha">  
+                    #{concentimientoEst.consentFecha}  
+                </p:column>  
+
+                <p:column headerText="Estado">  
+                    #{concentimientoEst.consentEstado}  
+                </p:column>                      
+
+
+                <p:column headerText="Acción"  >                    
+
+                    <!--<p:commandButton update=":actualizarConsentimientoVIH"    onclick="PF('dialogEditarConsentimientoVIH').show()"  icon="ui-icon-pencil" title="Editar Consentimiento VIH" >
                         <f:setPropertyActionListener value="#{concentimiento}" target="#{buscarPaciente.consentimientoInformadoSeleccionado}" />  
-                    </p:commandButton>
+                    </p:commandButton>-->
 
                     <p:commandButton update=":actualizarConsentimientoEst"  onclick="PF('dialogEditarConsentimientoEst').show()"  icon="ui-icon-pencil" title="Editar Consentimiento Esterilizacion" >
-                        <f:setPropertyActionListener value="#{concentimiento}" target="#{buscarPaciente.consentimientoInformadoSeleccionado}" />  
+                        <f:setPropertyActionListener value="#{concentimientoEst}" target="#{buscarPaciente.consentimientoInformadoSeleccionado}" />  
                     </p:commandButton> 
                 </p:column> 
             </p:dataTable>
 
         </h:form>
     </p:dialog>
+    
+    
     <p:dialog maximizable="true" minimizable="true" id="dialogEditarConsentimiento" header="Consentimientos Informados" widgetVar="dialogEditarConsentimiento" height="600" width="950"> 
         <h:form id="actualizarConsentimiento">
             <p:growl id="growl1" showDetail="true" sticky="true" />
@@ -348,7 +379,7 @@
                 </p:panel>
 
             </p:panelGrid>
-            <p:commandButton  value="Guardar Cambios" disabled="#{!buscarPaciente.tipoAux.equals(buscarPaciente.interversion)}" action="#{buscarPaciente.editarConsentimiento()}" update="actualizarConsentimiento" />
+            <p:commandButton  value="Guardar Cambios"  action="#{buscarPaciente.editarConsentimiento()}" update=":verConsentimientosInter:PersonasInter,:dialogEditarConsentimiento" />
         </h:form>
     </p:dialog>
 
@@ -413,7 +444,7 @@
 
 
             </p:panelGrid>
-            <p:commandButton  value="Guardar Cambios" disabled="#{!buscarPaciente.tipoAux.equals(buscarPaciente.vih)}" action="#{buscarPaciente.editarConsentimientoVIH()}" update="actualizarConsentimientoVIH" />
+            <p:commandButton  value="Guardar Cambios"  action="#{buscarPaciente.editarConsentimientoVIH()}" update="actualizarConsentimientoVIH" />
         </h:form>
     </p:dialog>
     
@@ -523,7 +554,7 @@
                 </p:panel>
 
             </p:panelGrid>
-            <p:commandButton  value="Guardar Cambios" disabled="#{!buscarPaciente.tipoAux.equals(buscarPaciente.esterilizacion)}" action="#{buscarPaciente.editarConsentimientoEst()}" update="actualizarConsentimientoEst" />
+            <p:commandButton  value="Guardar Cambios"  action="#{buscarPaciente.editarConsentimientoEst()}" update=":verConsentimientosEst:PersonasEst, :dialogEditarConsentimientoEst" />
         </h:form>
     </p:dialog>
 
