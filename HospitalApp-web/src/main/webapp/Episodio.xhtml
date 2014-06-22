@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="episodioClinico">
+        <p:growl id="growl" showDetail="true"/>
+        <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" id="Pacientes" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     rowsPerPageTemplate="5,10,20"   var="paciente" value="#{episodioMB.listaPacientes}">             
+            <p:column headerText="Rut">  
+                #{paciente.idPersona.persRut}  
+            </p:column>  
+
+            <p:column headerText="Nombres">  
+                #{paciente.idPersona.persNombres}  
+            </p:column>                        
+
+            <p:column headerText="Apellido paterno" >  
+                #{paciente.idPersona.persApepaterno}  
+            </p:column>
+
+            <p:column headerText="Apellido materno" >  
+                #{paciente.idPersona.persApematerno}  
+            </p:column>
+            <p:column headerText="Acción">
+                <p:commandButton update=":listaEpi" oncomplete="PF('listaEpi').show()" value="Ver" title="Ver Episodios" />
+                <p:commandButton update=":addEpi" oncomplete="PF('addEpi').show()" icon="ui-icon-plus" title="Nuevo Episodio" >
+                    <f:setPropertyActionListener target="#{episodioMB.paciente}" value="#{paciente}"/>
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+    <p:dialog widgetVar="addEpi" header="Nuevo episodio.">
+        <h:form id="addEpi">
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Paciente"/>
+                <p:outputLabel value="#{episodioMB.paciente.idPersona.persNombres} #{episodioMB.paciente.idPersona.persApepaterno}"/>
+                <p:outputLabel value="Motivo episodio"/>
+                <p:inputText value="#{episodioMB.nombre}"/>
+                <p:commandButton value="Guardar" actionListener="#{episodioMB.nuevoEpisodio()}"/>
+                <p:commandButton value="Cancelar" onclick="PF('addEpi').hide()"/>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+    <p:dialog widgetVar="listaEpi">
+        <h:form id="listaEpi">
+
+        </h:form>
+    </p:dialog>
+</html>
+
