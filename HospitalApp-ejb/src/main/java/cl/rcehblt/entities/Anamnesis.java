@@ -80,8 +80,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Anamnesis.findByIdPaciente", query = "SELECT a FROM Anamnesis a WHERE a.idPaciente.idPaciente = :idPaciente"),
     @NamedQuery(name = "Anamnesis.findByAnamAcorde", query = "SELECT a FROM Anamnesis a WHERE a.anamAcorde = :anamAcorde"),
     @NamedQuery(name = "Anamnesis.findByAnamPatologias", query = "SELECT a FROM Anamnesis a WHERE a.anamPatologias = :anamPatologias")})
-public class Anamnesis implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Anamnesis implements Serializable {    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -615,6 +614,6 @@ public class Anamnesis implements Serializable {
     @Override
     public String toString() {
         return "cl.RCE.www.entities.Anamnesis[ idAnamnesis=" + idAnamnesis + " ]";
-    }
+    }   
     
 }
