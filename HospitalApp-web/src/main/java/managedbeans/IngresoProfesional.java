@@ -118,29 +118,33 @@ public class IngresoProfesional {
             return;
         }
         rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length() - 1));
-        digitoVerificador = rutCompleto.charAt(rutCompleto.length() - 1) + "";        
+        digitoVerificador = rutCompleto.charAt(rutCompleto.length() - 1) + "";
         if (personaNegocio.busquedaPersonaRut(rut).size() > 0) {
             persona = personaNegocio.busquedaPersonaRut(rut).get(0);
-            if(persona.getPersTipopersona() != 1)
+            System.out.println("------"+persona.getPersTipopersona());
+            if (persona.getPersTipopersona() != 1) {
+                System.out.println("IF!!!!!!!!!!!!");
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registro ya existe.", "El rut indicado ya está registrado."));
-            else {
+                return;
+            } else {
                 persona.setPersTipopersona(3);
 //                personaFacade.edit(persona);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + persona.getPersNombres() + " " + persona.getPersApepaterno() + " " + persona.getPersApematerno()));
+           //     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + persona.getPersNombres() + " " + persona.getPersApepaterno() + " " + persona.getPersApematerno()));
             }
-        } else {
+        }// else {
             //setear activo a true
-            if(persona.getPersRut()==0){
-            persona.setPersApepaterno(apellidoPaterno);
-            persona.setPersApematerno(apellidoMaterno);
-            persona.setPersNombres(nombres);
-            persona.setPersDireccion(direccion);
-            persona.setPersFnacimiento(fechaNacimiento);
-            persona.setPersDv(digitoVerificador);
-            persona.setPersRut(rut);
-            persona.setPersNacionalidad(nacionalidad);
-            persona.setPersTipopersona(2);}
-
+            if (persona.getPersRut() == 0) {
+                persona.setPersApepaterno(apellidoPaterno);
+                persona.setPersApematerno(apellidoMaterno);
+                persona.setPersNombres(nombres);
+                persona.setPersDireccion(direccion);
+                persona.setPersFnacimiento(fechaNacimiento);
+                persona.setPersDv(digitoVerificador);
+                persona.setPersRut(rut);
+                persona.setPersNacionalidad(nacionalidad);
+                persona.setPersTipopersona(2);
+            }
+            profesional = new Profesional();
             profesional.setIdCargo(new Cargo(cargoId));
             profesional.setIdGrupoprofesional(new GrupoProfesional(grupoId));
             profesional.setIdLocal(new Local(localId));
@@ -158,7 +162,7 @@ public class IngresoProfesional {
 
                     personaFacade.edit(persona);
                     profesionalFacade.create(profesional);
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + persona.getPersNombres() + " " + persona.getPersApepaterno()+ " " + persona.getPersApematerno()));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + persona.getPersNombres() + " " + persona.getPersApepaterno() + " " + persona.getPersApematerno()));
                     this.resetData();
                 } else {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Las fechas no coinciden, ingrese una correcta."));
@@ -167,13 +171,13 @@ public class IngresoProfesional {
                 profesional.setProfFechadesde(fechaDesde);
                 profesional.setProfeFechahasta(fechaHasta);
 
-                personaFacade.create(persona);
+                personaFacade.edit(persona);
                 profesionalFacade.create(profesional);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + nombres + " " + apellidoPaterno + " " + apellidoMaterno));
                 this.resetData();
             }
 
-        }
+       // }
     }
 
     public void buscar(ActionEvent actionEvent) {
@@ -184,22 +188,26 @@ public class IngresoProfesional {
             this.apellidoMaterno = persona.getPersApematerno();
             this.apellidoPaterno = persona.getPersApepaterno();
             this.nombres = persona.getPersNombres();
-            this.cargoId = profesional.getIdCargo().getIdCargo();
             this.digitoVerificador = persona.getPersDv();
             this.direccion = persona.getPersDireccion();
             this.email = persona.getPersEmail();
-            this.especialidadId = profesional.getIdSubespecialidad().getIdEspecialidad().getIdEspecialidad();
-            this.fechaDesde = profesional.getProfFechadesde();
-            this.fechaHasta = profesional.getProfeFechahasta();
             this.fechaNacimiento = persona.getPersFnacimiento();
-            this.medicoReferenciaId = profesional.getProIdProfesional().getIdProfesional();
-            this.localId = profesional.getIdLocal().getIdLocal();
-            this.grupoId = profesional.getIdGrupoprofesional().getIdGrupoprofesional();
-            this.subEspecialidadId = profesional.getIdSubespecialidad().getIdSubespecialidad();
             this.digitoVerificador = persona.getPersDv();
-            this.rutCompleto = rutCompleto.concat(this.digitoVerificador);
+            this.descripcion = "".concat(nombres).concat(" ").concat(apellidoPaterno).concat(" ").concat(apellidoMaterno);
+            if (profesional != null) {
+                this.cargoId = profesional.getIdCargo().getIdCargo();
+                this.especialidadId = profesional.getIdSubespecialidad().getIdEspecialidad().getIdEspecialidad();
+                this.fechaDesde = profesional.getProfFechadesde();
+                this.fechaHasta = profesional.getProfeFechahasta();
+                if(profesional.getProIdProfesional() != null)
+                    this.medicoReferenciaId = profesional.getProIdProfesional().getIdProfesional();
+                this.localId = profesional.getIdLocal().getIdLocal();
+                this.grupoId = profesional.getIdGrupoprofesional().getIdGrupoprofesional();
+                this.subEspecialidadId = profesional.getIdSubespecialidad().getIdSubespecialidad();
+                this.rutCompleto = rutCompleto.concat(this.digitoVerificador);
+            }
         }
-        
+
     }
 
     public List<String> completarRut(String query) {
