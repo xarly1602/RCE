@@ -181,7 +181,14 @@ public class IngresoProfesional {
     }
 
     public void buscar(ActionEvent actionEvent) {
-        rut = Integer.parseInt(rutCompleto);
+        rutCompleto = rutCompleto.toUpperCase();
+        rutCompleto = rutCompleto.replace(".", "");
+        rutCompleto = rutCompleto.replace("-", "");
+        if (rutCompleto.isEmpty()) {
+            return;
+        }
+        rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length()-1));
+        //rut = Integer.parseInt(rutCompleto);
         if (personaNegocio.busquedaPersonaRut(rut).size() > 0) {
             persona = personaNegocio.busquedaPersonaRut(rut).get(0);
             profesional = profesionalNegocio.busquedaProfesionalIdPersona(persona.getIdPersona());
@@ -204,7 +211,6 @@ public class IngresoProfesional {
                 this.localId = profesional.getIdLocal().getIdLocal();
                 this.grupoId = profesional.getIdGrupoprofesional().getIdGrupoprofesional();
                 this.subEspecialidadId = profesional.getIdSubespecialidad().getIdSubespecialidad();
-                this.rutCompleto = rutCompleto.concat(this.digitoVerificador);
             }
         }
 
@@ -214,7 +220,8 @@ public class IngresoProfesional {
         List<String> listaFiltrada = new ArrayList<String>();
         for (Profesional profesional1 : listaProfesionales) {
             if (profesional1.getIdPersona().getPersRut().toString().startsWith(query) && !listaFiltrada.contains(profesional1.getIdPersona().getPersRut().toString())) {
-                listaFiltrada.add(profesional1.getIdPersona().getPersRut().toString());
+                String temp = profesional1.getIdPersona().getPersRut().toString().concat(profesional1.getIdPersona().getPersDv());
+                listaFiltrada.add(temp);
             }
         }
         return listaFiltrada;

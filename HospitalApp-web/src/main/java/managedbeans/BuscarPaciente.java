@@ -110,7 +110,7 @@ public class BuscarPaciente {
         consentimientos = consentimientoInformadoFacade.findAll();        
         personasObject = personaFacade.findAll();
         for (int i = personasObject.size() - 1; i >= 0; i--) {
-            if (personasObject.get(i).getPersTipopersona() != 1) {
+            if (personasObject.get(i).getPersTipopersona() == 2) {
                 personasObject.remove(i);
             }
         }
@@ -127,7 +127,7 @@ public class BuscarPaciente {
         if (buscado.isEmpty()) {
             personasObject = personaFacade.findAll();
         for (int i = personasObject.size() - 1; i >= 0; i--) {
-            if (personasObject.get(i).getPersTipopersona() != 1) {
+            if (personasObject.get(i).getPersTipopersona() == 2) {
                 personasObject.remove(i);
             }
         }
@@ -137,15 +137,18 @@ public class BuscarPaciente {
             case 1:
                 try {
                     personasObject = personaNegocio.busquedaPersonaRut(Integer.parseInt(buscado), 1);
+                    personasObject.addAll(personaNegocio.busquedaPersonaRut(Integer.parseInt(buscado), 3));
                 } catch (NumberFormatException ex) {
                     personasObject = personaNegocio.busquedaPersonaRut(-1, 0);
                 }
                 break;
             case 2:
                 personasObject = personaNegocio.busquedaPersonaNombre(buscado, 1);
+                personasObject.addAll(personaNegocio.busquedaPersonaNombre(buscado, 3));
                 break;
             case 3:
                 personasObject = personaNegocio.busquedaPersonaApellidoPaterno(buscado, 1);
+                personasObject.addAll(personaNegocio.busquedaPersonaApellidoPaterno(buscado, 3));
                 break;
             default:
                 break;

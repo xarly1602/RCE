@@ -244,8 +244,8 @@ public class PacienteMB {
             return;
         }
         rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length()-1));
-        if (!personaNegocio.busquedaPersonaRut(rut,1).isEmpty()) {
-            persona = personaNegocio.busquedaPersonaRut(rut,1).get(0);
+        if (!personaNegocio.busquedaPersonaRut(rut).isEmpty()) {
+            persona = personaNegocio.busquedaPersonaRut(rut).get(0);
             this.actividadEconomica = persona.getPersActividad();
             this.apellidoMaterno = persona.getPersApematerno();
             this.apellidoPaterno = persona.getPersApepaterno();

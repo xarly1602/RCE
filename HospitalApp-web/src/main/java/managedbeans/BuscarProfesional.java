@@ -71,7 +71,7 @@ public class BuscarProfesional {
         personaSeleccionada = new Persona();
         personasObject = personaFacade.findAll();
         for (int i = personasObject.size() - 1; i >= 0; i--) {
-            if (personasObject.get(i).getPersTipopersona() != 2) {
+            if (personasObject.get(i).getPersTipopersona() == 1) {
                 personasObject.remove(i);
             }
         }
@@ -88,7 +88,7 @@ public class BuscarProfesional {
         if (buscado.isEmpty()) {
             personasObject = personaFacade.findAll();
             for (int i = personasObject.size() - 1; i >= 0; i--) {
-                if (personasObject.get(i).getPersTipopersona() != 2) {
+                if (personasObject.get(i).getPersTipopersona() == 1) {
                     personasObject.remove(i);
                 }
             }
@@ -98,15 +98,18 @@ public class BuscarProfesional {
             case 1:
                 try {
                     personasObject = personaNegocio.busquedaPersonaRut(Integer.parseInt(buscado), 2);
+                    personasObject.addAll(personaNegocio.busquedaPersonaRut(Integer.parseInt(buscado), 3));
                 } catch (NumberFormatException ex) {
                     personasObject = personaNegocio.busquedaPersonaRut(-1, 0);
                 }
                 break;
             case 2:
                 personasObject = personaNegocio.busquedaPersonaNombre(buscado, 2);
+                personasObject.addAll(personaNegocio.busquedaPersonaNombre(buscado, 3));
                 break;
             case 3:
                 personasObject = personaNegocio.busquedaPersonaApellidoPaterno(buscado, 2);
+                personasObject.addAll(personaNegocio.busquedaPersonaApellidoPaterno(buscado, 3));
                 break;
             default:
                 break;
@@ -175,9 +178,7 @@ public class BuscarProfesional {
         if (profesionalSeleccionado.getIdPersona().getIdPersona() == medicoReferenciaId) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "El profesional es el mismo que su encargado."));
         } else {
-            System.out.println("estoy en el PRIMER ESLSEEE CTMMMMM");
             profesionalSeleccionado.setProfeFechahasta(fechaHasta);
-            
             profesionalSeleccionado.setIdCargo(new Cargo(cargoId));
             profesionalSeleccionado.setIdGrupoprofesional(new GrupoProfesional(grupoId));
             profesionalSeleccionado.setIdLocal(new Local(localId));                  
@@ -188,21 +189,18 @@ public class BuscarProfesional {
             }
             
             if(fechaHasta == null){
-                System.out.println("ESTOY EN EL `PRIMER IF");
                 personaFacade.edit(personaSeleccionada);
                 profesionalFacade.edit(profesionalSeleccionado);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Datos Actualizado.", "Datos actualizados correctamente"));
                 
             }
             else if(fechaDesdeAux.before(fechaHasta)){
-                System.out.println("ESTOY EN EL SEGUNDO IF");
                 personaFacade.edit(personaSeleccionada);
                 profesionalFacade.edit(profesionalSeleccionado);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Datos Actualizado.", "Datos actualizados correctamente"));
         
             }
             else{
-                System.out.println("ESTOY EN EL ELSE");
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Las fechas no coinciden, ingrese una correcta."));
             }
         }

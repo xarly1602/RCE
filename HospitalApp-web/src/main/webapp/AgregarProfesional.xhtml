@@ -8,80 +8,67 @@
     <h:form id="formulProfesional">
         <div align="center">
             <p:growl id="growl" showDetail="true"/>
-            <p:panelGrid columns="2" styleClass="companyHeaderGrid">
+            <p:panelGrid columns="1" styleClass="companyHeaderGrid">
                 <p:panel header="Detalle Principal">
-                    <p:panelGrid columns="3">
+                    <p:panelGrid columns="4">
                         <p:outputLabel for="Rut" value="Rut: " style="font-weight: bold"/>
                         <p:autoComplete id="Rut" value="#{ingresoProfesional.rutCompleto}" completeMethod="#{ingresoProfesional.completarRut}" 
                                         var="rut" itemLabel="#{rut}" itemValue="#{rut}" placeholder="Rut sin dv">
                             <p:ajax event="blur" listener="#{ingresoProfesional.buscar(actionEvent)}" update="formulProfesional"/>
+                            <f:validator validatorId="Validator.RutValidator"/>
                         </p:autoComplete>
-                        <p:message for="Rut" display="icon"/>
                         <p:outputLabel for="Descripcion" value="Descripción: "/>
                         <p:inputText id="Descripcion" value="#{ingresoProfesional.descripcion}" readonly="true"/>
-                        <p:message for="Descripcion" display="icon"/>
                         <p:outputLabel for="TipoPro" value="Tipo: " style="font-weight: bold"/>
                         <p:selectOneMenu id="TipoPro" value="#{ingresoProfesional.cargoId}">
                             <f:selectItems value="#{listasMB.listaCargos}" var="cargo" itemLabel="#{cargo.cargoNombre}" itemValue="#{cargo.idCargo}"/>
                         </p:selectOneMenu>
-                        <p:message for="TipoPro" display="icon"/>
                         <p:outputLabel for="FechaDesde" value="Fecha Desde: " style="font-weight: bold"/>
                         <p:calendar id="FechaDesde" value="#{ingresoProfesional.fechaDesde}" effect="explode" yearRange="c-20:c" navigator="true"/>
-                        <p:message for="FechaDesde" display="icon"/>
                         <p:outputLabel for="FechaHasta" value="Fecha Hasta: "/>
                         <p:calendar id="FechaHasta" value="#{ingresoProfesional.fechaHasta}" effect="explode" yearRange="c-20:c" navigator="true"/>
-                        <p:message for="FechaHasta" display="icon"/>
                         <p:outputLabel for="ApePaterno" value="Apellido Paterno: " style="font-weight: bold"/>
                         <p:inputText id="ApePaterno" value="#{ingresoProfesional.apellidoPaterno}">
                             <p:ajax event="blur" listener="#{ingresoProfesional.actualizarDescripcion(actionEvent)}" update="Descripcion"/>
                             <f:validator validatorId="Validator.NameValidator"/>
                         </p:inputText>
-                        <p:message for="ApePaterno" display="icon"/>
                         <p:outputLabel for="ApeMaterno" value="Apellido Materno: " style="font-weight: bold"/>
                         <p:inputText id="ApeMaterno" value="#{ingresoProfesional.apellidoMaterno}">
                             <p:ajax event="blur" listener="#{ingresoProfesional.actualizarDescripcion(actionEvent)}" update="Descripcion"/>
                             <f:validator validatorId="Validator.NameValidator"/>
                         </p:inputText>
-                        <p:message for="ApeMaterno" display="icon"/>
                         <p:outputLabel for="Nombres" value="Nombres: " style="font-weight: bold"/>
                         <p:inputText id="Nombres" value="#{ingresoProfesional.nombres}">
                             <p:ajax event="blur" listener="#{ingresoProfesional.actualizarDescripcion(actionEvent)}" update="Descripcion"/>
                             <f:validator validatorId="Validator.NameValidator"/>
                         </p:inputText>
-                        <p:message for="Nombres" display="icon"/>
                         <p:outputLabel for="FechaNacimiento" value="Fecha de Nacimiento: "/>
                         <p:calendar id="FechaNacimiento" value="#{ingresoProfesional.fechaNacimiento}" effect="explode" yearRange="c-20:c" navigator="true"/>
-                        <p:message for="FechaNacimiento" display="icon"/>
                         <p:outputLabel for="MediRef" value="Médico de Referencia: "/>
                         <p:selectOneMenu id="MediRef" value="#{ingresoProfesional.medicoReferenciaId}">
                             <f:selectItem itemLabel="Sin Referencia" itemValue="0"/>
                             <f:selectItems value="#{listasMB.listaProfesionales}" var="prof" itemLabel="#{prof.persNombres} #{prof.persApepaterno}" itemValue="#{prof.idPersona}"/>
                         </p:selectOneMenu>
-                        <p:message for="MediRef" display="icon"/>
                     </p:panelGrid>
                 </p:panel>
                 <p:panel header="Otros Detalles">
-                    <p:panelGrid columns="3">
+                    <p:panelGrid columns="4">
                         <p:outputLabel for="Especialidad" value="Especialidad: "/>
                         <p:selectOneMenu id="Especialidad" value="#{ingresoProfesional.especialidadId}">
                             <f:selectItems value="#{listasMB.listaEspecialidades}" var="espe" itemLabel="#{espe.espeNombre}" itemValue="#{espe.idEspecialidad}"/>
                         </p:selectOneMenu>
-                        <p:message for="Especialidad" display="icon"/>
                         <p:outputLabel for="SubEspecialidad" value="Sub Especialidad: "/>
                         <p:selectOneMenu id="SubEspecialidad" value="#{ingresoProfesional.subEspecialidadId}">
                             <f:selectItems value="#{listasMB.listaSubespecialidad}" var="subespe" itemLabel="#{subespe.subespeNombre}" itemValue="#{subespe.idSubespecialidad}"/>
                         </p:selectOneMenu>
-                        <p:message for="SubEspecialidad" display="icon"/>
                         <p:outputLabel for="Grupo" value="Grupo de profesional: "/>
                         <p:selectOneMenu id="Grupo" value="#{ingresoProfesional.grupoId}">
                             <f:selectItems value="#{listasMB.listaGrupos}" var="grupo" itemLabel="#{grupo.grupoNombre}" itemValue="#{grupo.idGrupoprofesional}"/>
                         </p:selectOneMenu>
-                        <p:message for="Grupo" display="icon"/>
                         <p:outputLabel for="Local" value="Local: "/>
                         <p:selectOneMenu id="Local" value="#{ingresoProfesional.localId}">
                             <f:selectItems value="#{listasMB.listaLocales}" var="local" itemLabel="#{local.localNombre}" itemValue="#{local.idLocal}"/>
                         </p:selectOneMenu>
-                        <p:message for="Local" display="icon"/>
                         <p:commandButton value="Datos de contacto" onclick="PF('contacto').show()"/>
                     </p:panelGrid>
                 </p:panel>
@@ -89,20 +76,17 @@
             <p:commandButton value="Ingresar Profesional" actionListener="#{ingresoProfesional.agregarProfesional()}" update="formulProfesional" icon="ui-icon-disk"/>
 
             <p:dialog id="DatosContacto" header="Datos de contacto" widgetVar="contacto" showEffect="fade" hideEffect="fade">
-                <p:panelGrid id="Contacto" columns="3" styleClass="companyHeaderGrid">
+                <p:panelGrid id="Contacto" columns="2" styleClass="companyHeaderGrid">
                     <p:outputLabel for="DireccionPro" value="Dirección: "/>
                     <p:inputText id="DireccionPro" value="#{ingresoProfesional.direccion}"/>
-                    <p:message for="DireccionPro" display="icon"/>
                     <p:outputLabel for="EmailPro" value="Email: "/>
                     <p:inputText id="EmailPro" value="#{ingresoProfesional.email}">
                         <f:validator validatorId="Validator.EmailValidator"/>
                     </p:inputText>
-                    <p:message for="EmailPro" display="icon"/>
                     <p:outputLabel for="TelefonoPro" value="Telefono de contacto: "/>
                     <p:inputText id="TelefonoPro" value="#{ingresoProfesional.telefonoContacto}">
                         <f:validator validatorId="Validator.PhoneValidator"/>
                     </p:inputText>
-                    <p:message for="TelefonoPro" display="icon"/>
                 </p:panelGrid>
                 <p:commandButton value="Aceptar" onclick="PF('contacto').hide()" icon="ui-icon-check"/>
             </p:dialog>

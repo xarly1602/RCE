@@ -72,111 +72,83 @@
 
     </h:form>
 
-    <p:dialog maximizable="true" minimizable="true" id="dialogEditarProf" header="Editar Profesional" widgetVar="dialogEditarPersonaProf" height="600" width="950">  
+    <p:dialog maximizable="true" minimizable="true" id="dialogEditarProf" header="Editar Profesional" widgetVar="dialogEditarPersonaProf" height="420" width="660">  
         <h:form id="actualizarPersonaProf">
             <p:growl id="growl" showDetail="true" sticky="true" />
-            <p:panelGrid columns="2" id="panelEditarProf" styleClass="companyHeaderGrid">
+            <p:panelGrid columns="1" id="panelEditarProf" styleClass="companyHeaderGrid">
                 <p:panel header="Antecedentes Personales">
                     <p:outputLabel value="RUT Paciente: "/>
-                    <p:inputText id="rut" readonly="true" required="true" value="#{buscarProfesional.personaSeleccionada.persRut}"/>-<p:inputText id="dv" readonly="true" style="width: 10px" required="true" value="#{buscarPaciente.personaSeleccionada.persDv}"/>
+                    <p:inputText id="rut" readonly="true" required="true" value="#{buscarProfesional.personaSeleccionada.persRut}"/>-<p:inputText id="dv" readonly="true" style="width: 10px" required="true" value="#{buscarProfesional.personaSeleccionada.persDv}"/>
                     <br/>
                     <br/>
-                    <p:panelGrid columns="3">
+                    <p:panelGrid columns="4">
                         <p:outputLabel value="Nombres: " />
                         <p:inputText id="Nombres" readonly="true" required="true" value="#{buscarProfesional.personaSeleccionada.persNombres}">
                             <f:validateLength minimum="2"/>
                             <f:validator validatorId="Validator.NameValidator"/>
                         </p:inputText>
-                        <p:message for="Nombres"/>
                         <p:outputLabel value="Apellido Paterno: "/>
                         <p:inputText id="Paterno" readonly="true" required="true" value="#{buscarProfesional.personaSeleccionada.persApepaterno}">
                             <f:validateLength minimum="2"/>
                             <f:validator validatorId="Validator.NameValidator"/>
                         </p:inputText>
-                        <p:message for="Paterno"/>
                         <p:outputLabel value="Apellido Materno: "/>
                         <p:inputText id="Materno" readonly="true" required="true" value="#{buscarProfesional.personaSeleccionada.persApematerno}">
                             <f:validateLength minimum="2"/>
                             <f:validator validatorId="Validator.NameValidator"/>
                         </p:inputText>
-                        <p:message for="Materno"/>                          
-
                         <p:outputLabel value="Fecha Nacimiento: "/>
                         <p:inputText id="fecha" readonly="true" required="true" value="#{buscarProfesional.personaSeleccionada.persFnacimiento}"/>
-                        <p:message for="fecha"/>
-
                         <p:outputLabel value="Nacionalidad: "/>
                         <p:inputText id="Nacionalidad" required="true" readonly="true" value="#{buscarProfesional.personaSeleccionada.persNacionalidad}"/>                        
-                        <p:message for="Nacionalidad"/>
                     </p:panelGrid>
                 </p:panel>
                 <p:panel header="Información de Contacto">
-                    <p:panelGrid columns="3">
+                    <p:panelGrid columns="4">
                         <p:outputLabel value="Dirección: "/>
                         <p:inputText id="Direccion" value="#{buscarProfesional.personaSeleccionada.persDireccion}"/>
-                        <p:message for="Direccion"/>
-
                         <p:outputLabel value="Teléfono de contacto: "/>
                         <p:inputText id="TelefonoContacto" required="true"  requiredMessage="Debe ingresar un numero de contacto" value="#{buscarProfesional.personaSeleccionada.persTelcontacto}">
                             <f:validator validatorId="Validator.PhoneValidator"/>
                         </p:inputText>
-
                     </p:panelGrid>
                 </p:panel>
             </p:panelGrid>
             <p:panel header="Información del Profesional." toggleable="true" toggleSpeed="500" collapsed="true" styleClass="companyHeaderGrid">
-
-                <p:panelGrid columns="3" >
+                <p:panelGrid columns="4">
                     <p:outputLabel value="Fecha Desde: "/>
                     <p:inputText id="fechaDesde" readonly="true" required="true" value="#{buscarProfesional.profesionalSeleccionado.profFechadesde}"/>
-                    <p:message for="fechaDesde"/>
-
                     <p:outputLabel value="Fecha Hasta: " />
                     <p:calendar id="FechaHasta" effect="explode" yearRange="c:c+40" navigator="true" value="#{buscarProfesional.fechaHasta}">                             
                     </p:calendar>
-                    <p:message for="FechaHasta" display="icon"/>
-
-
                     <p:outputLabel value="Grupo Profesional: "/>
                     <p:selectOneMenu id="Grupo" value="#{buscarProfesional.grupoId}">                            
                         <f:selectItem itemLabel="#{buscarProfesional.profesionalSeleccionado.idGrupoprofesional.grupoNombre}" itemValue="#{buscarProfesional.profesionalSeleccionado.idGrupoprofesional.idGrupoprofesional}" />
                         <f:selectItems value="#{listasMB.listaGrupos}" var="group" itemLabel="#{group.grupoNombre}" itemValue="#{group.idGrupoprofesional}" />
                     </p:selectOneMenu>
-                    <p:message for="Grupo" display="icon"/>
-
                     <p:outputLabel value="Sub-Especialidad: "/>
                     <p:selectOneMenu id="SubEsp" value="#{buscarProfesional.subEspecialidadId}">
                         <f:selectItem itemLabel="#{buscarProfesional.profesionalSeleccionado.idSubespecialidad.subespeNombre}" itemValue="#{buscarProfesional.profesionalSeleccionado.idSubespecialidad.idSubespecialidad}" />
                         <f:selectItems value="#{listasMB.listaSubespecialidad}" var="sub" itemLabel="#{sub.subespeNombre}" itemValue="#{sub.idSubespecialidad}" />
                     </p:selectOneMenu>
-                    <p:message for="SubEsp" display="icon"/>
-
                     <p:outputLabel value="Profesional Encargado: "/>
                     <p:selectOneMenu id="ProfEn" value="#{buscarProfesional.medicoReferenciaId}">
                         <f:selectItem itemLabel="#{buscarProfesional.profesionalSeleccionado.proIdProfesional.idPersona.persNombres}" itemValue="#{buscarProfesional.profesionalSeleccionado.proIdProfesional.idPersona.idPersona}" />
                         <f:selectItems value="#{listasMB.listaProfesionales}" var="prof" itemLabel="#{prof.persNombres} #{prof.persApepaterno}" itemValue="#{prof.idPersona}"/>
                     </p:selectOneMenu>
-                    <p:message for="ProfEn"/>
-
                     <p:outputLabel value="Cargo: "/>
                     <p:selectOneMenu id="Car" value="#{buscarProfesional.cargoId}">
                         <f:selectItem itemLabel="#{buscarProfesional.profesionalSeleccionado.idCargo.cargoNombre}" itemValue="#{buscarProfesional.profesionalSeleccionado.idCargo.idCargo}" />
                         <f:selectItems value="#{listasMB.listaCargos}" var="carg" itemLabel="#{carg.cargoNombre}" itemValue="#{carg.idCargo}"/>
                     </p:selectOneMenu>                        
-                    <p:message for="Car"/>                       
-
                     <p:outputLabel value="Local: "/>
                     <p:selectOneMenu id="local" value="#{buscarProfesional.localId}">
                         <f:selectItem itemLabel="#{buscarProfesional.profesionalSeleccionado.idLocal.localNombre}" itemValue="#{buscarProfesional.profesionalSeleccionado.idLocal.idLocal}" />
                         <f:selectItems value="#{listasMB.listaLocales}" var="loc" itemLabel="#{loc.localNombre}" itemValue="#{loc.idLocal}"/>
                     </p:selectOneMenu>                        
-                    <p:message for="local"/> 
-
                     <h:outputText value="Activo: " />  
                     <p:selectBooleanCheckbox id = "id1" value="#{buscarProfesional.profesionalSeleccionado.profActivo}"  >                            
                     </p:selectBooleanCheckbox>
-                    <p:message id="msgMaq" for="id1"  />                       
-
                 </p:panelGrid>
             </p:panel>
 
@@ -187,6 +159,3 @@
     </p:dialog>
 
 </html>
-
-
-
