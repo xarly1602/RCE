@@ -56,6 +56,12 @@ public class PersonaNegocio implements PersonaNegocioLocal {
         Query q = em.createQuery("SELECT p FROM Persona p WHERE p.persRut = :persRut AND p.persTipopersona = :persTipopersona").setParameter("persRut", personaRut).setParameter("persTipopersona", tipo);
         return q.getResultList();
     }
+    
+    @Override
+    public List<Persona> busquedaPersonaRut(int personaRut){
+        Query q = em.createQuery("SELECT p FROM Persona p WHERE p.persRut = :persRut").setParameter("persRut", personaRut);
+        return q.getResultList();
+    }
 
     @Override
     public List<Persona> busquedaPersonaSexo(int sexoId, int tipo){

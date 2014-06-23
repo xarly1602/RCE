@@ -118,11 +118,19 @@ public class IngresoProfesional {
             return;
         }
         rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length() - 1));
-        digitoVerificador = rutCompleto.charAt(rutCompleto.length() - 1) + "";
-        if (personaNegocio.busquedaPersonaRut(rut, 2).size() > 0) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registro ya existe.", "El rut indicado ya está registrado."));
+        digitoVerificador = rutCompleto.charAt(rutCompleto.length() - 1) + "";        
+        if (personaNegocio.busquedaPersonaRut(rut).size() > 0) {
+            persona = personaNegocio.busquedaPersonaRut(rut).get(0);
+            if(persona.getPersTipopersona() != 1)
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registro ya existe.", "El rut indicado ya está registrado."));
+            else {
+                persona.setPersTipopersona(3);
+//                personaFacade.edit(persona);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + persona.getPersNombres() + " " + persona.getPersApepaterno() + " " + persona.getPersApematerno()));
+            }
         } else {
             //setear activo a true
+            if(persona.getPersRut()==0){
             persona.setPersApepaterno(apellidoPaterno);
             persona.setPersApematerno(apellidoMaterno);
             persona.setPersNombres(nombres);
@@ -131,7 +139,7 @@ public class IngresoProfesional {
             persona.setPersDv(digitoVerificador);
             persona.setPersRut(rut);
             persona.setPersNacionalidad(nacionalidad);
-            persona.setPersTipopersona(2);
+            persona.setPersTipopersona(2);}
 
             profesional.setIdCargo(new Cargo(cargoId));
             profesional.setIdGrupoprofesional(new GrupoProfesional(grupoId));
@@ -148,9 +156,9 @@ public class IngresoProfesional {
                     profesional.setProfFechadesde(fechaDesde);
                     profesional.setProfeFechahasta(fechaHasta);
 
-                    personaFacade.create(persona);
+                    personaFacade.edit(persona);
                     profesionalFacade.create(profesional);
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + nombres + " " + apellidoPaterno + " " + apellidoMaterno));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + persona.getPersNombres() + " " + persona.getPersApepaterno()+ " " + persona.getPersApematerno()));
                     this.resetData();
                 } else {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Las fechas no coinciden, ingrese una correcta."));
@@ -170,8 +178,8 @@ public class IngresoProfesional {
 
     public void buscar(ActionEvent actionEvent) {
         rut = Integer.parseInt(rutCompleto);
-        if (personaNegocio.busquedaPersonaRut(rut, 2).size() > 0) {
-            persona = personaNegocio.busquedaPersonaRut(rut, 2).get(0);
+        if (personaNegocio.busquedaPersonaRut(rut).size() > 0) {
+            persona = personaNegocio.busquedaPersonaRut(rut).get(0);
             profesional = profesionalNegocio.busquedaProfesionalIdPersona(persona.getIdPersona());
             this.apellidoMaterno = persona.getPersApematerno();
             this.apellidoPaterno = persona.getPersApepaterno();
