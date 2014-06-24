@@ -47,8 +47,7 @@ public class EspecialidadMB {
     }
 
     /**
-     * Postconstructor.
-     * Inicializar la especialidad que será creada.
+     * Postconstructor. Inicializar la especialidad que será creada.
      */
     @PostConstruct
     public void init() {
@@ -56,23 +55,21 @@ public class EspecialidadMB {
     }
 
     /**
-     * Ingresar nueva especialidad.
-     * Agregar una nueva especialidad al sistema con los datos indicados en el 
-     * formulario correspondiente, mostrando los mensajes necesarios en caso de 
-     * que ocurra algún error de validación o en caso que se agregue la 
-     * especialidad correctamente.
+     * Ingresar nueva especialidad. Agregar una nueva especialidad al sistema
+     * con los datos indicados en el formulario correspondiente, mostrando los
+     * mensajes necesarios en caso de que ocurra algún error de validación o en
+     * caso que se agregue la especialidad correctamente.
+     *
      * @param actionEvent Evento en la página xhtml que acciona el evento.
      */
     public void nuevaEspecialidad(ActionEvent actionEvent) {
         if (Integer.toString(espeId).length() != 3) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Largo codigo inválido", "El código debe tener largo 3"));
         } else if (especialidadFacade.find(espeId) != null) {
-            if(especialidadFacade.find(espeId).getEspeActivo()){
-                System.out.println("EXISTE!");
+            if (especialidadFacade.find(espeId).getEspeActivo()) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atención.", "El código ingresado ya existe."));
                 return;
-            }
-            else{
+            } else {
                 especialidad = especialidadFacade.find(espeId);
                 especialidad.setEspeActivo(Boolean.TRUE);
                 especialidad.setEspeNombre(espeNombre);
@@ -95,8 +92,8 @@ public class EspecialidadMB {
     }
 
     /**
-     * Eliminar especialidad.
-     * Elimina la especialidad del sistema marcándola como inactiva.
+     * Eliminar especialidad. Elimina la especialidad del sistema marcándola
+     * como inactiva.
      */
     public void eliminar() {
         listaSubespecialidades = subespecialidadNegocio.busquedaSubespecialidadIdEspecialidad(especialidad.getIdEspecialidad());
@@ -111,14 +108,14 @@ public class EspecialidadMB {
     }
 
     /**
-     * Editar especialidad.
-     * Actualiza la información de una especialidad del sistema según los datos
-     * indicados en el formulario correspondiente.
+     * Editar especialidad. Actualiza la información de una especialidad del
+     * sistema según los datos indicados en el formulario correspondiente.
+     *
      * @param actionEvent Evento en la página xhtml que acciona la función.
      */
     public void editar(ActionEvent actionEvent) {
         try {
-            if(especialidad.getEspeNombre().isEmpty()){
+            if (especialidad.getEspeNombre().isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Atención.", "Debe indicar un nombre de especialidad."));
             }
             especialidadFacade.edit(especialidad);
@@ -129,14 +126,13 @@ public class EspecialidadMB {
     }
 
     /**
-     * Resetear información.
-     * Reiniciar los datos de la especialidad.
+     * Resetear información. Reiniciar los datos de la especialidad.
      */
-    public void resetData(){
+    public void resetData() {
         espeNombre = "";
         espeId = 0;
     }
-    
+
     // Getters y Setters.
     public String getEspeNombre() {
         return espeNombre;

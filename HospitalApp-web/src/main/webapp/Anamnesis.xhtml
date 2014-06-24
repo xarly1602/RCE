@@ -30,13 +30,13 @@
                     <p:panel>
                         <p:panelGrid columns="2">
                             <p:outputLabel value="F.U.R. "/>
-                            <p:calendar style="width: 50px;" value="#{anamnesisMB.fur}" styleClass="dateTimeField" required="true" requiredMessage="Debe indicar la FUR"/>
+                            <p:calendar style="width: 50px;" value="#{anamnesisMB.fur}" styleClass="dateTimeField"/>
                             <p:outputLabel value="F.U.R.op. "/>
-                            <p:calendar style="width: 50px;" value="#{anamnesisMB.furop}" styleClass="dateTimeField" required="true" requiredMessage="Debe indicar la FURop"/>
+                            <p:calendar style="width: 50px;" value="#{anamnesisMB.furop}" styleClass="dateTimeField"/>
                             <p:outputLabel value="F.P.P. "/>
-                            <p:calendar id="FPP" style="width: 50px;" value="#{anamnesisMB.fpp}" styleClass="dateTimeField" required="true" requiredMessage="La FPP no puede ser vacía"/>
+                            <p:calendar id="FPP" style="width: 50px;" value="#{anamnesisMB.fpp}" styleClass="dateTimeField"/>
                             <p:outputLabel value="Eco. precoz "/>
-                            <p:calendar style="width: 50px;" value="#{anamnesisMB.ecoPrecoz}" styleClass="dateTimeField" required="true" requiredMessage="Debe indicar la fecha de la Eco Precoz."/>
+                            <p:calendar style="width: 50px;" value="#{anamnesisMB.ecoPrecoz}" styleClass="dateTimeField"/>
                             <p:outputLabel value="EG "/>
                             <p:inputText style="width: 50px;" value="#{anamnesisMB.eg}"/>
                             <p:outputLabel value="Acorde "/>
@@ -55,7 +55,7 @@
                                 </f:facet>
                                 <p:row>
                                     <p:column colspan="4">
-                                        <p:inputText id="Gestas" style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.gestas}" readonly="true"/>
+                                        <p:inputText id="Gestas" style="width: 15px;" maxlength="2" value="#{anamnesisMB.gestas}" readonly="true"/>
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -68,10 +68,10 @@
                                 </p:row>
                                 <p:row>
                                     <p:column colspan="2">
-                                        <p:inputText id="Partos" style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.partos}" readonly="true"/>
+                                        <p:inputText id="Partos" style="width: 15px;" maxlength="2" value="#{anamnesisMB.partos}" readonly="true"/>
                                     </p:column>
                                     <p:column colspan="2">
-                                        <p:inputText id="Abortos" style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.abortos}" onchange="#{anamnesisMB.calculaGestas()}">
+                                        <p:inputText id="Abortos" style="width: 15px;" maxlength="2" value="#{anamnesisMB.abortos}" onchange="#{anamnesisMB.calculaGestas()}">
                                             <p:ajax event="blur" listener="#{anamnesisMB.calculaGestas()}" update="Gestas"/> 
                                         </p:inputText>
                                     </p:column>
@@ -86,12 +86,12 @@
                                 </p:row>
                                 <p:row>
                                     <p:column>
-                                        <p:inputText style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.vaginales}">
+                                        <p:inputText style="width: 15px;" maxlength="2" value="#{anamnesisMB.vaginales}">
                                             <p:ajax event="blur" listener="#{anamnesisMB.calculaGestas()}" update="Partos"/> 
                                         </p:inputText>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText style="width: 15px;" maxlength="2" validatorMessage="El campo debe ser un numero de a lo más 2 dígitos." value="#{anamnesisMB.cesareas}">
+                                        <p:inputText style="width: 15px;" maxlength="2" value="#{anamnesisMB.cesareas}">
                                             <p:ajax event="blur" listener="#{anamnesisMB.calculaGestas()}" update="Partos"/> 
                                         </p:inputText>
                                     </p:column>
@@ -145,7 +145,7 @@
                     <p:outputLabel for="IMC" value="IMC: "/>
                     <p:inputText id="IMC" value="#{anamnesisMB.imc}" readonly="true"/>
                 </p:panelGrid>
-                <p:commandButton action="#{anamnesisMB.calcularIMC(actionEvent)}" value="Calcular IMC" update="IMC, :Anamnesis:growl" icon="ui-icon-calculator"/>
+                <p:commandButton action="#{anamnesisMB.calcularIMC(actionEvent)}" value="Calcular IMC" update="IMC" icon="ui-icon-calculator"/>
             </p:tab>
             <p:tab title="Exámen Obstétrico">
                 <p:panelGrid columns="6">

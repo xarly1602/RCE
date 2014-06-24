@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package managedbeans;
 
 import cl.rcehblt.entities.LeyesSociales;
@@ -39,7 +38,6 @@ import cl.rcehblt.sessionbeans.LeyesSocialesFacadeLocal;
 import cl.rcehblt.sessionbeans.LocalFacadeLocal;
 import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
 import cl.rcehblt.sessionbeans.PrevisionFacadeLocal;
-import cl.rcehblt.sessionbeans.ProfesionalFacadeLocal;
 import cl.rcehblt.sessionbeans.PuebloOriginarioFacadeLocal;
 import cl.rcehblt.sessionbeans.ReligionFacadeLocal;
 import cl.rcehblt.sessionbeans.SectorFacadeLocal;
@@ -63,14 +61,13 @@ import org.primefaces.event.SelectEvent;
 @ManagedBean
 @RequestScoped
 public class ListasMB {
+
     @EJB
     private SectorFacadeLocal sectorFacade;
     @EJB
     private ServicioSaludFacadeLocal servicioSaludFacade;
     @EJB
     private EstablecimientoFacadeLocal establecimientoFacade;
-    @EJB
-    private ProfesionalFacadeLocal profesionalFacade;
     @EJB
     private LocalFacadeLocal localFacade;
     @EJB
@@ -133,20 +130,18 @@ public class ListasMB {
     private String filtro;
     private int i;
     private int especialidadSeleccionadaId;
-    
+
     /**
      * Constructor de la clase.
      */
     public ListasMB() {
     }
-    
+
     /**
-     * Postconstructor:
-     * Inicializar todas las listas de datos.
+     * Postconstructor: Inicializar todas las listas de datos.
      */
     @PostConstruct
-    public void init(){
-        System.out.println("ARMANDO LISTAS");
+    public void init() {
         elementoBuscado = "";
         filtro = "";
         listaEspecialidades = especialidadFacade.findAll();
@@ -172,21 +167,20 @@ public class ListasMB {
     }
 
     /**
-     * Filtrar listas.
-     * Eliminar datos de las listas que se encuentren inactivos en la base de 
-     * datos.
+     * Filtrar listas. Eliminar datos de las listas que se encuentren inactivos
+     * en la base de datos.
      */
-    public void filtrarListas(){
+    public void filtrarListas() {
         int size;
         size = listaEspecialidades.size();
         for (i = size - 1; i >= 0; i--) {
-            if(!listaEspecialidades.get(i).getEspeActivo()){
+            if (!listaEspecialidades.get(i).getEspeActivo()) {
                 listaEspecialidades.remove(i);
             }
         }
         size = listaSubespecialidad.size();
         for (i = size - 1; i >= 0; i--) {
-            if (!listaSubespecialidad.get(i).getSubespeActivo()){
+            if (!listaSubespecialidad.get(i).getSubespeActivo()) {
                 listaSubespecialidad.remove(i);
             }
         }
@@ -197,14 +191,14 @@ public class ListasMB {
             }
         }
     }
-    
+
     /**
-     * Buscar subespecialidad.
-     * Busca una subespecialidad por el nombre indicado en el formulario.
+     * Buscar subespecialidad. Busca una subespecialidad por el nombre indicado
+     * en el formulario.
      */
-    public void buscarSubespecialidad(){
+    public void buscarSubespecialidad() {
         listaSubespecialidad = subespecialidadNegocio.busquedaSubespecialidadNombre(elementoBuscado);
-        for (i = listaSubespecialidad.size() - 1; i >= 0 ; i--) {
+        for (i = listaSubespecialidad.size() - 1; i >= 0; i--) {
             if (!listaSubespecialidad.get(i).getSubespeActivo()) {
                 listaSubespecialidad.remove(i);
             }
@@ -212,10 +206,10 @@ public class ListasMB {
     }
 
     /**
-     * Buscar especialidad.
-     * Busca una especialidad por el nombre indicado en el formulario.
+     * Buscar especialidad. Busca una especialidad por el nombre indicado en el
+     * formulario.
      */
-    public void buscarEspecialidad(){
+    public void buscarEspecialidad() {
         listaEspecialidades = especialidadNegocio.busquedaEspecialidadNombre(elementoBuscado);
         for (i = listaEspecialidades.size() - 1; i >= 0; i--) {
             if (!listaEspecialidades.get(i).getEspeActivo()) {
@@ -225,67 +219,71 @@ public class ListasMB {
     }
 
     /**
-     * Filtrar especialidades.
-     * Mostrar solo las subespecialidades que correspondan a la especialidad 
-     * seleccionada.
+     * Filtrar especialidades. Mostrar solo las subespecialidades que
+     * correspondan a la especialidad seleccionada.
+     *
      * @param event Evento en la página xhtml que acciona la función.
      */
-    public void filtrarEspecialidad(AjaxBehaviorEvent event){
+    public void filtrarEspecialidad(AjaxBehaviorEvent event) {
         listaSubespecialidad = subespecialidadNegocio.busquedaSubespecialidadIdEspecialidad(especialidadSeleccionadaId);
-        for (i = listaSubespecialidad.size() - 1; i >= 0 ; i--) {
+        for (i = listaSubespecialidad.size() - 1; i >= 0; i--) {
             if (!listaSubespecialidad.get(i).getSubespeActivo()) {
                 listaSubespecialidad.remove(i);
             }
         }
     }
-    
+
     /**
-     * Filtrar especialidades.
-     * Mostrar solo las subespecialidades que correspondan a la especialidad 
-     * seleccionada.
+     * Filtrar especialidades. Mostrar solo las subespecialidades que
+     * correspondan a la especialidad seleccionada.
+     *
      * @param event Evento en la página xhtml que acciona la función.
      */
-    public void filtrarSubespecialidad(SelectEvent event){
-        if(especialidadNegocio.busquedaEspecialidadNombre(filtro) != null){
+    public void filtrarSubespecialidad(SelectEvent event) {
+        if (especialidadNegocio.busquedaEspecialidadNombre(filtro) != null) {
             especialidadSeleccionadaId = especialidadNegocio.busquedaEspecialidadNombre(filtro).get(0).getIdEspecialidad();
             this.filtrarEspecialidad(event);
         }
     }
-    
+
     /**
-     * Completar subespecialidades.
-     * Función para realizar la búsqueda de subespecialidades con autocompletar.
+     * Completar subespecialidades. Función para realizar la búsqueda de
+     * subespecialidades con autocompletar.
+     *
      * @param query Nombre completo o inicio de la subespecialidad buscada.
      * @return Lista de resultados encontrados.
      */
     public List<String> completeSub(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
-         
-        for(Subespecialidad p : listaSubespecialidad) {
-            if(p.getSubespeNombre().startsWith(query))
+
+        for (Subespecialidad p : listaSubespecialidad) {
+            if (p.getSubespeNombre().startsWith(query)) {
                 listaFiltrada.add(p.getSubespeNombre());
+            }
         }
-         
+
         return listaFiltrada;
     }
 
     /**
-     * Completar especialidades.
-     * Función para realizar la búsqueda de especialidades con autocompletar.
+     * Completar especialidades. Función para realizar la búsqueda de
+     * especialidades con autocompletar.
+     *
      * @param query Nombre completo o inicio de la especialidad buscada.
      * @return Lista de resultados encontrados.
      */
     public List<String> completeEsp(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
-         
-        for(Especialidad p : listaEspecialidades) {
-            if(p.getEspeNombre().startsWith(query))
+
+        for (Especialidad p : listaEspecialidades) {
+            if (p.getEspeNombre().startsWith(query)) {
                 listaFiltrada.add(p.getEspeNombre());
+            }
         }
-         
+
         return listaFiltrada;
     }
-    
+
     // Getters y Setters
     public List<Cargo> getListaCargos() {
         return listaCargos;
@@ -328,7 +326,7 @@ public class ListasMB {
     public void setEspecialidadSeleccionadaId(int especialidadSeleccionadaId) {
         this.especialidadSeleccionadaId = especialidadSeleccionadaId;
     }
-     
+
     public List<Especialidad> getListaEspecialidades() {
         if (elementoBuscado.isEmpty()) {
             listaEspecialidades = especialidadFacade.findAll();
@@ -480,5 +478,5 @@ public class ListasMB {
     public void setFiltro(String filtro) {
         this.filtro = filtro;
     }
-    
+
 }

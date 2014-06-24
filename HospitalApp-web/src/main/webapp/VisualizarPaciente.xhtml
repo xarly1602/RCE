@@ -66,7 +66,7 @@
         </p:dataTable>
     </h:form>
 
-    <p:dialog maximizable="true" minimizable="true" id="dialogEditar" header="Editar Persona" widgetVar="dialogEditarPersona">  
+    <p:dialog maximizable="true" minimizable="true" id="dialogEditar" header="Editar Persona" widgetVar="dialogEditarPersona" height="540" width="800">  
         <h:form id="actualizarPersona">
             <p:growl id="growl" showDetail="true" sticky="true" />
             <p:panelGrid columns="1" id="panelEditar" styleClass="companyHeaderGrid">
@@ -124,34 +124,6 @@
                         </p:inputText>
                     </p:panelGrid>
                 </p:panel>
-                <p:panel header="Información Adicional." toggleable="true" toggleSpeed="500" collapsed="true">
-                    <p:panelGrid columns="4" >
-                        <p:outputLabel value="Estado Conyugal: "/>
-                        <p:selectOneMenu id="Estado" value="#{buscarPaciente.estadoConyugalId}">
-                            <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idEstadoconyugal.estadNombre}" itemValue="#{buscarPaciente.personaSeleccionada.idEstadoconyugal.idEstadoconyugal}" />
-                            <f:selectItems value="#{listasMB.listaEstados}" var="e" itemLabel="#{e.estadNombre}" itemValue="#{e.idEstadoconyugal}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Nivel de Educaciòn: "/>
-                        <p:selectOneMenu id="Educacion" value="#{buscarPaciente.educacionId}" >
-                            <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idEducacion.educNombre}" itemValue="#{buscarPaciente.personaSeleccionada.idEducacion.idEducacion}" />
-                            <f:selectItems value="#{listasMB.listaEducacion}" var="edu" itemLabel="#{edu.educNombre}" itemValue="#{edu.idEducacion}" />
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Ocupación: "/>
-                        <p:inputText id="Ocupacion" value="#{buscarPaciente.personaSeleccionada.persOcupacion}"/>                                    
-                        <p:outputLabel value="Actividad Económica: "/>
-                        <p:inputText id="Actividad" value="#{buscarPaciente.personaSeleccionada.persActividad}"/>
-                        <p:outputLabel value="Pueblo Originario: "/>
-                        <p:selectOneMenu id="Pueblo" value="#{buscarPaciente.puebloOriginarioId}">
-                            <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idPueblooriginario.puebloNombre}" itemValue="#{buscarPaciente.personaSeleccionada.idPueblooriginario.idPueblooriginario}" />
-                            <f:selectItems value="#{listasMB.listaPueblos}" var="town" itemLabel="#{town.puebloNombre}" itemValue="#{town.idPueblooriginario}" />
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Religión: "/>
-                        <p:selectOneMenu id="Religion" value="#{buscarPaciente.religionId}">
-                            <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idReligion.reliName}" itemValue="#{buscarPaciente.personaSeleccionada.idReligion.idReligion}" />
-                            <f:selectItems value="#{listasMB.listaReligion}" var="reli" itemLabel="#{reli.reliName}" itemValue="#{reli.idReligion}" />
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                </p:panel>
                 <p:panel header="Información de Paciente." toggleable="true" toggleSpeed="500" collapsed="true">
                     <p:panelGrid columns="4" >
                         <p:outputLabel value="Numero de Ficha: "/>
@@ -188,6 +160,34 @@
                         </p:calendar>
                     </p:panelGrid>
                 </p:panel>
+                <p:panel header="Información Adicional." toggleable="true" toggleSpeed="500" collapsed="true">
+                    <p:panelGrid columns="4" >
+                        <p:outputLabel value="Estado Conyugal: "/>
+                        <p:selectOneMenu id="Estado" value="#{buscarPaciente.estadoConyugalId}">
+                            <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idEstadoconyugal.estadNombre}" itemValue="#{buscarPaciente.personaSeleccionada.idEstadoconyugal.idEstadoconyugal}" />
+                            <f:selectItems value="#{listasMB.listaEstados}" var="e" itemLabel="#{e.estadNombre}" itemValue="#{e.idEstadoconyugal}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Nivel de Educaciòn: "/>
+                        <p:selectOneMenu id="Educacion" value="#{buscarPaciente.educacionId}" >
+                            <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idEducacion.educNombre}" itemValue="#{buscarPaciente.personaSeleccionada.idEducacion.idEducacion}" />
+                            <f:selectItems value="#{listasMB.listaEducacion}" var="edu" itemLabel="#{edu.educNombre}" itemValue="#{edu.idEducacion}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Ocupación: "/>
+                        <p:inputText id="Ocupacion" value="#{buscarPaciente.personaSeleccionada.persOcupacion}"/>                                    
+                        <p:outputLabel value="Actividad Económica: "/>
+                        <p:inputText id="Actividad" value="#{buscarPaciente.personaSeleccionada.persActividad}"/>
+                        <p:outputLabel value="Pueblo Originario: "/>
+                        <p:selectOneMenu id="Pueblo" value="#{buscarPaciente.puebloOriginarioId}">
+                            <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idPueblooriginario.puebloNombre}" itemValue="#{buscarPaciente.personaSeleccionada.idPueblooriginario.idPueblooriginario}" />
+                            <f:selectItems value="#{listasMB.listaPueblos}" var="town" itemLabel="#{town.puebloNombre}" itemValue="#{town.idPueblooriginario}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Religión: "/>
+                        <p:selectOneMenu id="Religion" value="#{buscarPaciente.religionId}">
+                            <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idReligion.reliName}" itemValue="#{buscarPaciente.personaSeleccionada.idReligion.idReligion}" />
+                            <f:selectItems value="#{listasMB.listaReligion}" var="reli" itemLabel="#{reli.reliName}" itemValue="#{reli.idReligion}" />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                </p:panel>
             </p:panelGrid>
             <p:commandButton id="editarPers" value="Actualizar Datos" disabled="#{buscarPaciente.pacienteFallecidoAux}" update=":formBuscar:Personas, :dialogEditar"  actionListener="#{buscarPaciente.actualizar()}" >
                 <p:confirm  header="Atención" message="¿Está seguro que desea actualizar los datos?" icon="ui-icon-alert" />
@@ -195,7 +195,7 @@
         </h:form>
     </p:dialog>
 
-    <p:dialog maximizable="true" minimizable="true" id="dialogVerConsentimientosInter" header="Consentimientos Informados" widgetVar="dialogVerConsentimientoInter" height="600" width="950"> 
+    <p:dialog maximizable="true" minimizable="true" id="dialogVerConsentimientosInter" header="Consentimientos Informados" widgetVar="dialogVerConsentimientoInter"> 
         <h:form id="verConsentimientosInter">
             <p:growl id="growl1" showDetail="true" sticky="true" />
             <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" id="PersonasInter" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
@@ -223,7 +223,7 @@
     </p:dialog>
 
 
-    <p:dialog maximizable="true" minimizable="true" id="dialogVerConsentimientosEst" header="Consentimientos Informados Esterilización" widgetVar="dialogVerConsentimientoEst" height="600" width="950"> 
+    <p:dialog maximizable="true" minimizable="true" id="dialogVerConsentimientosEst" header="Consentimientos Informados Esterilización" widgetVar="dialogVerConsentimientoEst"> 
         <h:form id="verConsentimientosEst">
             <p:growl id="growl1" showDetail="true" sticky="true" />
             <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" id="PersonasEst" paginator="true" paginatorAlwaysVisible="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
@@ -255,7 +255,7 @@
     </p:dialog>
 
 
-    <p:dialog maximizable="true" minimizable="true" id="dialogEditarConsentimiento" header="Consentimientos Informados" widgetVar="dialogEditarConsentimiento" height="600" width="950"> 
+    <p:dialog maximizable="true" minimizable="true" id="dialogEditarConsentimiento" header="Consentimientos Informados" widgetVar="dialogEditarConsentimiento"> 
         <h:form id="actualizarConsentimiento">
             <p:growl id="growl1" showDetail="true" sticky="true" />
             <p:panelGrid columns="1" id="panelEditarConsentimiento" styleClass="companyHeaderGrid">

@@ -24,9 +24,9 @@ public class NameValidator implements Validator {
     }
 
     /**
-     * Validar.
-     * Valida si un nombre o apellido indicado es correcto o no, es decir, que 
-     * solo tenga letras.
+     * Validar. Valida si un nombre o apellido indicado es correcto o no, es
+     * decir, que solo tenga letras.
+     *
      * @param context
      * @param component
      * @param value Nombre o apellido que se desea validar.
@@ -51,22 +51,18 @@ public class NameValidator implements Validator {
     }
 
     /**
-     * Validar nombre.
-     * Valida si un nombre o apellido es válido o no verificando que éste no 
-     * contenga números.
-     * @param name String correspondiente al nombre o apellido que se desea 
+     * Validar nombre. Valida si un nombre o apellido es válido o no verificando
+     * que éste no contenga números.
+     *
+     * @param name String correspondiente al nombre o apellido que se desea
      * validar.
-     * @return True cuando el nombre o apellido contiene sólo letras y False si 
+     * @return True cuando el nombre o apellido contiene sólo letras y False si
      * es que éste tiene algún número.
      */
     public static boolean validarNombre(String name) {
         boolean validacion;
-        if (name.contains("0")||name.contains("1")||name.contains("2")||name.contains("3")||name.contains("4")||name.contains("5")||name.contains("6")||name.contains("7")||name.contains("9")){
-            validacion = false;
-        }
-        else
-            validacion = true;
-            
+        validacion = !name.contains("0") && !name.contains("1") && !name.contains("2") && !name.contains("3") && !name.contains("4") && !name.contains("5") && !name.contains("6") && !name.contains("7") && !name.contains("9");
+
         return validacion;
     }
 }

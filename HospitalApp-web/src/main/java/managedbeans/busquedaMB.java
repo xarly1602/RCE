@@ -9,7 +9,6 @@ import cl.rcehblt.entities.Paciente;
 import cl.rcehblt.entities.Persona;
 import cl.rcehblt.paciente.PacienteNegocioLocal;
 import cl.rcehblt.persona.PersonaNegocioLocal;
-import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
 import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,8 +29,6 @@ import javax.faces.context.FacesContext;
 public class busquedaMB {
 
     @EJB
-    private PacienteFacadeLocal pacienteFacade;
-    @EJB
     private PacienteNegocioLocal pacienteNegocio;
     @EJB
     private PersonaNegocioLocal personaNegocio;
@@ -50,7 +47,7 @@ public class busquedaMB {
     private List<Persona> listaPersonas;
     private List<Persona> listaPersonaProf;
     private Paciente paciente;
-    
+
     /**
      * Constructor de la clase.
      */
@@ -58,8 +55,7 @@ public class busquedaMB {
     }
 
     /**
-     * Postconstructor: 
-     * Inicializar algunas variables y lista de personas.
+     * Postconstructor: Inicializar algunas variables y lista de personas.
      */
     @PostConstruct
     public void init() {
@@ -73,11 +69,11 @@ public class busquedaMB {
         listaPersonas = personaFacade.findAll();
         listaPersonaProf = personaFacade.findAll();
         for (int i = listaPersonas.size() - 1; i >= 0; i--) {
-            if (listaPersonas.get(i).getPersTipopersona() != 1) {
+            if (listaPersonas.get(i).getPersTipopersona() == 2) {
                 listaPersonas.remove(i);
             }
         }
-        
+
         for (int i = listaPersonaProf.size() - 1; i >= 0; i--) {
             if (listaPersonaProf.get(i).getPersTipopersona() == 1) {
                 listaPersonaProf.remove(i);
@@ -86,29 +82,32 @@ public class busquedaMB {
     }
 
     /**
-     * Autocompletar ruts para la búsqueda de pacientes
-     * Función para realizar la lista que se muestra mientras se va escribiendo
-     * un rut en el campo de búsqueda correspondiente.
+     * Autocompletar ruts para la búsqueda de pacientes Función para realizar la
+     * lista que se muestra mientras se va escribiendo un rut en el campo de
+     * búsqueda correspondiente.
+     *
      * @param query String correspondiente al inicio del rut que se busca.
      * @return Lista con los resultados encontrados.
      */
-    public List<String> completarRut(String query){
+    public List<String> completarRut(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
         for (Persona persona : listaPersonas) {
             if (persona.getPersRut().toString().startsWith(query) && !listaFiltrada.contains(persona.getPersRut().toString())) {
                 listaFiltrada.add(persona.getPersRut().toString());
             }
         }
-        return listaFiltrada;  }
-    
+        return listaFiltrada;
+    }
+
     /**
-     * Autocompletar ruts para la búsqueda de pacientes
-     * Función para realizar la lista que se muestra mientras se va escribiendo
-     * un rut en el campo de búsqueda correspondiente.
+     * Autocompletar ruts para la búsqueda de pacientes Función para realizar la
+     * lista que se muestra mientras se va escribiendo un rut en el campo de
+     * búsqueda correspondiente.
+     *
      * @param query String correspondiente al inicio del rut que se busca.
      * @return Lista con los resultados encontrados.
      */
-    public List<String> completarRutMujer(String query){
+    public List<String> completarRutMujer(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
         for (Persona persona : listaPersonas) {
             if (persona.getPersRut().toString().startsWith(query) && !listaFiltrada.contains(persona.getPersRut().toString()) && persona.getIdGenero().getIdGenero() == 2) {
@@ -117,14 +116,16 @@ public class busquedaMB {
         }
         return listaFiltrada;
     }
+
     /**
-     * Autocompletar ruts para la búsqueda de profesionales
-     * Función para realizar la lista que se muestra mientras se va escribiendo
-     * un rut en el campo de búsqueda correspondiente.
+     * Autocompletar ruts para la búsqueda de profesionales Función para
+     * realizar la lista que se muestra mientras se va escribiendo un rut en el
+     * campo de búsqueda correspondiente.
+     *
      * @param query String correspondiente al inicio del rut que se busca.
      * @return Lista con los resultados encontrados.
      */
-    public List<String> completarRutProf(String query){
+    public List<String> completarRutProf(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
         for (Persona persona : listaPersonaProf) {
             if (persona.getPersRut().toString().startsWith(query) && !listaFiltrada.contains(persona.getPersRut().toString())) {
@@ -133,15 +134,16 @@ public class busquedaMB {
         }
         return listaFiltrada;
     }
-    
+
     /**
-     * Autocompletar nombres para la búsqueda
-     * Función para realizar la lista que se muestra mientras se va escribiendo
-     * un nombre en el campo de búsqueda correspondiente.
+     * Autocompletar nombres para la búsqueda Función para realizar la lista que
+     * se muestra mientras se va escribiendo un nombre en el campo de búsqueda
+     * correspondiente.
+     *
      * @param query String correspondiente al inicio del nombre buscado.
      * @return Lista de resultados encontrados.
      */
-    public List<String> completarNombre(String query){
+    public List<String> completarNombre(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
         for (Persona persona : listaPersonas) {
             if (persona.getPersNombres().startsWith(query) && !listaFiltrada.contains(persona.getPersNombres())) {
@@ -150,15 +152,16 @@ public class busquedaMB {
         }
         return listaFiltrada;
     }
-    
+
     /**
-     * Autocompletar apellido paterno para la búsqueda
-     * Función para realizar la lista que se muestra mientras se va escribiendo
-     * un apellido en el campo de búsqueda correspondiente al apellido paterno.
+     * Autocompletar apellido paterno para la búsqueda Función para realizar la
+     * lista que se muestra mientras se va escribiendo un apellido en el campo
+     * de búsqueda correspondiente al apellido paterno.
+     *
      * @param query String correspondiente al inicio del apellido buscado.
      * @return Lista de resultados encontrados.
      */
-    public List<String> completarApePaterno(String query){
+    public List<String> completarApePaterno(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
         for (Persona persona : listaPersonas) {
             if (persona.getPersApepaterno().startsWith(query) && !listaFiltrada.contains(persona.getPersApepaterno())) {
@@ -167,15 +170,16 @@ public class busquedaMB {
         }
         return listaFiltrada;
     }
-    
+
     /**
-     * Autocompletar apellido para la búsqueda
-     * Función para realizar la lista que se muestra mientras se va escribiendo
-     * un apellido en el campo de búsqueda correspondiente al apellido materno.
+     * Autocompletar apellido para la búsqueda Función para realizar la lista
+     * que se muestra mientras se va escribiendo un apellido en el campo de
+     * búsqueda correspondiente al apellido materno.
+     *
      * @param query String correspondiente al inicio del apellido buscado.
      * @return Lista de resultados encontrados.
      */
-    public List<String> completarApeMaterno(String query){
+    public List<String> completarApeMaterno(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
         for (Persona persona : listaPersonas) {
             if (persona.getPersApematerno().startsWith(query) && !listaFiltrada.contains(persona.getPersApematerno())) {
@@ -184,20 +188,19 @@ public class busquedaMB {
         }
         return listaFiltrada;
     }
-    
+
     /**
-     * Función que realiza la búsqueda de los campos indicados.
-     * La búsqueda se realiza según todos los campos completados, en primer 
-     * lugar se busca por el primer valor no nulo o vacío y luego se filtra ese
-     * resultado según los demás campos rellenados.
+     * Función que realiza la búsqueda de los campos indicados. La búsqueda se
+     * realiza según todos los campos completados, en primer lugar se busca por
+     * el primer valor no nulo o vacío y luego se filtra ese resultado según los
+     * demás campos rellenados.
      */
     public void buscar() {
         if (fechaNacimiento != null) {
             listaPersonas = personaNegocio.busquedaPersonaFechaNacimiento(fechaNacimiento, 1);
+            listaPersonas.addAll(personaNegocio.busquedaPersonaFechaNacimiento(fechaNacimiento, 3));
             etapa = 1;
         } else if (!nombres.isEmpty()) {
-            System.out.println("BuscaNombres");
-            // listaPersonas = personaNegocio.busquedaPersonaNombre(nombres, 1);
             for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                 if (!listaPersonas.get(i).getPersNombres().startsWith(nombres)) {
                     listaPersonas.remove(i);
@@ -205,8 +208,6 @@ public class busquedaMB {
             }
             etapa = 2;
         } else if (!apePaterno.isEmpty()) {
-            System.out.println("BuscaApellido");
-            // listaPersonas = personaNegocio.busquedaPersonaApellidoPaterno(apePaterno, 1);
             for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                 if (!listaPersonas.get(i).getPersApepaterno().startsWith(apePaterno)) {
                     listaPersonas.remove(i);
@@ -214,8 +215,6 @@ public class busquedaMB {
             }
             etapa = 3;
         } else if (!apeMaterno.isEmpty()) {
-            System.out.println("BuscaMaterno");
-            // listaPersonas = personaNegocio.busquedaPersonaApellidoPaterno(apeMaterno, 1);
             for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                 if (!listaPersonas.get(i).getPersApematerno().startsWith(apeMaterno)) {
                     listaPersonas.remove(i);
@@ -234,7 +233,6 @@ public class busquedaMB {
             listaPersonas = personaNegocio.busquedaPersonaSexo(sexo, 1);
             etapa = 6;
         } else if (!rut.isEmpty()) {
-            System.out.println("busca Rut");
             rut = rut.toUpperCase();
             rut = rut.replace(".", "");
             try {
@@ -248,7 +246,6 @@ public class busquedaMB {
         switch (etapa) {
             case 1:
                 if (!nombres.isEmpty()) {
-                    System.out.println("1");
                     for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                         if (!listaPersonas.get(i).getPersNombres().startsWith(nombres)) {
                             listaPersonas.remove(i);
@@ -257,7 +254,6 @@ public class busquedaMB {
                 }
             case 2:
                 if (!apePaterno.isEmpty()) {
-                    System.out.println("2");
                     for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                         if (!listaPersonas.get(i).getPersApepaterno().startsWith(apePaterno)) {
                             listaPersonas.remove(i);
@@ -266,7 +262,6 @@ public class busquedaMB {
                 }
             case 3:
                 if (!apeMaterno.isEmpty()) {
-                    System.out.println("3");
                     for (int i = listaPersonas.size() - 1; i >= 0; i--) {
                         if (!listaPersonas.get(i).getPersApematerno().startsWith(apeMaterno)) {
                             listaPersonas.remove(i);
@@ -297,19 +292,16 @@ public class busquedaMB {
                     try {
                         int rutTemp = Integer.parseInt(rut);
                         for (int i = listaPersonas.size() - 1; i >= 0; i--) {
-                        if (listaPersonas.get(i).getPersRut() != rutTemp) {
-                            listaPersonas.remove(i);
+                            if (listaPersonas.get(i).getPersRut() != rutTemp) {
+                                listaPersonas.remove(i);
+                            }
                         }
-                    }
                     } catch (NumberFormatException e) {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Rut invalido", "Ingrese un rut válido"));
                     }
                 }
             default:
                 break;
-        }
-        for (Persona persona : listaPersonas) {
-            System.out.println(persona.getPersNombres());
         }
     }
 

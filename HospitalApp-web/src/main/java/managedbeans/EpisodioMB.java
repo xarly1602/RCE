@@ -5,14 +5,12 @@ package managedbeans;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import cl.rcehblt.entities.Paciente;
 import cl.rcehblt.entities.Profesional;
 import cl.rcehblt.entities.Episodios;
 import cl.rcehblt.episodio.EpisodioNegocioLocal;
 import cl.rcehblt.sessionbeans.EpisodiosFacadeLocal;
 import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
-import cl.rcehblt.sessionbeans.ProfesionalFacadeLocal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,12 +30,11 @@ import javax.inject.Named;
 @Named(value = "episodioMB")
 @SessionScoped
 public class EpisodioMB implements Serializable {
+
     @EJB
     private EpisodiosFacadeLocal episodiosFacade;
     @EJB
     private EpisodioNegocioLocal episodioNegocio;
-    @EJB
-    private ProfesionalFacadeLocal profesionalFacade;
     @EJB
     private PacienteFacadeLocal pacienteFacade;
 
@@ -49,12 +46,19 @@ public class EpisodioMB implements Serializable {
     List<String> consultas;
     private List<Paciente> listaPacientes;
     private List<Episodios> listaEpisodios;
-    
+
+    /**
+     * Constructor de la clase.
+     */
     public EpisodioMB() {
     }
-    
+
+    /**
+     * Postconstructor. Se inicializan variables y se setean algunos valores por
+     * default.
+     */
     @PostConstruct
-    public void init(){
+    public void init() {
         listaPacientes = pacienteFacade.findAll();
         listaEpisodios = new ArrayList<Episodios>();
         consultas = new ArrayList<String>();
@@ -62,19 +66,32 @@ public class EpisodioMB implements Serializable {
         paciente = new Paciente();
         profesional = new Profesional();
         episodio = new Episodios();
-    }            
-
-    public void buscarEpisodios(int idPaciente){
-        listaEpisodios = episodioNegocio.busquedaEpisodioIdPaciente(idPaciente);        
     }
-    
-    public void nuevoEpisodio(){
+
+    /**
+     * Buscar episodios. Busca una lista de episodios clínicos asociados a un
+     * paciente determinado.
+     *
+     * @param idPaciente Identificador del paciente al cual se le quieren buscar
+     * los episodios.
+     */
+    public void buscarEpisodios(int idPaciente) {
+        listaEpisodios = episodioNegocio.busquedaEpisodioIdPaciente(idPaciente);
+    }
+
+    /**
+     * Nuevo episodios. Función que crea un nuevo episodio de un paciente
+     * siempre y cuando éste no tenga otros episodios abiertos.
+     */
+    public void nuevoEpisodio() {
         boolean epiAbierto = false;
-        listaEpisodios = episodioNegocio.busquedaEpisodioIdPaciente(paciente.getIdPaciente());        
-        for (Episodios episodio1 : listaEpisodios) {
-            if (episodio1.getAbierto()) {
-                epiAbierto = true;
-                break;
+        listaEpisodios = episodioNegocio.busquedaEpisodioIdPaciente(paciente.getIdPaciente());
+        if (listaEpisodios != null) {
+            for (Episodios episodio1 : listaEpisodios) {
+                if (episodio1.getAbierto()) {
+                    epiAbierto = true;
+                    break;
+                }
             }
         }
         if (!epiAbierto) {
@@ -91,18 +108,26 @@ public class EpisodioMB implements Serializable {
         }
     }
 
-    public void cerrarEpisodio(int idEpisodio){
+    /**
+     * Cerrar episodio. Función que cierra un episodio clínico determinado.
+     *
+     * @param idEpisodio Id del episodio que se desea cerrar.
+     */
+    public void cerrarEpisodio(int idEpisodio) {
         episodio = episodiosFacade.find(idEpisodio);
         episodio.setAbierto(Boolean.FALSE);
         episodiosFacade.edit(episodio);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Se ha cerrado el episodio."));
     }
-    
-    private void resetData(){
+
+    /**
+     * Resetear datos. Función que reinicia los datos del episodio.
+     */
+    private void resetData() {
         nombre = "";
         episodio = new Episodios();
     }
-    
+
     public boolean isAbierto() {
         return abierto;
     }
@@ -166,5 +191,5 @@ public class EpisodioMB implements Serializable {
     public void setListaEpisodios(List<Episodios> listaEpisodios) {
         this.listaEpisodios = listaEpisodios;
     }
-    
+
 }

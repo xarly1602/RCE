@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package managedbeans;
 
 import cl.rcehblt.anamnesis.AnamnesisNegocioLocal;
@@ -26,7 +25,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-
 /**
  *
  * @author DevelUser
@@ -34,7 +32,8 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @SessionScoped
 
-public class ConsentimientoInf  {
+public class ConsentimientoInf {
+
     @EJB
     private AnamnesisNegocioLocal anamnesisNegocio;
     @EJB
@@ -45,15 +44,12 @@ public class ConsentimientoInf  {
     private PacienteNegocioLocal pacienteNegocio;
     @EJB
     private PersonaNegocioLocal personaNegocio;
-   
-   
-    
-    
+
     private String rutAux;
     private String nombres;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    private String nombreApellidoRepresentante;  
+    private String nombreApellidoRepresentante;
     private String rutRepresentante;
     private String nombresProf;
     private String apellidoPaternoProf;
@@ -79,16 +75,23 @@ public class ConsentimientoInf  {
     private Profesional profesional;
     private ConsentimientoInformado consentimientoInformado;
     private List<Anamnesis> anamnesis;
-    
+
     private boolean guardado;
     private boolean guardadoVIH;
     private boolean guardadoEst;
-    
+
+    /**
+     * Constructor de la clase.
+     */
     public ConsentimientoInf() {
     }
-    
+
+    /**
+     * Postconstructor. Se inicializan algunos datos y se setean valores por
+     * default.
+     */
     @PostConstruct
-    public void init(){        
+    public void init() {
         persona = new Persona();
         personaProfesional = new Persona();
         paciente = new Paciente();
@@ -98,14 +101,20 @@ public class ConsentimientoInf  {
         guardadoVIH = false;
         guardadoEst = false;
     }
-    
+
+    /**
+     * Buscar paciente. Función que realiza la búsqueda de un paciente por el
+     * rut indicado en el formulario correspondiente.
+     *
+     * @param actionEvent Evento en la página xhtml que activa la función.
+     */
     public void buscarPaciente(ActionEvent actionEvent) {
         rutAux = Integer.toString(rut);
         if (rutAux.isEmpty()) {
             return;
-        }        
-        if (!personaNegocio.busquedaPersonaRut(rut,1).isEmpty()) {
-            persona = personaNegocio.busquedaPersonaRut(rut,1).get(0);
+        }
+        if (!personaNegocio.busquedaPersonaRut(rut, 1).isEmpty()) {
+            persona = personaNegocio.busquedaPersonaRut(rut, 1).get(0);
             paciente = pacienteNegocio.busquedaPacienteIdPersona(persona.getIdPersona());
             this.apellidoMaterno = persona.getPersApematerno();
             this.apellidoPaterno = persona.getPersApepaterno();
@@ -117,43 +126,43 @@ public class ConsentimientoInf  {
             this.consultorio = paciente.getIdConsultorio().getConsNombre();
             this.anamnesis = anamnesisNegocio.buscaAnamnesisPaciente(paciente.getIdPaciente());
             this.fpp = anamnesis.get(0).getAnamFpp();
-            
-            
-            
-            
+
         } else {
             this.resetDataPaciente();
         }
     }
-     public void buscarProfesional(ActionEvent actionEvent) {
+
+    /**
+     * Buscar profesional. Función que busca un profesional por el rut que se
+     * indica en el formulario correspondiente.
+     *
+     * @param actionEvent Evento en la página xhtml que activa la función.
+     */
+    public void buscarProfesional(ActionEvent actionEvent) {
         rutAux = Integer.toString(rutProf);
         if (rutAux.isEmpty()) {
             return;
-        }        
-        if (!personaNegocio.busquedaPersonaRut(rutProf,2).isEmpty()) {
-            personaProfesional = personaNegocio.busquedaPersonaRut(rutProf,2).get(0);            
+        }
+        if (!personaNegocio.busquedaPersonaRut(rutProf, 2).isEmpty()) {
+            personaProfesional = personaNegocio.busquedaPersonaRut(rutProf, 2).get(0);
             this.apellidoMaternoProf = personaProfesional.getPersApematerno();
             this.apellidoPaternoProf = personaProfesional.getPersApepaterno();
             this.nombresProf = personaProfesional.getPersNombres();
             this.rutProf = personaProfesional.getPersRut();
             profesional = profesionalNegocio.busquedaProfesionalIdPersona(personaProfesional.getIdPersona());
-            
-            
         } else {
             this.resetDataProfesional();
         }
     }
-    
-    public void guardarConsentimientoExamen(){
-       
+
+    /**
+     * Guardar consentimiento de un examen. Guarda el consentimiento de un
+     * examen con los datos indicados en el formulario correspondiente.
+     */
+    public void guardarConsentimientoExamen() {
         if (rut == 0 || rutProf == 0) {
-            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Debe Llenar rut de paciente y de profesional."));
-            //this.resetDataPaciente();
-            //this.resetDataProfesional();
-        }
-        else{
-            System.out.println("soy el else");
+        } else {
             consentimientoInformado = new ConsentimientoInformado();
             consentimientoInformado.setConsentEstado(estado);
             consentimientoInformado.setConsentNombreresponsable(nombreApellidoRepresentante);
@@ -163,51 +172,43 @@ public class ConsentimientoInf  {
             consentimientoInformado.setConsentTipo("Intervension");
             consentimientoInformado.setIdPaciente(paciente);
             consentimientoInformado.setIdProfesional(profesional);
-            consentimientoInformadoFacade.create(consentimientoInformado);            
+            consentimientoInformadoFacade.create(consentimientoInformado);
             guardado = true;
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingresado.", "Consentimiento informado ingresado correctamente"));
-            System.out.println(" guardado: " + guardado);
         }
-        //this.resetDataPaciente();
-        //this.resetDataProfesional();
-        
-       
     }
-    
-    public void guardarConsentimientoVIH(){
-       
+
+    /**
+     * Guardar consentimiento de un examen de VIH. Guarda el consentimiento de
+     * un examen de VIH con los datos indicados en el formulario
+     * correspondiente.
+     */
+    public void guardarConsentimientoVIH() {
         if (rut == 0) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Debe Llenar rut del paciente."));
-            
-        }
-        else{
-           
+        } else {
             consentimientoInformado = new ConsentimientoInformado();
             consentimientoInformado.setConsentEstado(estado);
             consentimientoInformado.setConsentNombreresponsable(nombreApellidoRepresentante);
             consentimientoInformado.setConsentRutresponsable(rutRepresentante);
             consentimientoInformado.setConsentTipo("VIH");
             consentimientoInformado.setConsentFecha(fecha);
-            consentimientoInformado.setIdPaciente(paciente);             
+            consentimientoInformado.setIdPaciente(paciente);
             consentimientoInformadoFacade.create(consentimientoInformado);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingresado.", "Consentimiento informado ingresado correctamente"));
             guardadoVIH = true;
-            System.out.println(" guardadoVIH: " + guardadoVIH);
-        
-            
         }
-        
-        
     }
-    
-    public void guardarConsentimientoEst(){
+
+    /**
+     * Guardar consentimiento de un esterilización. Guarda el consentimiento de
+     * una esterilización quirúrgica con los datos indicados en el formulario
+     * correspondiente.
+     */
+    public void guardarConsentimientoEst() {
         if (rut == 0 || rutProf == 0) {
-            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Debe Llenar rut de paciente y de profesional."));
-            
-        }
-        
-        else{            
+        } else {
             consentimientoInformado = new ConsentimientoInformado();
             consentimientoInformado.setConsentEstado(estado);
             consentimientoInformado.setConsentNombreresponsable(nombreApellidoRepresentante);
@@ -217,25 +218,30 @@ public class ConsentimientoInf  {
             consentimientoInformado.setConsentEmbarazada(embarazada);
             consentimientoInformado.setConsentFecha(fecha);
             consentimientoInformado.setConsentFechaparto(fpp);
-            consentimientoInformado.setConsentFo(fo);            
-            consentimientoInformado.setConsentHijosvivos(hijosVivos);                       
-            consentimientoInformado.setConsentParidad(paridad);           
+            consentimientoInformado.setConsentFo(fo);
+            consentimientoInformado.setConsentHijosvivos(hijosVivos);
+            consentimientoInformado.setConsentParidad(paridad);
             consentimientoInformado.setIdPaciente(paciente);
-            consentimientoInformado.setIdProfesional(profesional);            
-            consentimientoInformadoFacade.create(consentimientoInformado);            
+            consentimientoInformado.setIdProfesional(profesional);
+            consentimientoInformadoFacade.create(consentimientoInformado);
             guardadoEst = true;
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingresado.", "Consentimiento informado ingresado correctamente"));
-            
         }
-        
     }
-    
-    public void limpiarDatos (){
+
+    /**
+     * Limpiar datos. Se resetean datos del profesional y del paciente
+     */
+    public void limpiarDatos() {
         this.resetDataPaciente();
         this.resetDataProfesional();
     }
- 
-    public void resetDataPaciente() {        
+
+    /**
+     * Resetear datos del paciente. Se reinician los datos correspondientes al
+     * paciente.
+     */
+    public void resetDataPaciente() {
         rut = 0;
         numeroFicha = "";
         apellidoMaterno = "";
@@ -253,16 +259,20 @@ public class ConsentimientoInf  {
         embarazada = false;
         direccion = "";
         paridad = "";
-        
-         
-    }
-      public void resetDataProfesional() {        
-        rutProf = 0;        
-        apellidoMaternoProf = "";
-        apellidoPaternoProf = "";
-        nombresProf = "";        
     }
 
+    /**
+     * Resetear datos del profesional. Se reinician los datos correspondientes
+     * al profesional.
+     */
+    public void resetDataProfesional() {
+        rutProf = 0;
+        apellidoMaternoProf = "";
+        apellidoPaternoProf = "";
+        nombresProf = "";
+    }
+
+    // Getters y Setters
     public boolean isGuardado() {
         return guardado;
     }
@@ -358,8 +368,6 @@ public class ConsentimientoInf  {
     public void setGuardadoVIH(boolean guardadoVIH) {
         this.guardadoVIH = guardadoVIH;
     }
-      
-  
 
     public String getEstado() {
         return estado;
@@ -416,7 +424,7 @@ public class ConsentimientoInf  {
     public void setApellidoMaternoProf(String apellidoMaternoProf) {
         this.apellidoMaternoProf = apellidoMaternoProf;
     }
-    
+
     public String getNombreApellidoRepresentante() {
         return nombreApellidoRepresentante;
     }
@@ -464,15 +472,14 @@ public class ConsentimientoInf  {
     public void setApellidoMaterno(String apellidoMaterno) {
         this.apellidoMaterno = apellidoMaterno;
     }
-    
+
     public int getRut() {
         return rut;
     }
 
     public void setRut(int rut) {
         this.rut = rut;
-        
-        
+
     }
-    
+
 }

@@ -121,65 +121,69 @@ public class IngresoProfesional {
         digitoVerificador = rutCompleto.charAt(rutCompleto.length() - 1) + "";
         if (personaNegocio.busquedaPersonaRut(rut).size() > 0) {
             persona = personaNegocio.busquedaPersonaRut(rut).get(0);
-            System.out.println("------"+persona.getPersTipopersona());
             if (persona.getPersTipopersona() != 1) {
-                System.out.println("IF!!!!!!!!!!!!");
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registro ya existe.", "El rut indicado ya está registrado."));
                 return;
             } else {
                 persona.setPersTipopersona(3);
 //                personaFacade.edit(persona);
-           //     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + persona.getPersNombres() + " " + persona.getPersApepaterno() + " " + persona.getPersApematerno()));
+                //     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + persona.getPersNombres() + " " + persona.getPersApepaterno() + " " + persona.getPersApematerno()));
             }
         }// else {
-            //setear activo a true
-            if (persona.getPersRut() == 0) {
-                persona.setPersApepaterno(apellidoPaterno);
-                persona.setPersApematerno(apellidoMaterno);
-                persona.setPersNombres(nombres);
-                persona.setPersDireccion(direccion);
-                persona.setPersFnacimiento(fechaNacimiento);
-                persona.setPersDv(digitoVerificador);
-                persona.setPersRut(rut);
-                persona.setPersNacionalidad(nacionalidad);
-                persona.setPersTipopersona(2);
-            }
-            profesional = new Profesional();
-            profesional.setIdCargo(new Cargo(cargoId));
-            profesional.setIdGrupoprofesional(new GrupoProfesional(grupoId));
-            profesional.setIdLocal(new Local(localId));
-            profesional.setIdPersona(persona);
-            profesional.setIdSubespecialidad(new Subespecialidad(subEspecialidadId));
-            if (medicoReferenciaId != 0) {
-                medicoReferenciaId = profesionalNegocio.busquedaProfesionalIdPersona(medicoReferenciaId).getIdProfesional();
-                profesional.setProIdProfesional(new Profesional(medicoReferenciaId));
-            }
-            profesional.setProfActivo(true);
-            if (fechaDesde != null && fechaHasta != null) {
-                if (fechaDesde.before(fechaHasta)) {
-                    profesional.setProfFechadesde(fechaDesde);
-                    profesional.setProfeFechahasta(fechaHasta);
-
-                    personaFacade.edit(persona);
-                    profesionalFacade.create(profesional);
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + persona.getPersNombres() + " " + persona.getPersApepaterno() + " " + persona.getPersApematerno()));
-                    this.resetData();
-                } else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Las fechas no coinciden, ingrese una correcta."));
-                }
-            } else {
+        //setear activo a true
+        if (persona.getPersRut() == 0) {
+            persona.setPersApepaterno(apellidoPaterno);
+            persona.setPersApematerno(apellidoMaterno);
+            persona.setPersNombres(nombres);
+            persona.setPersDireccion(direccion);
+            persona.setPersFnacimiento(fechaNacimiento);
+            persona.setPersDv(digitoVerificador);
+            persona.setPersRut(rut);
+            persona.setPersNacionalidad(nacionalidad);
+            persona.setPersTipopersona(2);
+        }
+        profesional = new Profesional();
+        profesional.setIdCargo(new Cargo(cargoId));
+        profesional.setIdGrupoprofesional(new GrupoProfesional(grupoId));
+        profesional.setIdLocal(new Local(localId));
+        profesional.setIdPersona(persona);
+        profesional.setIdSubespecialidad(new Subespecialidad(subEspecialidadId));
+        if (medicoReferenciaId != 0) {
+            medicoReferenciaId = profesionalNegocio.busquedaProfesionalIdPersona(medicoReferenciaId).getIdProfesional();
+            profesional.setProIdProfesional(new Profesional(medicoReferenciaId));
+        }
+        profesional.setProfActivo(true);
+        if (fechaDesde != null && fechaHasta != null) {
+            if (fechaDesde.before(fechaHasta)) {
                 profesional.setProfFechadesde(fechaDesde);
                 profesional.setProfeFechahasta(fechaHasta);
 
                 personaFacade.edit(persona);
                 profesionalFacade.create(profesional);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + nombres + " " + apellidoPaterno + " " + apellidoMaterno));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + persona.getPersNombres() + " " + persona.getPersApepaterno() + " " + persona.getPersApematerno()));
                 this.resetData();
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Las fechas no coinciden, ingrese una correcta."));
             }
+        } else {
+            profesional.setProfFechadesde(fechaDesde);
+            profesional.setProfeFechahasta(fechaHasta);
 
-       // }
+            personaFacade.edit(persona);
+            profesionalFacade.create(profesional);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso realizado.", "Profesional: " + nombres + " " + apellidoPaterno + " " + apellidoMaterno));
+            this.resetData();
+        }
+
+        // }
     }
 
+    /**
+     * Buscar Paciente. Busca un paciente por el rut indicado en el formulario
+     * correspondiente.
+     *
+     * @param actionEvent Evento en la pagina xhtml que activa la función.
+     */
     public void buscar(ActionEvent actionEvent) {
         rutCompleto = rutCompleto.toUpperCase();
         rutCompleto = rutCompleto.replace(".", "");
@@ -187,8 +191,7 @@ public class IngresoProfesional {
         if (rutCompleto.isEmpty()) {
             return;
         }
-        rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length()-1));
-        //rut = Integer.parseInt(rutCompleto);
+        rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length() - 1));
         if (personaNegocio.busquedaPersonaRut(rut).size() > 0) {
             persona = personaNegocio.busquedaPersonaRut(rut).get(0);
             profesional = profesionalNegocio.busquedaProfesionalIdPersona(persona.getIdPersona());
@@ -206,8 +209,9 @@ public class IngresoProfesional {
                 this.especialidadId = profesional.getIdSubespecialidad().getIdEspecialidad().getIdEspecialidad();
                 this.fechaDesde = profesional.getProfFechadesde();
                 this.fechaHasta = profesional.getProfeFechahasta();
-                if(profesional.getProIdProfesional() != null)
+                if (profesional.getProIdProfesional() != null) {
                     this.medicoReferenciaId = profesional.getProIdProfesional().getIdProfesional();
+                }
                 this.localId = profesional.getIdLocal().getIdLocal();
                 this.grupoId = profesional.getIdGrupoprofesional().getIdGrupoprofesional();
                 this.subEspecialidadId = profesional.getIdSubespecialidad().getIdSubespecialidad();
@@ -216,6 +220,14 @@ public class IngresoProfesional {
 
     }
 
+    /**
+     * Completar Rut. Función que realiza el autocompletado del rut de los
+     * profesionales.
+     *
+     * @param query Elemento inicial para realizar el autompletado.
+     * @return Lista de Strings con los rut que cumplen con el criterio de
+     * autocompletado escrito.
+     */
     public List<String> completarRut(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
         for (Profesional profesional1 : listaProfesionales) {

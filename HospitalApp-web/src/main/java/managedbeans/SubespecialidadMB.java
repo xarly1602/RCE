@@ -46,8 +46,7 @@ public class SubespecialidadMB {
     }
 
     /**
-     * Postconstructor:
-     * Inicializar variables.
+     * Postconstructor: Inicializar variables.
      */
     @PostConstruct
     public void init() {
@@ -65,9 +64,9 @@ public class SubespecialidadMB {
     }
 
     /**
-     * Agregar una nueva subespecialidad al sistema.
-     * Se genera una nueva subespecialidad con los datos ingresados en la vista
-     * correspondiente.
+     * Agregar una nueva subespecialidad al sistema. Se genera una nueva
+     * subespecialidad con los datos ingresados en la vista correspondiente.
+     *
      * @param actionEvent Evento en la página xhtml que acciona la función.
      */
     public void nuevaSubespecialidad(ActionEvent actionEvent) {
@@ -124,15 +123,15 @@ public class SubespecialidadMB {
      * Eliminar la subespecialidad seleccionada.
      */
     public void eliminar() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Subespecialidad " + subespeNombre + " eliminada exitosamente"));
         subespecialidad.setSubespeActivo(Boolean.FALSE);
         subespecialidadFacade.edit(subespecialidad);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Subespecialidad " + subespeNombre + " eliminada exitosamente"));
         this.resetData();
     }
 
     /**
-     * Editar subespecialidad.
-     * Se actualiza la especialidad seleccionada.
+     * Editar subespecialidad. Se actualiza la especialidad seleccionada.
+     *
      * @param actionEvent Evento en la página xhtml que acciona la función.
      */
     public void editar(ActionEvent actionEvent) {
@@ -145,7 +144,6 @@ public class SubespecialidadMB {
             subespecialidadSeleccionada.setIdEspecialidad(new Especialidad(especialidadSeleccionadaId));
             subespecialidadSeleccionada.setIdSubespecialidad(subespecialidadSeleccionadaId);
             subespecialidadFacade.edit(subespecialidadSeleccionada);
-            System.out.println("EDITADA");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Subespecialidad " + subespeNombre + " editada exitosamente"));
         }
         this.resetData();

@@ -24,8 +24,8 @@ public class PhoneValidator implements Validator {
     }
 
     /**
-     * Validar.
-     * Valida si un telefono ingresado es válido o no.
+     * Validar. Valida si un telefono ingresado es válido o no.
+     *
      * @param context
      * @param component
      * @param value Teléfono que se desea validar.
@@ -38,13 +38,12 @@ public class PhoneValidator implements Validator {
         phone = value.toString();
         if (!validarTelefono(phone)) {
 
-            FacesMessage msg = new FacesMessage("Ingrese un teléfono correcto.","Teléfono inválido.");
+            FacesMessage msg = new FacesMessage("Ingrese un teléfono correcto.", "Teléfono inválido.");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
 
-        }
-        else if (phone.length() != 0 && phone.length() < 7){
-            FacesMessage msg = new FacesMessage("Largo de teléfono incorrecto.","Teléfono inválido.");
+        } else if (phone.length() != 0 && phone.length() < 7) {
+            FacesMessage msg = new FacesMessage("Largo de teléfono incorrecto.", "Teléfono inválido.");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }
@@ -52,20 +51,19 @@ public class PhoneValidator implements Validator {
     }
 
     /**
-     * Validar teléfono.
-     * Valida si un telefono ingresado es correcto o no al analizar si solo 
-     * contiene números.
+     * Validar teléfono. Valida si un telefono ingresado es correcto o no al
+     * analizar si solo contiene números.
+     *
      * @param phone String correspondiente al teléfono que se desea validar.
-     * @return True cuando el teléfono cumple con las condiciones de largo 
-     * correcto y sólo numeros o primer carácter es un signo '+' y retorna 
-     * False cuando no se cumple alguna de las condiciones mencionadas antes.
+     * @return True cuando el teléfono cumple con las condiciones de largo
+     * correcto y sólo numeros o primer carácter es un signo '+' y retorna False
+     * cuando no se cumple alguna de las condiciones mencionadas antes.
      */
     public static boolean validarTelefono(String phone) {
         for (int i = 0; i < phone.length(); i++) {
-            if (i==0 && !Character.isDigit(phone.charAt(i)) && phone.charAt(i)!='+') {
+            if (i == 0 && !Character.isDigit(phone.charAt(i)) && phone.charAt(i) != '+') {
                 return false;
-            }
-            else if(!Character.isDigit(phone.charAt(i)) && i>0){
+            } else if (!Character.isDigit(phone.charAt(i)) && i > 0) {
                 return false;
             }
         }

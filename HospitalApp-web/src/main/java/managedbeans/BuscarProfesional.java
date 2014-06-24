@@ -53,18 +53,21 @@ public class BuscarProfesional {
     private int especialidadId;
     private int subEspecialidadId;
     private Date fechaDesdeAux;
-    private Date fechaHasta; 
+    private Date fechaHasta;
     private boolean activoAux;
     private String buscado;
     private String opcion;
 
+    /**
+     * Constructor de la clase.
+     */
     public BuscarProfesional() {
     }
-     /**
-     * Postconstructor.
-     * Se crea a la persona que será seleccionada para poder editarla, se obtiene
-     * una lista de todos los profesionales que hay en el sistema y se iniciliza 
-     * la opcion de busqueda en 1 (busqueda por rut).
+
+    /**
+     * Postconstructor. Se crea a la persona que será seleccionada para poder
+     * editarla, se obtiene una lista de todos los profesionales que hay en el
+     * sistema y se iniciliza la opcion de busqueda en 1 (busqueda por rut).
      */
     @PostConstruct
     public void init() {
@@ -77,12 +80,12 @@ public class BuscarProfesional {
         }
         opcion = "1";
     }
+
     /**
-     * Buscar a un Profesional.
-     * Dependiendo la opción que eliga el usuario se buscará al profesional,
-     * puede ser por rut, nombre o apellido paterno.
-     * Finalmente la función tendrá la lista con los profesionales que 
-     * coincidan con lo buscado.
+     * Buscar a un Profesional. Dependiendo la opción que eliga el usuario se
+     * buscará al profesional, puede ser por rut, nombre o apellido paterno.
+     * Finalmente la función tendrá la lista con los profesionales que coincidan
+     * con lo buscado.
      */
     public void buscarPersona() {
         if (buscado.isEmpty()) {
@@ -116,7 +119,15 @@ public class BuscarProfesional {
         }
     }
 
-    
+    /**
+     * Completar búsqueda. Función que realiza el autocompletado de los datos en
+     * el formulario de profesionales mediante el criterio elegido, el cual puede
+     * ser por Rut, Nombre o Apellido Paterno.
+     *
+     * @param query Elemento mediante el que se quiere realizar el
+     * autocompletado
+     * @return Lista de resultados según criterio elegido.
+     */
     public List<String> completarBusqueda(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
         if (opcion.equals("1")) {
@@ -125,15 +136,13 @@ public class BuscarProfesional {
                     listaFiltrada.add(persona.getPersRut().toString());
                 }
             }
-        }
-        else if (opcion.equals("2")) {
+        } else if (opcion.equals("2")) {
             for (Persona persona : personasObject) {
                 if (persona.getPersNombres().startsWith(query) && !listaFiltrada.contains(persona.getPersNombres())) {
                     listaFiltrada.add(persona.getPersNombres());
                 }
             }
-        }        
-        else if (opcion.equals("3")) {
+        } else if (opcion.equals("3")) {
             for (Persona persona : personasObject) {
                 if (persona.getPersApepaterno().startsWith(query) && !listaFiltrada.contains(persona.getPersApepaterno())) {
                     listaFiltrada.add(persona.getPersApepaterno());
@@ -142,10 +151,10 @@ public class BuscarProfesional {
         }
         return listaFiltrada;
     }
-    
+
     /**
-     * Buscar Por Especialidad.
-     * Se busca a todos los profesionales que coincidan con la especialidad solicitada.
+     * Buscar Por Especialidad. Se busca a todos los profesionales que coincidan
+     * con la especialidad solicitada.
      */
     public void buscarPorEspecialidad() {
         List<Profesional> temp = profesionalNegocio.busquedaProfesionalEspecialidad(especialidadId);
@@ -156,8 +165,8 @@ public class BuscarProfesional {
     }
 
     /**
-     * Buscar Por Sub-especialidad.
-     * Se busca a todos los profesionales que coincidan con la sub-especialidad solicitada.
+     * Buscar Por Sub-especialidad. Se busca a todos los profesionales que
+     * coincidan con la sub-especialidad solicitada.
      */
     public void buscarPorSubespecialidad() {
         List<Profesional> temp = profesionalNegocio.busquedaProfesionalSubespecialidad(subEspecialidadId);
@@ -166,12 +175,13 @@ public class BuscarProfesional {
             personasObject.add(profesional.getIdPersona());
         }
     }
-     /**
-     * Actualizar datos.
-     * Función que actualiza los datos del profesional, se crean las entidades relacionadas con el paciente
-     * como el cargo, la sub-especialidad, entre otros.
-     * Se setean los datos para el profesional según corresponda.
-     * Finalmente se actualizan los datos de la persona y del profesional.
+
+    /**
+     * Actualizar datos. Función que actualiza los datos del profesional, se
+     * crean las entidades relacionadas con el paciente como el cargo, la
+     * sub-especialidad, entre otros. Se setean los datos para el profesional
+     * según corresponda. Finalmente se actualizan los datos de la persona y del
+     * profesional.
      */
     public void actualizar() {
         fechaDesdeAux = profesionalSeleccionado.getProfFechadesde();
@@ -181,31 +191,27 @@ public class BuscarProfesional {
             profesionalSeleccionado.setProfeFechahasta(fechaHasta);
             profesionalSeleccionado.setIdCargo(new Cargo(cargoId));
             profesionalSeleccionado.setIdGrupoprofesional(new GrupoProfesional(grupoId));
-            profesionalSeleccionado.setIdLocal(new Local(localId));                  
+            profesionalSeleccionado.setIdLocal(new Local(localId));
             profesionalSeleccionado.setIdSubespecialidad(new Subespecialidad(subEspecialidadId));
 
-            if(medicoReferenciaId != 0){                    
-                profesionalSeleccionado.setProIdProfesional(new Profesional(medicoReferenciaId)); 
+            if (medicoReferenciaId != 0) {
+                profesionalSeleccionado.setProIdProfesional(new Profesional(medicoReferenciaId));
             }
-            
-            if(fechaHasta == null){
+
+            if (fechaHasta == null) {
                 personaFacade.edit(personaSeleccionada);
                 profesionalFacade.edit(profesionalSeleccionado);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Datos Actualizado.", "Datos actualizados correctamente"));
-                
-            }
-            else if(fechaDesdeAux.before(fechaHasta)){
+
+            } else if (fechaDesdeAux.before(fechaHasta)) {
                 personaFacade.edit(personaSeleccionada);
                 profesionalFacade.edit(profesionalSeleccionado);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Datos Actualizado.", "Datos actualizados correctamente"));
-        
-            }
-            else{
+
+            } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Las fechas no coinciden, ingrese una correcta."));
             }
         }
-
-                    
 
     }
 
@@ -225,7 +231,7 @@ public class BuscarProfesional {
     public void setFechaHasta(Date fechaHasta) {
         this.fechaHasta = fechaHasta;
     }
-    
+
     public boolean isActivoAux() {
         return activoAux;
     }
@@ -237,10 +243,11 @@ public class BuscarProfesional {
     public Persona getPersonaSeleccionada() {
         return personaSeleccionada;
     }
-      /**
-     * Setear Persona seleccionada.
-     * Luego de setear a la persona seleccionada, se buscará al profesional que corresponda 
-     * a la busqueda y se guardará en una variable auxiliar el estado del profesional (activo o no).
+
+    /**
+     * Setear Persona seleccionada. Luego de setear a la persona seleccionada,
+     * se buscará al profesional que corresponda a la busqueda y se guardará en
+     * una variable auxiliar el estado del profesional (activo o no).
      */
     public void setPersonaSeleccionada(Persona personaSeleccionada) {
         this.personaSeleccionada = personaSeleccionada;

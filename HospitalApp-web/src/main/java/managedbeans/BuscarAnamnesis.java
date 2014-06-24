@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package managedbeans;
 
 import cl.rcehblt.anamnesis.AnamnesisNegocioLocal;
@@ -12,7 +11,6 @@ import cl.rcehblt.entities.Paciente;
 import cl.rcehblt.entities.Profesional;
 import cl.rcehblt.sessionbeans.AnamnesisFacadeLocal;
 import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
-import cl.rcehblt.sessionbeans.ProfesionalFacadeLocal;
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -35,10 +33,8 @@ import javax.inject.Named;
 @SessionScoped
 public class BuscarAnamnesis implements Serializable {
 
-@EJB
-    private AnamnesisNegocioLocal anamnesisNegocio;
     @EJB
-    private ProfesionalFacadeLocal profesionalFacade;
+    private AnamnesisNegocioLocal anamnesisNegocio;
     @EJB
     private AnamnesisFacadeLocal anamnesisFacade;
     @EJB
@@ -98,17 +94,16 @@ public class BuscarAnamnesis implements Serializable {
     private String indicaciones;
 
     /**
-     * Creates a new instance of BuscarAnamnesis
+     * Constructor de la clase.
      */
     public BuscarAnamnesis() {
     }
 
     /**
-     * Postconstructor.
-     * Inicializar variables y establecer valores por default.
+     * Postconstructor. Inicializar variables y establecer valores por default.
      */
     @PostConstruct
-    public void init(){
+    public void init() {
         ingresoPor = 1;
         presentacion = "Cefálica";
         tactoVag = 1;
@@ -121,20 +116,20 @@ public class BuscarAnamnesis implements Serializable {
     }
 
     /**
-     * Buscar anamnesis.
-     * Método que obtiene una lista de las anamnesis pertenecientes a un 
-     * determinado paciente.
+     * Buscar anamnesis. Método que obtiene una lista de las anamnesis
+     * pertenecientes a un determinado paciente.
+     *
      * @param idPaciente Id del paciente que se desea buscar.
      */
-    public void buscarAnamnesis(int idPaciente){
+    public void buscarAnamnesis(int idPaciente) {
         this.setListaAnamnesis(anamnesisNegocio.buscaAnamnesisPaciente(idPaciente));
     }
 
     /**
-     * Guardar cambios.
-     * Método que guarda los cambios realizados en una anamnesis determinada.
+     * Guardar cambios. Método que guarda los cambios realizados en una
+     * anamnesis determinada.
      */
-    public void guardarCambios(){
+    public void guardarCambios() {
         String temp = "";
         for (String patologia : patologiasMat) {
             temp = temp.concat(patologia);
@@ -143,10 +138,9 @@ public class BuscarAnamnesis implements Serializable {
         anamnesisFacade.edit(anamnesisPaciente);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Se han guardado los cambios exitosamente."));
     }
-    
+
     /**
-     * Calcular Índice de Masa Corporal (IMC). 
-     * Calcula el IMC a partir de los
+     * Calcular Índice de Masa Corporal (IMC). Calcula el IMC a partir de los
      * datos de peso y talla indicados en el formulario correspondiente.
      *
      * @param actionEvent Evento en la página xhtml que acciona la función.
@@ -156,12 +150,12 @@ public class BuscarAnamnesis implements Serializable {
             double temp = anamnesisPaciente.getAnamPeso() / (anamnesisPaciente.getAnamTalla() * anamnesisPaciente.getAnamTalla());
             DecimalFormat df = new DecimalFormat("#.##");
             anamnesisPaciente.setAnamImc(df.format(temp));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Debe ingresar el peso y la talla deben ser valores positivos distintos de cero."));
         }
-        else
-           FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Debe ingresar el peso y la talla deben ser valores positivos distintos de cero.")); 
     }
-    
+
     // Getters y Setters
     public Paciente getPaciente() {
         return paciente;
@@ -579,5 +573,5 @@ public class BuscarAnamnesis implements Serializable {
     public void setIndicaciones(String indicaciones) {
         this.indicaciones = indicaciones;
     }
-    
+
 }

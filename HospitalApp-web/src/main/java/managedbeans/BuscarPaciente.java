@@ -96,6 +96,9 @@ public class BuscarPaciente {
     private String esterilizacion = "Esterilizacion";
     private String tipoAux;
 
+    /**
+     * Constructor de la clase.
+     */
     public BuscarPaciente() {
     }
 
@@ -107,7 +110,7 @@ public class BuscarPaciente {
     @PostConstruct
     public void init() {
         personaSeleccionada = new Persona();
-        consentimientos = consentimientoInformadoFacade.findAll();        
+        consentimientos = consentimientoInformadoFacade.findAll();
         personasObject = personaFacade.findAll();
         for (int i = personasObject.size() - 1; i >= 0; i--) {
             if (personasObject.get(i).getPersTipopersona() == 2) {
@@ -126,12 +129,12 @@ public class BuscarPaciente {
     public void buscarPersona() {
         if (buscado.isEmpty()) {
             personasObject = personaFacade.findAll();
-        for (int i = personasObject.size() - 1; i >= 0; i--) {
-            if (personasObject.get(i).getPersTipopersona() == 2) {
-                personasObject.remove(i);
+            for (int i = personasObject.size() - 1; i >= 0; i--) {
+                if (personasObject.get(i).getPersTipopersona() == 2) {
+                    personasObject.remove(i);
+                }
             }
-        }
-        return;
+            return;
         }
         switch (Integer.parseInt(opcion)) {
             case 1:
@@ -155,6 +158,15 @@ public class BuscarPaciente {
         }
     }
 
+    /**
+     * Completar búsqueda. Función que realiza el autocompletado de los datos en
+     * el formulario de pacientes mediante el criterio elegido, el cual puede
+     * ser por Rut, Nombre o Apellido Paterno.
+     *
+     * @param query Elemento mediante el que se quiere realizar el
+     * autocompletado
+     * @return Lista de resultados según criterio elegido.
+     */
     public List<String> completarBusqueda(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
         if (opcion.equals("1")) {
@@ -163,15 +175,13 @@ public class BuscarPaciente {
                     listaFiltrada.add(persona.getPersRut().toString());
                 }
             }
-        }
-        else if (opcion.equals("2")) {
+        } else if (opcion.equals("2")) {
             for (Persona persona : personasObject) {
                 if (persona.getPersNombres().startsWith(query) && !listaFiltrada.contains(persona.getPersNombres())) {
                     listaFiltrada.add(persona.getPersNombres());
                 }
             }
-        }        
-        else if (opcion.equals("3")) {
+        } else if (opcion.equals("3")) {
             for (Persona persona : personasObject) {
                 if (persona.getPersApepaterno().startsWith(query) && !listaFiltrada.contains(persona.getPersApepaterno())) {
                     listaFiltrada.add(persona.getPersApepaterno());
@@ -219,100 +229,78 @@ public class BuscarPaciente {
                 pacienteFacade.edit(pacienteSeleccionado);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Datos Actualizados"));
             }
-
         }
-
     }
 
-    private List<ConsentimientoInformado> filtrarConsentimientoInt(List<ConsentimientoInformado> consentimientosAuxInt, int idPaciente) {        
-        System.out.println("Estoy en filtrar por intervencion");
-        for (int i = consentimientosAuxInt.size() - 1; i >= 0; i--) {             
-            
-                System.out.println("En el inicio: "+ consentimientosAuxInt.get(i).getIdPaciente().getIdPersona().getPersNombres());
-                      
-            
-        }
-        
+    /**
+     * Filtrar consentimiento informado de una intervención. Función que busca
+     * los consentimientos asociados a un paciente determinado.
+     *
+     * @param consentimientosAuxInt Lista en la que se guardarán los resultados.
+     * @param idPaciente Id del paciente que se desea buscar.
+     * @return Lista con los consentimientos asociados al paciente indicado.
+     */
+    private List<ConsentimientoInformado> filtrarConsentimientoInt(List<ConsentimientoInformado> consentimientosAuxInt, int idPaciente) {
         for (int i = consentimientosAuxInt.size() - 1; i >= 0; i--) {
-            System.out.println(i);
-            
-            
-            if (consentimientosAuxInt.get(i).getIdPaciente().getIdPaciente() != idPaciente  ) {                
+            if (consentimientosAuxInt.get(i).getIdPaciente().getIdPaciente() != idPaciente) {
                 consentimientosAuxInt.remove(i);
             }
-            
-            
         }
-        
-        for (int i = consentimientosAuxInt.size() - 1; i >= 0; i--) {             
-            if ( !(consentimientosAuxInt.get(i).getConsentTipo().compareTo("Intervension") == 0) ) {
-                System.out.println("ADIOS: "+ consentimientosAuxInt.get(i).getIdPaciente().getIdPersona().getPersNombres());
+        for (int i = consentimientosAuxInt.size() - 1; i >= 0; i--) {
+            if (!(consentimientosAuxInt.get(i).getConsentTipo().compareTo("Intervension") == 0)) {
                 consentimientosAuxInt.remove(i);
             }
-            
-            
-        }
-         for (int i = consentimientosAuxInt.size() - 1; i >= 0; i--) {             
-            
-                System.out.println("Queda: "+ consentimientosAuxInt.get(i).getIdPaciente().getIdPersona().getPersNombres());
-                      
-            
         }
         return consentimientosAuxInt;
-
     }
-    
-    private List<ConsentimientoInformado> filtrarConsentimientoEst(List<ConsentimientoInformado> consentimientosAux, int idPaciente) {        
-        System.out.println("Estoy en filtrar esterilizacion.");
-        for (int i = consentimientosAux.size() - 1; i >= 0; i--) {             
-            
-                System.out.println("En el inicio: "+ consentimientosAux.get(i).getIdPaciente().getIdPersona().getPersNombres());
-                      
-            
-        }
+
+    /**
+     * Filtrar consentimiento informado de una esterilización. Función que busca
+     * los consentimientos asociados a un paciente determinado.
+     *
+     * @param consentimientosAuxInt Lista en la que se guardarán los resultados.
+     * @param idPaciente Id del paciente que se desea buscar.
+     * @return Lista con los consentimientos asociados al paciente indicado.
+     */
+    private List<ConsentimientoInformado> filtrarConsentimientoEst(List<ConsentimientoInformado> consentimientosAux, int idPaciente) {
         for (int i = consentimientosAux.size() - 1; i >= 0; i--) {
-            System.out.println(i);
-            System.out.println("El tipo es: " + consentimientosAux.get(i).getConsentTipo());
-            
-            if (consentimientosAux.get(i).getIdPaciente().getIdPaciente() != idPaciente  ) {                
+            if (consentimientosAux.get(i).getIdPaciente().getIdPaciente() != idPaciente) {
                 consentimientosAux.remove(i);
             }
-            
         }
-        for (int i = consentimientosAux.size() - 1; i >= 0; i--) {             
-            if ( !(consentimientosAux.get(i).getConsentTipo().compareTo("Esterilizacion") == 0) ) {
-                System.out.println("ADIOS: "+ consentimientosAux.get(i).getIdPaciente().getIdPersona().getPersNombres());
+        for (int i = consentimientosAux.size() - 1; i >= 0; i--) {
+            if (!(consentimientosAux.get(i).getConsentTipo().compareTo("Esterilizacion") == 0)) {
                 consentimientosAux.remove(i);
-            }           
-            
+            }
         }
-        
-        for (int i = consentimientosAux.size() - 1; i >= 0; i--) {             
-            
-                System.out.println("Queda: "+ consentimientosAux.get(i).getIdPaciente().getIdPersona().getPersNombres());
-                      
-            
-        }
-        
         return consentimientosAux;
-
     }
 
+    /**
+     * Editar consentimiendo de intervención. Función que actualiza el estado
+     * del consentimiento seleccionado.
+     */
     public void editarConsentimiento() {
-        System.out.println("estado: " + estadoConsentimiento);
         consentimientoInformadoSeleccionado.setConsentEstado(estadoConsentimiento);
         consentimientoInformadoFacade.edit(consentimientoInformadoSeleccionado);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Estado actualizado."));
 
     }
 
+    /**
+     * Editar consentimiendo de examen de vih. Función que actualiza el estado
+     * del consentimiento seleccionado.
+     */
     public void editarConsentimientoVIH() {
         consentimientoInformadoSeleccionado.setConsentEstado(estadoConsentimientoVIH);
         consentimientoInformadoFacade.edit(consentimientoInformadoSeleccionado);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Estado actualizado."));
-
     }
 
+    /**
+     * Editar consentimiendo de esterilización. Función que actualiza el estado
+     * del consentimiento seleccionado.
+     */
     public void editarConsentimientoEst() {
         consentimientoInformadoSeleccionado.setConsentEstado(estadoConsentimientoEst);
         consentimientoInformadoFacade.edit(consentimientoInformadoSeleccionado);
@@ -419,7 +407,7 @@ public class BuscarPaciente {
         this.personaSeleccionada = personaSeleccionada;
         consentimientos = consentimientoInformadoFacade.findAll();
         pacienteSeleccionado = pacienteNegocio.busquedaPacienteIdPersona(personaSeleccionada.getIdPersona());
-        pacienteFallecidoAux = pacienteSeleccionado.getPaciFallecido();        
+        pacienteFallecidoAux = pacienteSeleccionado.getPaciFallecido();
         consentimientosSeleccionadosEst = filtrarConsentimientoEst(consentimientos, pacienteSeleccionado.getIdPaciente());
         consentimientos = consentimientoInformadoFacade.findAll();
         consentimientosSeleccionadosInter = filtrarConsentimientoInt(consentimientos, pacienteSeleccionado.getIdPaciente());

@@ -33,7 +33,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -125,8 +124,7 @@ public class PacienteMB {
     }
 
     /**
-     * Postconstructor.
-     * Inicializar variables y establecer valores por default.
+     * Postconstructor. Inicializar variables y establecer valores por default.
      */
     @PostConstruct
     public void init() {
@@ -143,33 +141,30 @@ public class PacienteMB {
     }
 
     /**
-     * Agregar un paciente.
-     * Agregar un nuevo paciente al sistema de acuerdo a los datos ingresados en
-     * el formulario correspondiente, arrojando los mensajes respectivos a los 
-     * distintos tipos de casos que puedan ocurrir.
+     * Agregar un paciente. Agregar un nuevo paciente al sistema de acuerdo a
+     * los datos ingresados en el formulario correspondiente, arrojando los
+     * mensajes respectivos a los distintos tipos de casos que puedan ocurrir.
+     *
      * @param actionEvent Evento en la página xhtml que acciona la función.
      */
     public void agregarPaciente(ActionEvent actionEvent) {
         rutCompleto = rutCompleto.toUpperCase();
         rutCompleto = rutCompleto.replace(".", "");
         rutCompleto = rutCompleto.replace("-", "");
-        if(rutCompleto.isEmpty() && pasaporte != 0){
+        if (rutCompleto.isEmpty() && pasaporte != 0) {
             rut = 0;
             digitoVerificador = "";
-        }
-        else if (rutCompleto.isEmpty() && pasaporte == 0) {
+        } else if (rutCompleto.isEmpty() && pasaporte == 0) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error de registro.", "Debe indicar un rut o un número de pasaporte."));
             return;
-        }
-        else if(rutCompleto.length() < 8){
+        } else if (rutCompleto.length() < 8) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error de registro.", "Ingrese un rut válido."));
             return;
-        }
-        else{
-            rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length()-1));
+        } else {
+            rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length() - 1));
             digitoVerificador = rutCompleto.charAt(rutCompleto.length() - 1) + "";
-        }        
-        if (personaNegocio.busquedaPersonaRut(rut,1).size() > 0) {
+        }
+        if (personaNegocio.busquedaPersonaRut(rut, 1).size() > 0) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registro ya existe.", "Paciente: " + nombres + " " + apellidoPaterno + " " + apellidoMaterno + " ya registrado."));
         } else {
             comuna = new Comuna(comunaId);
@@ -213,12 +208,15 @@ public class PacienteMB {
             paciente.setIdTipoprevision(new TipoPrevision(tipoPrevisionId));
             paciente.setPaciFallecido(Boolean.FALSE);
             paciente.setPaciNficha(numFicha);
-            if (establecimientoId != 0)
+            if (establecimientoId != 0) {
                 paciente.setIdEstablecimiento(new Establecimiento(establecimientoId));
-            if (sectorId != 0)
+            }
+            if (sectorId != 0) {
                 paciente.setIdSector(new Sector(sectorId));
-            if (servicioId != 0)
+            }
+            if (servicioId != 0) {
                 paciente.setIdServiciosalud(new ServicioSalud(servicioId));
+            }
             if (previsionId == 6) {
                 paciente.setPaciOtraprevision(otraPrevision);
             }
@@ -230,10 +228,10 @@ public class PacienteMB {
     }
 
     /**
-     * Buscar un rut.
-     * Se busca el rut ingresado en el formulario de creación para saber si éste
-     * ya se encuentra registrado, en tal caso, se traerán los datos del 
-     * paciente correspondiente y serán mostrados en la vista.
+     * Buscar un rut. Se busca el rut ingresado en el formulario de creación
+     * para saber si éste ya se encuentra registrado, en tal caso, se traerán
+     * los datos del paciente correspondiente y serán mostrados en la vista.
+     *
      * @param actionEvent Evento en la página xhtml que acciona la vista.
      */
     public void buscar(ActionEvent actionEvent) {
@@ -243,7 +241,7 @@ public class PacienteMB {
         if (rutCompleto.isEmpty()) {
             return;
         }
-        rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length()-1));
+        rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length() - 1));
         if (!personaNegocio.busquedaPersonaRut(rut).isEmpty()) {
             persona = personaNegocio.busquedaPersonaRut(rut).get(0);
             this.actividadEconomica = persona.getPersActividad();
@@ -273,11 +271,11 @@ public class PacienteMB {
     }
 
     /**
-     * Calcular edad.
-     * Se calcula la edad según la fecha de nacimiento indicada en el 
-     * formulario. Si la edad es menor que un año, se especifica la edad en 
-     * cantidad de meses, días y horas, en caso contrario, solo se indica la 
+     * Calcular edad. Se calcula la edad según la fecha de nacimiento indicada
+     * en el formulario. Si la edad es menor que un año, se especifica la edad
+     * en cantidad de meses, días y horas, en caso contrario, solo se indica la
      * edad en años.
+     *
      * @param event Evento en la pagina xhtml que acciona el evento.
      */
     public void calculaEdad(SelectEvent event) {
@@ -303,9 +301,8 @@ public class PacienteMB {
     }
 
     /**
-     * Reiniciar variables.
-     * Se resetean las variables y se restauran las correspondientes a su valor
-     * por default.
+     * Reiniciar variables. Se resetean las variables y se restauran las
+     * correspondientes a su valor por default.
      */
     public void resetData() {
         persona = new Persona();
@@ -340,9 +337,9 @@ public class PacienteMB {
     }
 
     /**
-     * Buscar tipo de previsión.
-     * Se crea la lista de los tipos de previsión correspondientes a la 
-     * previsión seleccionada.
+     * Buscar tipo de previsión. Se crea la lista de los tipos de previsión
+     * correspondientes a la previsión seleccionada.
+     *
      * @param event Evento en la página xhtml que acciona la función.
      */
     public void buscaTipo(AjaxBehaviorEvent event) {
