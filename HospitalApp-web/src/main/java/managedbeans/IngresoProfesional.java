@@ -92,6 +92,7 @@ public class IngresoProfesional {
      */
     @PostConstruct
     public void init() {
+        System.out.println("INIT PROFESIONAL");
         persona = new Persona();
         profesional = new Profesional();
         nombres = "";
@@ -107,6 +108,7 @@ public class IngresoProfesional {
      * ingreso sea exitoso.
      */
     public void agregarProfesional() {
+        System.out.println("AGREGAR WEON");
         rutCompleto = rutCompleto.toUpperCase();
         rutCompleto = rutCompleto.replace(".", "");
         rutCompleto = rutCompleto.replace("-", "");
@@ -247,6 +249,7 @@ public class IngresoProfesional {
      * @param actionEvent Evento en la página xhtml que acciona la función.
      */
     public void actualizarDescripcion(ActionEvent actionEvent) {
+        System.out.println("Actualizar wea");
         descripcion = nombres.concat(" " + apellidoPaterno).concat(" " + apellidoMaterno);
     }
 

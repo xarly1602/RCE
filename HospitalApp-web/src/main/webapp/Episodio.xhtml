@@ -57,7 +57,9 @@
                     <p:selectBooleanCheckbox value="#{epi.abierto}" disabled="true"/>
                 </p:column>
                 <p:column headerText="Cerrar">
-                    <p:commandButton value="Cerrar" action="#{episodioMB.cerrarEpisodio(epi.episodioid)}" disabled="#{!epi.abierto}" update=":episodioClinico, :listaEpi"/>
+                    <p:commandButton value="Cerrar" action="#{episodioMB.cerrarEpisodio(epi.episodioid)}" disabled="#{!epi.abierto}" update=":episodioClinico, :listaEpi">
+                        <p:confirm header="Atención" message="¿Está seguro que desea cerrar este episodio?" icon="ui-icon-alert" />
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>

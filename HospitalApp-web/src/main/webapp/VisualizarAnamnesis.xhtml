@@ -25,7 +25,9 @@
                 #{paciente.idPersona.persApematerno}  
             </p:column>
             <p:column headerText="Acción">
-                <p:commandButton update=":listaAnam" oncomplete="PF('listAnam').show()" action="#{buscarAnamnesis.buscarAnamnesis(paciente.idPaciente)}" value="Ver" title="Ver anamnesis" />
+                <p:commandButton update=":listaAnam" oncomplete="PF('listAnam').show()" action="#{buscarAnamnesis.buscarAnamnesis(paciente.idPaciente)}" value="Ver" title="Ver anamnesis">
+                    <f:setPropertyActionListener target="#{anamnesisMB.paciente}" value="#{paciente}"/>
+                </p:commandButton>
                 <p:commandButton update=":addAnam" oncomplete="PF('addAnam').show()" icon="ui-icon-plus" title="Agregar anamnesis" >
                     <f:setPropertyActionListener target="#{anamnesisMB.paciente}" value="#{paciente}"/>
                 </p:commandButton>
@@ -267,7 +269,7 @@
             </p:accordionPanel>
             <br/>
             <p:commandButton value="Guardar Cambios" icon="ui-icon-disk" action="#{buscarAnamnesis.guardarCambios()}" update=":anamPaciente"/>
-            <p:commandButton value="Imprimir" icon="ui-icon-print" update=":vistaPrevia" oncomplete="PF('VistaPrevia').show()"/>
+            <p:commandButton value="Imprimir" icon="ui-icon-print" update=":vistaPrevia" onclick="window.open('ImprimirAnamnesis?id=#{buscarAnamnesis.anamnesisPaciente.idAnamnesis}&amp;rut=#{buscarAnamnesis.anamnesisPaciente.idPaciente.idPersona.persRut}')" />
         </h:form>
     </p:dialog>
     <p:dialog widgetVar="VistaPrevia" id="vistaPrevia" height="600" resizable="false">
@@ -478,8 +480,8 @@
         <p:panel header="Indicaciones">
             <h:outputText style="width: 100%;" value="#{buscarAnamnesis.anamnesisPaciente.anamIndicaciones}"/>
         </p:panel>
-        <p:commandButton value="Imprimir" icon="ui-icon-print" update=":vistaPrevia">
-            <p:printer target="Imprimir"/>
+        <p:commandButton value="Imprimir" icon="ui-icon-print" onclick="window.open('imprimirAnamnesis?rut=#{buscarAnamnesis.paciente.idPersona.persRut}')" update=":vistaPrevia">
+           
         </p:commandButton> 
         </h:form>
     </p:dialog>

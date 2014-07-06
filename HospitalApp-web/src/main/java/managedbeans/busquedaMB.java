@@ -231,6 +231,7 @@ public class busquedaMB {
             etapa = 5;
         } else if (sexo != 0) {
             listaPersonas = personaNegocio.busquedaPersonaSexo(sexo, 1);
+            listaPersonas.addAll(personaNegocio.busquedaPersonaSexo(sexo, 3));
             etapa = 6;
         } else if (!rut.isEmpty()) {
             rut = rut.toUpperCase();
@@ -238,6 +239,7 @@ public class busquedaMB {
             try {
                 int rutTemp = Integer.parseInt(rut);
                 listaPersonas = personaNegocio.busquedaPersonaRut(rutTemp, 1);
+                listaPersonas.addAll(personaNegocio.busquedaPersonaRut(rutTemp, 3));
                 etapa = 7;
             } catch (NumberFormatException e) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Rut invalido", "Ingrese un rut válido"));
